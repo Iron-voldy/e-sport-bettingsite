@@ -193,3 +193,5 @@
 0:0:0:0:0:0:0:1 - - [08/Jun/2025:02:53:01 +0530] "GET /esports-betting/api/user/balance HTTP/1.1" 404 683
 0:0:0:0:0:0:0:1 - - [08/Jun/2025:02:53:01 +0530] "GET /esports-betting/matches/upcoming?format=json HTTP/1.1" 404 683
 0:0:0:0:0:0:0:1 - - [08/Jun/2025:02:53:11 +0530] "GET /esports-betting/matches/live?format=json HTTP/1.1" 404 683
+0:0:0:0:0:0:0:1 - - [08/Jun/2025:02:53:21 +0530] "GET /esports-betting/matches/live?format=json HTTP/1.1" 404 683
+0:0:0:0:0:0:0:1 - - [08/Jun/2025:02:53:31 +0530] "GET /esports-betting/matches/upcoming?format=json HTTP/1.1" 404 683
