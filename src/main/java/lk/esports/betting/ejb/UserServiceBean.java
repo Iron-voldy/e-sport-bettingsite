@@ -3,12 +3,12 @@ package lk.esports.betting.ejb;
 import lk.esports.betting.ejb.local.UserService;
 import lk.esports.betting.entity.User;
 import lk.esports.betting.entity.Transaction;
-import lk.esports.betting.entity.Bet;
+import lk.esports.betting.utils.DatabaseUtil;
 
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -23,13 +23,21 @@ public class UserServiceBean implements UserService {
 
     private static final Logger logger = Logger.getLogger(UserServiceBean.class.getName());
 
-    @PersistenceContext(unitName = "esportsPU")
-    private EntityManager em;
+    // Helper method to create EntityManager
+    private EntityManager getEntityManager() {
+        return DatabaseUtil.createEntityManager();
+    }
 
     // User Authentication and Registration
     @Override
     public User registerUser(String email, String username, String password, String fullName, String phone) {
+        EntityManager em = null;
+        EntityTransaction transaction = null;
         try {
+            em = getEntityManager();
+            transaction = em.getTransaction();
+            transaction.begin();
+
             // Check if email or username already exists
             if (isEmailExists(email)) {
                 throw new IllegalArgumentException("Email already exists");
@@ -49,14 +57,23 @@ public class UserServiceBean implements UserService {
 
             // Persist user
             em.persist(user);
-            em.flush();
+            em.flush(); // Force immediate write to get ID
 
-            logger.info("New user registered: " + username + " (" + email + ")");
+            transaction.commit();
+            logger.info("New user registered successfully: " + username + " (" + email + ")");
+
             return user;
 
         } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
             logger.log(Level.SEVERE, "Error registering user: " + email, e);
-            throw new RuntimeException("Failed to register user", e);
+            throw new RuntimeException("Failed to register user: " + e.getMessage(), e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
@@ -78,76 +95,127 @@ public class UserServiceBean implements UserService {
 
     @Override
     public boolean isEmailExists(String email) {
+        EntityManager em = null;
         try {
-            User user = em.createNamedQuery("User.findByEmail", User.class)
-                    .setParameter("email", email)
-                    .getSingleResult();
+            em = getEntityManager();
+            TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class);
+            query.setParameter("email", email);
+            User user = query.getSingleResult();
             return user != null;
         } catch (NoResultException e) {
             return false;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error checking email existence: " + email, e);
+            return false;
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
     public boolean isUsernameExists(String username) {
+        EntityManager em = null;
         try {
-            User user = em.createNamedQuery("User.findByUsername", User.class)
-                    .setParameter("username", username)
-                    .getSingleResult();
+            em = getEntityManager();
+            TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
+            query.setParameter("username", username);
+            User user = query.getSingleResult();
             return user != null;
         } catch (NoResultException e) {
             return false;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error checking username existence: " + username, e);
+            return false;
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     // User Management
     @Override
     public User findUserById(Long userId) {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             return em.find(User.class, userId);
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error finding user by ID: " + userId, e);
             return null;
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
     public User findUserByEmail(String email) {
+        EntityManager em = null;
         try {
-            return em.createNamedQuery("User.findByEmail", User.class)
-                    .setParameter("email", email)
-                    .getSingleResult();
+            em = getEntityManager();
+            TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class);
+            query.setParameter("email", email);
+            return query.getSingleResult();
         } catch (NoResultException e) {
             return null;
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error finding user by email: " + email, e);
             return null;
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
     public User findUserByUsername(String username) {
+        EntityManager em = null;
         try {
-            return em.createNamedQuery("User.findByUsername", User.class)
-                    .setParameter("username", username)
-                    .getSingleResult();
+            em = getEntityManager();
+            TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
+            query.setParameter("username", username);
+            return query.getSingleResult();
         } catch (NoResultException e) {
             return null;
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error finding user by username: " + username, e);
             return null;
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
     public void updateUser(User user) {
+        EntityManager em = null;
+        EntityTransaction transaction = null;
         try {
+            em = getEntityManager();
+            transaction = em.getTransaction();
+            transaction.begin();
+
             user.setUpdatedAt(LocalDateTime.now());
             em.merge(user);
+
+            transaction.commit();
             logger.info("User updated: " + user.getUsername());
         } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
             logger.log(Level.SEVERE, "Error updating user: " + user.getUsername(), e);
             throw new RuntimeException("Failed to update user", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
@@ -190,97 +258,174 @@ public class UserServiceBean implements UserService {
 
     @Override
     public void addFunds(Long userId, BigDecimal amount, String description) {
+        EntityManager em = null;
+        EntityTransaction transaction = null;
         try {
-            User user = findUserById(userId);
+            em = getEntityManager();
+            transaction = em.getTransaction();
+            transaction.begin();
+
+            User user = em.find(User.class, userId);
             if (user != null && amount.compareTo(BigDecimal.ZERO) > 0) {
                 user.addBalance(amount);
-                updateUser(user);
+                em.merge(user);
 
                 // Create transaction record
-                createTransaction(userId, Transaction.TransactionType.DEPOSIT, amount, description, null);
+                Transaction txn = new Transaction(user, Transaction.TransactionType.DEPOSIT, amount, description);
+                em.persist(txn);
 
+                transaction.commit();
                 logger.info("Funds added to user " + user.getUsername() + ": $" + amount);
+            } else {
+                transaction.rollback();
             }
         } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
             logger.log(Level.SEVERE, "Error adding funds for user: " + userId, e);
             throw new RuntimeException("Failed to add funds", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
     public boolean withdrawFunds(Long userId, BigDecimal amount, String description) {
+        EntityManager em = null;
+        EntityTransaction transaction = null;
         try {
-            User user = findUserById(userId);
+            em = getEntityManager();
+            transaction = em.getTransaction();
+            transaction.begin();
+
+            User user = em.find(User.class, userId);
             if (user != null && user.canPlaceBet(amount)) {
                 user.deductBalance(amount);
-                updateUser(user);
+                em.merge(user);
 
                 // Create transaction record
-                createTransaction(userId, Transaction.TransactionType.WITHDRAWAL, amount, description, null);
+                Transaction txn = new Transaction(user, Transaction.TransactionType.WITHDRAWAL, amount, description);
+                em.persist(txn);
 
+                transaction.commit();
                 logger.info("Funds withdrawn from user " + user.getUsername() + ": $" + amount);
                 return true;
+            } else {
+                transaction.rollback();
+                return false;
             }
-            return false;
         } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
             logger.log(Level.SEVERE, "Error withdrawing funds for user: " + userId, e);
             return false;
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
     public boolean deductFunds(Long userId, BigDecimal amount, String description) {
+        EntityManager em = null;
+        EntityTransaction transaction = null;
         try {
-            User user = findUserById(userId);
+            em = getEntityManager();
+            transaction = em.getTransaction();
+            transaction.begin();
+
+            User user = em.find(User.class, userId);
             if (user != null && user.canPlaceBet(amount)) {
                 user.deductBalance(amount);
-                updateUser(user);
+                em.merge(user);
 
+                transaction.commit();
                 logger.info("Funds deducted from user " + user.getUsername() + ": $" + amount);
                 return true;
+            } else {
+                transaction.rollback();
+                return false;
             }
-            return false;
         } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
             logger.log(Level.SEVERE, "Error deducting funds for user: " + userId, e);
             return false;
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
     public void refundFunds(Long userId, BigDecimal amount, String description) {
+        EntityManager em = null;
+        EntityTransaction transaction = null;
         try {
-            User user = findUserById(userId);
+            em = getEntityManager();
+            transaction = em.getTransaction();
+            transaction.begin();
+
+            User user = em.find(User.class, userId);
             if (user != null && amount.compareTo(BigDecimal.ZERO) > 0) {
                 user.addBalance(amount);
-                updateUser(user);
+                em.merge(user);
 
                 // Create transaction record
-                createTransaction(userId, Transaction.TransactionType.REFUND, amount, description, null);
+                Transaction txn = new Transaction(user, Transaction.TransactionType.REFUND, amount, description);
+                em.persist(txn);
 
+                transaction.commit();
                 logger.info("Funds refunded to user " + user.getUsername() + ": $" + amount);
+            } else {
+                transaction.rollback();
             }
         } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
             logger.log(Level.SEVERE, "Error refunding funds for user: " + userId, e);
             throw new RuntimeException("Failed to refund funds", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     // Transaction History
     @Override
     public List<Transaction> getUserTransactions(Long userId) {
+        EntityManager em = null;
         try {
-            return em.createNamedQuery("Transaction.findByUser", Transaction.class)
-                    .setParameter("userId", userId)
-                    .getResultList();
+            em = getEntityManager();
+            TypedQuery<Transaction> query = em.createQuery(
+                    "SELECT t FROM Transaction t WHERE t.user.id = :userId ORDER BY t.createdAt DESC",
+                    Transaction.class);
+            query.setParameter("userId", userId);
+            return query.getResultList();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting user transactions: " + userId, e);
             return List.of();
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
     public List<Transaction> getUserTransactionsByType(Long userId, Transaction.TransactionType type) {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             TypedQuery<Transaction> query = em.createQuery(
                     "SELECT t FROM Transaction t WHERE t.user.id = :userId AND t.transactionType = :type ORDER BY t.createdAt DESC",
                     Transaction.class);
@@ -290,33 +435,52 @@ public class UserServiceBean implements UserService {
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting user transactions by type: " + userId, e);
             return List.of();
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
     public Transaction createTransaction(Long userId, Transaction.TransactionType type,
                                          BigDecimal amount, String description, Long referenceId) {
+        EntityManager em = null;
+        EntityTransaction transaction = null;
         try {
-            User user = findUserById(userId);
+            em = getEntityManager();
+            transaction = em.getTransaction();
+            transaction.begin();
+
+            User user = em.find(User.class, userId);
             if (user == null) {
                 throw new IllegalArgumentException("User not found");
             }
 
-            Transaction transaction = new Transaction(user, type, amount, description, referenceId);
-            em.persist(transaction);
-            em.flush();
+            Transaction txn = new Transaction(user, type, amount, description, referenceId);
+            em.persist(txn);
 
-            return transaction;
+            transaction.commit();
+            return txn;
         } catch (Exception e) {
+            if (transaction != null && transaction.isActive()) {
+                transaction.rollback();
+            }
             logger.log(Level.SEVERE, "Error creating transaction for user: " + userId, e);
             throw new RuntimeException("Failed to create transaction", e);
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     // User Statistics
     @Override
     public BigDecimal getTotalBetAmount(Long userId) {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             TypedQuery<BigDecimal> query = em.createQuery(
                     "SELECT COALESCE(SUM(b.betAmount), 0) FROM Bet b WHERE b.user.id = :userId",
                     BigDecimal.class);
@@ -325,12 +489,18 @@ public class UserServiceBean implements UserService {
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting total bet amount for user: " + userId, e);
             return BigDecimal.ZERO;
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
     public BigDecimal getTotalWinnings(Long userId) {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             TypedQuery<BigDecimal> query = em.createQuery(
                     "SELECT COALESCE(SUM(b.potentialWinnings - b.betAmount), 0) FROM Bet b WHERE b.user.id = :userId AND b.status = 'WON'",
                     BigDecimal.class);
@@ -339,12 +509,18 @@ public class UserServiceBean implements UserService {
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting total winnings for user: " + userId, e);
             return BigDecimal.ZERO;
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
     public int getTotalBetsPlaced(Long userId) {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             TypedQuery<Long> query = em.createQuery(
                     "SELECT COUNT(b) FROM Bet b WHERE b.user.id = :userId",
                     Long.class);
@@ -353,12 +529,18 @@ public class UserServiceBean implements UserService {
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting total bets count for user: " + userId, e);
             return 0;
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
     public int getWonBetsCount(Long userId) {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             TypedQuery<Long> query = em.createQuery(
                     "SELECT COUNT(b) FROM Bet b WHERE b.user.id = :userId AND b.status = 'WON'",
                     Long.class);
@@ -367,6 +549,10 @@ public class UserServiceBean implements UserService {
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting won bets count for user: " + userId, e);
             return 0;
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
@@ -426,23 +612,37 @@ public class UserServiceBean implements UserService {
 
     @Override
     public List<User> getActiveUsers() {
+        EntityManager em = null;
         try {
-            return em.createNamedQuery("User.findActiveUsers", User.class)
-                    .getResultList();
+            em = getEntityManager();
+            TypedQuery<User> query = em.createQuery(
+                    "SELECT u FROM User u WHERE u.isActive = true ORDER BY u.createdAt DESC",
+                    User.class);
+            return query.getResultList();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting active users", e);
             return List.of();
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 
     @Override
     public List<User> getAllUsers() {
+        EntityManager em = null;
         try {
+            em = getEntityManager();
             TypedQuery<User> query = em.createQuery("SELECT u FROM User u ORDER BY u.createdAt DESC", User.class);
             return query.getResultList();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting all users", e);
             return List.of();
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
     }
 

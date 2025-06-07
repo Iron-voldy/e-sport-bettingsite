@@ -8,7 +8,8 @@ import jakarta.persistence.Query;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
@@ -20,7 +21,7 @@ public class DatabaseUtil {
     private static final Logger logger = Logger.getLogger(DatabaseUtil.class.getName());
 
     // Database connection parameters
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/esports_betting";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/esports_betting?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
     private static final String DB_USERNAME = "root";
     private static final String DB_PASSWORD = "2009928";
     private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
@@ -30,8 +31,22 @@ public class DatabaseUtil {
 
     static {
         try {
-            // Initialize EntityManagerFactory
-            entityManagerFactory = Persistence.createEntityManagerFactory("esportsPU");
+            // Initialize EntityManagerFactory with explicit properties
+            Map<String, String> properties = new HashMap<>();
+            properties.put("jakarta.persistence.jdbc.driver", DB_DRIVER);
+            properties.put("jakarta.persistence.jdbc.url", DB_URL);
+            properties.put("jakarta.persistence.jdbc.user", DB_USERNAME);
+            properties.put("jakarta.persistence.jdbc.password", DB_PASSWORD);
+            properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+            properties.put("hibernate.hbm2ddl.auto", "update");
+            properties.put("hibernate.show_sql", "true");
+            properties.put("hibernate.format_sql", "true");
+            properties.put("hibernate.cache.use_second_level_cache", "false");
+            properties.put("hibernate.cache.use_query_cache", "false");
+            properties.put("hibernate.current_session_context_class", "thread");
+            properties.put("hibernate.connection.autocommit", "false");
+
+            entityManagerFactory = Persistence.createEntityManagerFactory("esportsPU", properties);
             logger.info("EntityManagerFactory initialized successfully");
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Failed to initialize EntityManagerFactory", e);
@@ -46,7 +61,18 @@ public class DatabaseUtil {
         if (entityManagerFactory == null || !entityManagerFactory.isOpen()) {
             synchronized (DatabaseUtil.class) {
                 if (entityManagerFactory == null || !entityManagerFactory.isOpen()) {
-                    entityManagerFactory = Persistence.createEntityManagerFactory("esportsPU");
+                    // Reinitialize if needed
+                    Map<String, String> properties = new HashMap<>();
+                    properties.put("jakarta.persistence.jdbc.driver", DB_DRIVER);
+                    properties.put("jakarta.persistence.jdbc.url", DB_URL);
+                    properties.put("jakarta.persistence.jdbc.user", DB_USERNAME);
+                    properties.put("jakarta.persistence.jdbc.password", DB_PASSWORD);
+                    properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+                    properties.put("hibernate.hbm2ddl.auto", "update");
+                    properties.put("hibernate.cache.use_second_level_cache", "false");
+                    properties.put("hibernate.cache.use_query_cache", "false");
+
+                    entityManagerFactory = Persistence.createEntityManagerFactory("esportsPU", properties);
                 }
             }
         }
@@ -103,32 +129,6 @@ public class DatabaseUtil {
                 em.close();
             }
         }
-    }
-
-    /**
-     * Get database connection properties
-     */
-    public static Properties getDatabaseProperties() {
-        Properties props = new Properties();
-        props.setProperty("javax.persistence.jdbc.driver", DB_DRIVER);
-        props.setProperty("javax.persistence.jdbc.url", DB_URL);
-        props.setProperty("javax.persistence.jdbc.user", DB_USERNAME);
-        props.setProperty("javax.persistence.jdbc.password", DB_PASSWORD);
-
-        // Connection pool settings
-        props.setProperty("hibernate.c3p0.min_size", "5");
-        props.setProperty("hibernate.c3p0.max_size", "20");
-        props.setProperty("hibernate.c3p0.timeout", "300");
-        props.setProperty("hibernate.c3p0.max_statements", "50");
-        props.setProperty("hibernate.c3p0.idle_test_period", "3000");
-
-        // Hibernate settings
-        props.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-        props.setProperty("hibernate.hbm2ddl.auto", "update");
-        props.setProperty("hibernate.show_sql", "false");
-        props.setProperty("hibernate.format_sql", "true");
-
-        return props;
     }
 
     /**
@@ -261,8 +261,6 @@ public class DatabaseUtil {
      * Get connection pool status (if using connection pooling)
      */
     public static String getConnectionPoolStatus() {
-        // This would typically integrate with your connection pool implementation
-        // For now, return basic info
         return "Connection pooling managed by Hibernate/C3P0";
     }
 }
