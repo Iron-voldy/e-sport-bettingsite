@@ -1147,3 +1147,232 @@
 		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
 		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
 		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 12:28:51.923 INFO [Catalina-utility-2] org.apache.catalina.startup.HostConfig.reload Reloading context [/ESportsBetting]
+08-Jun-2025 12:28:51.970 INFO [Catalina-utility-2] org.apache.catalina.core.StandardContext.reload Reloading Context with name [/ESportsBetting] has started
+08-Jun-2025 12:28:52.022 INFO [Catalina-utility-2] lk.esports.betting.web.filter.AuthFilter.destroy AuthFilter destroyed
+08-Jun-2025 12:28:52.124 WARNING [Catalina-utility-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [ESportsBetting] registered the JDBC driver [com.mysql.cj.jdbc.Driver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+08-Jun-2025 12:28:52.135 WARNING [Catalina-utility-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [ESportsBetting] appears to have started a thread named [mysql-cj-abandoned-connection-cleanup] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:1852)
+ java.base/java.lang.ref.ReferenceQueue.await(ReferenceQueue.java:79)
+ java.base/java.lang.ref.ReferenceQueue.remove0(ReferenceQueue.java:151)
+ java.base/java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:229)
+ com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:91)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+ java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 12:28:52.135 WARNING [Catalina-utility-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [ESportsBetting] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->1br5l39bblq4xlfx0rhu9|3f1d4ecf]-AdminTaskTimer] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/java.lang.Object.wait0(Native Method)
+ java.base/java.lang.Object.wait(Object.java:378)
+ java.base/java.util.TimerThread.mainLoop(Timer.java:569)
+ java.base/java.util.TimerThread.run(Timer.java:522)
+08-Jun-2025 12:28:52.136 WARNING [Catalina-utility-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [ESportsBetting] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->1br5l39bblq4xlfx0rhu9|3f1d4ecf]-HelperThread-#0] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/java.lang.Object.wait0(Native Method)
+ java.base/java.lang.Object.wait(Object.java:378)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+08-Jun-2025 12:28:52.136 WARNING [Catalina-utility-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [ESportsBetting] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->1br5l39bblq4xlfx0rhu9|3f1d4ecf]-HelperThread-#1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/java.lang.Object.wait0(Native Method)
+ java.base/java.lang.Object.wait(Object.java:378)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+08-Jun-2025 12:28:52.137 WARNING [Catalina-utility-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [ESportsBetting] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->1br5l39bblq4xlfx0rhu9|3f1d4ecf]-HelperThread-#2] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/java.lang.Object.wait0(Native Method)
+ java.base/java.lang.Object.wait(Object.java:378)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+08-Jun-2025 12:28:52.265 INFO [mysql-cj-abandoned-connection-cleanup] org.apache.catalina.loader.WebappClassLoaderBase.checkStateForResourceLoading Illegal access: this web application instance has been stopped already. Could not load []. The following stack trace is thrown for debugging purposes as well as to attempt to terminate the thread which caused the illegal access.
+	java.lang.IllegalStateException: Illegal access: this web application instance has been stopped already. Could not load []. The following stack trace is thrown for debugging purposes as well as to attempt to terminate the thread which caused the illegal access.
+		at org.apache.catalina.loader.WebappClassLoaderBase.checkStateForResourceLoading(WebappClassLoaderBase.java:1400)
+		at org.apache.catalina.loader.WebappClassLoaderBase.getResource(WebappClassLoaderBase.java:987)
+		at com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.checkThreadContextClassLoader(AbandonedConnectionCleanupThread.java:123)
+		at com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:90)
+		at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+		at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 12:28:54.910 INFO [Catalina-utility-2] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Jun-2025 12:28:54.943 INFO [Catalina-utility-2] lk.esports.betting.web.filter.AuthFilter.init AuthFilter initialized
+08-Jun-2025 12:28:54.944 INFO [Catalina-utility-2] lk.esports.betting.web.servlet.StartupServlet.init Starting application initialization...
+08-Jun-2025 12:28:55.126 INFO [Catalina-utility-2] org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation HHH000204: Processing PersistenceUnitInfo [name: esportsPU]
+08-Jun-2025 12:28:55.310 INFO [Catalina-utility-2] org.hibernate.Version.logVersion HHH000412: Hibernate ORM core version 6.2.6.Final
+08-Jun-2025 12:28:55.316 INFO [Catalina-utility-2] org.hibernate.cfg.Environment.<clinit> HHH000406: Using bytecode reflection optimizer
+08-Jun-2025 12:28:56.015 INFO [Catalina-utility-2] org.hibernate.c3p0.internal.C3P0ConnectionProvider.configure HHH010002: C3P0 using driver: com.mysql.cj.jdbc.Driver at URL: jdbc:mysql://localhost:3306/esports_betting?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+08-Jun-2025 12:28:56.015 INFO [Catalina-utility-2] org.hibernate.c3p0.internal.C3P0ConnectionProvider.configure HHH10001001: Connection properties: {password=****, autocommit=false, user=root}
+08-Jun-2025 12:28:56.015 INFO [Catalina-utility-2] org.hibernate.c3p0.internal.C3P0ConnectionProvider.configure HHH10001003: Autocommit mode: false
+08-Jun-2025 12:28:56.086 INFO [MLog-Init-Reporter] com.mchange.v2.log.MLog. MLog clients using java 1.4+ standard logging.
+08-Jun-2025 12:28:56.248 INFO [Catalina-utility-2] com.mchange.v2.c3p0.C3P0Registry. Initializing c3p0-0.9.5.5 [built 11-December-2019 22:18:33 -0800; debug? true; trace: 10]
+08-Jun-2025 12:28:56.251 WARNING [Catalina-utility-2] com.mchange.v2.c3p0.management.ActiveManagementCoordinator. A C3P0Registry mbean is already registered. This probably means that an application using c3p0 was undeployed, but not all PooledDataSources were closed prior to undeployment. This may lead to resource leaks over time. Please take care to close all PooledDataSources.
+08-Jun-2025 12:28:56.297 INFO [Catalina-utility-2] org.hibernate.c3p0.internal.C3P0ConnectionProvider.configure HHH10001007: JDBC isolation level: <unknown>
+08-Jun-2025 12:28:56.344 INFO [Catalina-utility-2] com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource. Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@f089ce9f [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@ae3bf43a [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceSynchronousCheckins -> false, identityToken -> 1br5l39bblqgv99yx1ntj|1f1e4877, idleConnectionTestPeriod -> 3000, initialPoolSize -> 5, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 300, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 20, maxStatements -> 50, maxStatementsPerConnection -> 0, minPoolSize -> 5, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@a41ad913 [ description -> null, driverClass -> null, factoryClassLocation -> null, forceUseNamedDriverClass -> false, identityToken -> 1br5l39bblqgv99yx1ntj|35fe1b24, jdbcUrl -> jdbc:mysql://localhost:3306/esports_betting?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC, properties -> {password=******, autocommit=false, user=******} ], preferredTestQuery -> null, privilegeSpawnedThreads -> false, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, extensions -> {}, factoryClassLocation -> null, identityToken -> 1br5l39bblqgv99yx1ntj|7adc1d5a, numHelperThreads -> 3 ]
+08-Jun-2025 12:28:57.854 INFO [Catalina-utility-2] org.hibernate.bytecode.internal.BytecodeProviderInitiator.buildBytecodeProvider HHH000021: Bytecode provider name : bytebuddy
+08-Jun-2025 12:29:02.232 INFO [Catalina-utility-2] org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@7ab3e233] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+08-Jun-2025 12:29:03.033 INFO [Catalina-utility-2] lk.esports.betting.utils.DatabaseUtil.<clinit> EntityManagerFactory initialized successfully
+08-Jun-2025 12:29:03.345 INFO [Catalina-utility-2] lk.esports.betting.web.servlet.StartupServlet.init Database health: HEALTHY
+08-Jun-2025 12:29:03.345 WARNING [Catalina-utility-2] lk.esports.betting.web.servlet.StartupServlet.init EJB services not available during startup. Will be initialized on first request.
+08-Jun-2025 12:29:03.350 INFO [Catalina-utility-2] org.apache.catalina.core.StandardContext.reload Reloading Context with name [/ESportsBetting] is completed
+08-Jun-2025 12:34:19.409 INFO [Thread-5] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["http-nio-8080"]
+08-Jun-2025 12:34:19.475 INFO [Thread-5] org.apache.catalina.core.StandardService.stopInternal Stopping service [Catalina]
+08-Jun-2025 12:34:19.518 INFO [Thread-5] lk.esports.betting.web.filter.AuthFilter.destroy AuthFilter destroyed
+08-Jun-2025 12:34:19.603 WARNING [Thread-5] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [ESportsBetting] registered the JDBC driver [com.mysql.cj.jdbc.Driver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+08-Jun-2025 12:34:19.610 WARNING [Thread-5] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [ESportsBetting] appears to have started a thread named [mysql-cj-abandoned-connection-cleanup] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:1852)
+ java.base/java.lang.ref.ReferenceQueue.await(ReferenceQueue.java:79)
+ java.base/java.lang.ref.ReferenceQueue.remove0(ReferenceQueue.java:151)
+ java.base/java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:229)
+ com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:91)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+ java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 12:34:19.611 WARNING [Thread-5] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [ESportsBetting] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->1br5l39bblqgv99yx1ntj|7adc1d5a]-AdminTaskTimer] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/java.lang.Object.wait0(Native Method)
+ java.base/java.lang.Object.wait(Object.java:378)
+ java.base/java.util.TimerThread.mainLoop(Timer.java:569)
+ java.base/java.util.TimerThread.run(Timer.java:522)
+08-Jun-2025 12:34:19.611 WARNING [Thread-5] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [ESportsBetting] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->1br5l39bblqgv99yx1ntj|7adc1d5a]-HelperThread-#0] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/java.lang.Object.wait0(Native Method)
+ java.base/java.lang.Object.wait(Object.java:378)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+08-Jun-2025 12:34:19.611 WARNING [Thread-5] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [ESportsBetting] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->1br5l39bblqgv99yx1ntj|7adc1d5a]-HelperThread-#1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/java.lang.Object.wait0(Native Method)
+ java.base/java.lang.Object.wait(Object.java:378)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+08-Jun-2025 12:34:19.611 WARNING [Thread-5] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [ESportsBetting] appears to have started a thread named [C3P0PooledConnectionPoolManager[identityToken->1br5l39bblqgv99yx1ntj|7adc1d5a]-HelperThread-#2] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/java.lang.Object.wait0(Native Method)
+ java.base/java.lang.Object.wait(Object.java:378)
+ com.mchange.v2.async.ThreadPoolAsynchronousRunner$PoolThread.run(ThreadPoolAsynchronousRunner.java:683)
+08-Jun-2025 12:34:19.680 INFO [Thread-5] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["http-nio-8080"]
+08-Jun-2025 12:34:19.781 INFO [Thread-5] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["http-nio-8080"]
+08-Jun-2025 12:34:20.114 INFO [mysql-cj-abandoned-connection-cleanup] org.apache.catalina.loader.WebappClassLoaderBase.checkStateForResourceLoading Illegal access: this web application instance has been stopped already. Could not load []. The following stack trace is thrown for debugging purposes as well as to attempt to terminate the thread which caused the illegal access.
+	java.lang.IllegalStateException: Illegal access: this web application instance has been stopped already. Could not load []. The following stack trace is thrown for debugging purposes as well as to attempt to terminate the thread which caused the illegal access.
+		at org.apache.catalina.loader.WebappClassLoaderBase.checkStateForResourceLoading(WebappClassLoaderBase.java:1400)
+		at org.apache.catalina.loader.WebappClassLoaderBase.getResource(WebappClassLoaderBase.java:987)
+		at com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.checkThreadContextClassLoader(AbandonedConnectionCleanupThread.java:123)
+		at com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:90)
+		at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+		at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 12:34:24.739 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/10.1.41
+08-Jun-2025 12:34:24.743 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          May 8 2025 12:44:02 UTC
+08-Jun-2025 12:34:24.743 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 10.1.41.0
+08-Jun-2025 12:34:24.743 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 11
+08-Jun-2025 12:34:24.743 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+08-Jun-2025 12:34:24.743 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+08-Jun-2025 12:34:24.743 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jdk-23
+08-Jun-2025 12:34:24.743 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           23+37-2369
+08-Jun-2025 12:34:24.744 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+08-Jun-2025 12:34:24.744 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting
+08-Jun-2025 12:34:24.744 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         C:\apache-tomcat-10.1.41-windows-x64\apache-tomcat-10.1.41
+08-Jun-2025 12:34:24.752 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang=ALL-UNNAMED
+08-Jun-2025 12:34:24.752 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.io=ALL-UNNAMED
+08-Jun-2025 12:34:24.752 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util=ALL-UNNAMED
+08-Jun-2025 12:34:24.752 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+08-Jun-2025 12:34:24.752 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+08-Jun-2025 12:34:24.752 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=C:\apache-tomcat-10.1.41-windows-x64\apache-tomcat-10.1.41
+08-Jun-2025 12:34:24.752 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting
+08-Jun-2025 12:34:24.752 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting\temp
+08-Jun-2025 12:34:24.752 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting\conf\logging.properties
+08-Jun-2025 12:34:24.752 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+08-Jun-2025 12:34:24.752 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -javaagent:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\lib\idea_rt.jar=55675:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\bin
+08-Jun-2025 12:34:24.752 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dfile.encoding=UTF-8
+08-Jun-2025 12:34:24.752 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dsun.stdout.encoding=UTF-8
+08-Jun-2025 12:34:24.752 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dsun.stderr.encoding=UTF-8
+08-Jun-2025 12:34:24.756 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent Loaded Apache Tomcat Native library [2.0.8] using APR version [1.7.4].
+08-Jun-2025 12:34:24.776 INFO [main] org.apache.catalina.core.AprLifecycleListener.initializeSSL OpenSSL successfully initialized [OpenSSL 3.0.14 4 Jun 2024]
+08-Jun-2025 12:34:25.143 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+08-Jun-2025 12:34:25.159 INFO [main] org.apache.catalina.startup.Catalina.load Server initialization in [644] milliseconds
+08-Jun-2025 12:34:25.211 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+08-Jun-2025 12:34:25.211 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/10.1.41]
+08-Jun-2025 12:34:25.223 INFO [main] org.apache.catalina.startup.HostConfig.deployDescriptor Deploying deployment descriptor [C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting\conf\Catalina\localhost\ESportsBetting.xml]
+08-Jun-2025 12:34:27.282 INFO [main] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Jun-2025 12:34:27.328 INFO [main] lk.esports.betting.web.filter.AuthFilter.init AuthFilter initialized
+08-Jun-2025 12:34:27.332 INFO [main] lk.esports.betting.web.servlet.StartupServlet.init Starting application initialization...
+08-Jun-2025 12:34:27.514 INFO [main] org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation HHH000204: Processing PersistenceUnitInfo [name: esportsPU]
+08-Jun-2025 12:34:27.673 INFO [main] org.hibernate.Version.logVersion HHH000412: Hibernate ORM core version 6.2.6.Final
+08-Jun-2025 12:34:27.678 INFO [main] org.hibernate.cfg.Environment.<clinit> HHH000406: Using bytecode reflection optimizer
+08-Jun-2025 12:34:28.175 INFO [main] org.hibernate.c3p0.internal.C3P0ConnectionProvider.configure HHH010002: C3P0 using driver: com.mysql.cj.jdbc.Driver at URL: jdbc:mysql://localhost:3306/esports_betting?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+08-Jun-2025 12:34:28.175 INFO [main] org.hibernate.c3p0.internal.C3P0ConnectionProvider.configure HHH10001001: Connection properties: {password=****, autocommit=false, user=root}
+08-Jun-2025 12:34:28.175 INFO [main] org.hibernate.c3p0.internal.C3P0ConnectionProvider.configure HHH10001003: Autocommit mode: false
+08-Jun-2025 12:34:28.231 INFO [MLog-Init-Reporter] com.mchange.v2.log.MLog. MLog clients using java 1.4+ standard logging.
+08-Jun-2025 12:34:28.368 INFO [main] com.mchange.v2.c3p0.C3P0Registry. Initializing c3p0-0.9.5.5 [built 11-December-2019 22:18:33 -0800; debug? true; trace: 10]
+08-Jun-2025 12:34:28.427 INFO [main] org.hibernate.c3p0.internal.C3P0ConnectionProvider.configure HHH10001007: JDBC isolation level: <unknown>
+08-Jun-2025 12:34:28.458 INFO [main] com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource. Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@8fb3b1be [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@7402ce3b [ acquireIncrement -> 3, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceSynchronousCheckins -> false, identityToken -> 1br5l39bblqnziu1huo5um|485547ac, idleConnectionTestPeriod -> 3000, initialPoolSize -> 5, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 300, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 20, maxStatements -> 50, maxStatementsPerConnection -> 0, minPoolSize -> 5, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@cc52bc7c [ description -> null, driverClass -> null, factoryClassLocation -> null, forceUseNamedDriverClass -> false, identityToken -> 1br5l39bblqnziu1huo5um|32b8992e, jdbcUrl -> jdbc:mysql://localhost:3306/esports_betting?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC, properties -> {password=******, autocommit=false, user=******} ], preferredTestQuery -> null, privilegeSpawnedThreads -> false, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, extensions -> {}, factoryClassLocation -> null, identityToken -> 1br5l39bblqnziu1huo5um|1d6dc2b8, numHelperThreads -> 3 ]
+08-Jun-2025 12:34:29.460 INFO [main] org.hibernate.bytecode.internal.BytecodeProviderInitiator.buildBytecodeProvider HHH000021: Bytecode provider name : bytebuddy
+08-Jun-2025 12:34:31.944 INFO [main] org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@1c388703] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+08-Jun-2025 12:34:32.339 INFO [main] lk.esports.betting.utils.DatabaseUtil.<clinit> EntityManagerFactory initialized successfully
+08-Jun-2025 12:34:32.536 INFO [main] lk.esports.betting.web.servlet.StartupServlet.init Database health: HEALTHY
+08-Jun-2025 12:34:32.536 WARNING [main] lk.esports.betting.web.servlet.StartupServlet.init EJB services not available during startup. Will be initialized on first request.
+08-Jun-2025 12:34:32.548 INFO [main] org.apache.catalina.startup.HostConfig.deployDescriptor Deployment of deployment descriptor [C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting\conf\Catalina\localhost\ESportsBetting.xml] has finished in [7,325] ms
+08-Jun-2025 12:34:32.552 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+08-Jun-2025 12:34:32.565 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [7404] milliseconds
+08-Jun-2025 12:34:34.852 INFO [http-nio-8080-exec-1] lk.esports.betting.web.servlet.HomeServlet.init HomeServlet initialized
+08-Jun-2025 12:34:34.853 SEVERE [http-nio-8080-exec-1] lk.esports.betting.web.servlet.HomeServlet.init MatchService EJB injection failed!
+08-Jun-2025 12:34:34.865 INFO [http-nio-8080-exec-1] lk.esports.betting.web.servlet.HomeServlet.init Database health check: HEALTHY
+08-Jun-2025 12:34:34.867 WARNING [http-nio-8080-exec-1] lk.esports.betting.web.servlet.HomeServlet.doGet MatchService is null - EJB injection may have failed
+08-Jun-2025 12:34:38.293 SEVERE [http-nio-8080-exec-7] lk.esports.betting.web.servlet.LoginServlet.init Failed to lookup UserService
+	javax.naming.NameNotFoundException: Name [global/ESportsBetting/UserServiceBean] is not bound in this Context. Unable to find [global].
+		at org.apache.naming.NamingContext.lookup(NamingContext.java:487)
+		at org.apache.naming.NamingContext.lookup(NamingContext.java:153)
+		at org.apache.naming.SelectorContext.lookup(SelectorContext.java:140)
+		at java.naming/javax.naming.InitialContext.lookup(InitialContext.java:409)
+		at lk.esports.betting.web.servlet.LoginServlet.init(LoginServlet.java:31)
+		at jakarta.servlet.GenericServlet.init(GenericServlet.java:143)
+		at jakarta.servlet.http.HttpServlet.init(HttpServlet.java:121)
+		at org.apache.catalina.core.StandardWrapper.initServlet(StandardWrapper.java:843)
+		at org.apache.catalina.core.StandardWrapper.loadServlet(StandardWrapper.java:800)
+		at org.apache.catalina.core.StandardWrapper.allocate(StandardWrapper.java:581)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:115)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 12:34:38.295 SEVERE [http-nio-8080-exec-7] lk.esports.betting.web.servlet.LoginServlet.init Failed alternative UserService lookup
+	javax.naming.NamingException: Could not create resource instance
+		at org.apache.naming.factory.FactoryBase.getObjectInstance(FactoryBase.java:93)
+		at java.naming/com.sun.naming.internal.NamingManagerHelper.getObjectInstance(NamingManagerHelper.java:76)
+		at java.naming/javax.naming.spi.NamingManager.getObjectInstance(NamingManager.java:213)
+		at org.apache.naming.NamingContext.lookup(NamingContext.java:510)
+		at org.apache.naming.NamingContext.lookup(NamingContext.java:147)
+		at org.apache.naming.NamingContext.lookup(NamingContext.java:496)
+		at org.apache.naming.NamingContext.lookup(NamingContext.java:147)
+		at org.apache.naming.NamingContext.lookup(NamingContext.java:496)
+		at org.apache.naming.NamingContext.lookup(NamingContext.java:147)
+		at org.apache.naming.NamingContext.lookup(NamingContext.java:496)
+		at org.apache.naming.NamingContext.lookup(NamingContext.java:153)
+		at org.apache.naming.SelectorContext.lookup(SelectorContext.java:140)
+		at java.naming/javax.naming.InitialContext.lookup(InitialContext.java:409)
+		at lk.esports.betting.web.servlet.LoginServlet.init(LoginServlet.java:38)
+		at jakarta.servlet.GenericServlet.init(GenericServlet.java:143)
+		at jakarta.servlet.http.HttpServlet.init(HttpServlet.java:121)
+		at org.apache.catalina.core.StandardWrapper.initServlet(StandardWrapper.java:843)
+		at org.apache.catalina.core.StandardWrapper.loadServlet(StandardWrapper.java:800)
+		at org.apache.catalina.core.StandardWrapper.allocate(StandardWrapper.java:581)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:115)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 12:35:05.015 SEVERE [http-nio-8080-exec-10] lk.esports.betting.web.servlet.LoginServlet.doPost UserService is null - EJB lookup failed

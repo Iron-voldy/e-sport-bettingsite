@@ -15,8 +15,19 @@
               testOnBorrow="true"
               testWhileIdle="true"/>
 
-    <!-- EJB Configuration -->
-    <ResourceLink name="ejb/UserService" global="java:global/ESportsBetting/UserServiceBean" type="lk.esports.betting.ejb.local.UserService"/>
-    <ResourceLink name="ejb/MatchService" global="java:global/ESportsBetting/MatchServiceBean" type="lk.esports.betting.ejb.local.MatchService"/>
-    <ResourceLink name="ejb/BettingService" global="java:global/ESportsBetting/BettingServiceBean" type="lk.esports.betting.ejb.local.BettingService"/>
+    <!-- EJB JNDI Environment -->
+    <Environment name="ejb/UserService"
+                 value="java:global/ESportsBetting/UserServiceBean"
+                 type="java.lang.String"
+                 override="false"/>
+
+    <Environment name="ejb/MatchService"
+                 value="java:global/ESportsBetting/MatchServiceBean"
+                 type="java.lang.String"
+                 override="false"/>
+
+    <Environment name="ejb/BettingService"
+                 value="java:global/ESportsBetting/BettingServiceBean"
+                 type="java.lang.String"
+                 override="false"/>
 </Context>

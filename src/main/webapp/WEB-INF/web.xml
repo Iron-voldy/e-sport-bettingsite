@@ -14,6 +14,28 @@
     <param-value>Development</param-value>
   </context-param>
 
+  <!-- EJB Resource References -->
+  <resource-ref>
+    <description>EJB UserService</description>
+    <res-ref-name>ejb/UserService</res-ref-name>
+    <res-type>lk.esports.betting.ejb.local.UserService</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+
+  <resource-ref>
+    <description>EJB MatchService</description>
+    <res-ref-name>ejb/MatchService</res-ref-name>
+    <res-type>lk.esports.betting.ejb.local.MatchService</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+
+  <resource-ref>
+    <description>EJB BettingService</description>
+    <res-ref-name>ejb/BettingService</res-ref-name>
+    <res-type>lk.esports.betting.ejb.local.BettingService</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+
   <!-- Welcome File List -->
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>

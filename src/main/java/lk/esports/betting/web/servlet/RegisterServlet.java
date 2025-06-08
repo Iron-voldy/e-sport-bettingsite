@@ -3,7 +3,6 @@ package lk.esports.betting.web.servlet;
 import lk.esports.betting.ejb.local.UserService;
 import lk.esports.betting.entity.User;
 
-import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,6 +10,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.logging.Logger;
@@ -30,8 +31,28 @@ public class RegisterServlet extends HttpServlet {
     private static final Pattern PHONE_PATTERN = Pattern.compile(
             "^[+]?[0-9]{10,15}$");
 
-    @EJB
     private UserService userService;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        try {
+            // Manual JNDI lookup as fallback for @EJB injection
+            InitialContext ctx = new InitialContext();
+            userService = (UserService) ctx.lookup("java:global/ESportsBetting/UserServiceBean");
+            logger.info("UserService lookup successful in RegisterServlet");
+        } catch (NamingException e) {
+            logger.log(Level.SEVERE, "Failed to lookup UserService in RegisterServlet", e);
+            // Try alternative lookup paths
+            try {
+                InitialContext ctx = new InitialContext();
+                userService = (UserService) ctx.lookup("java:comp/env/ejb/UserService");
+                logger.info("UserService lookup successful with alternative path in RegisterServlet");
+            } catch (NamingException e2) {
+                logger.log(Level.SEVERE, "Failed alternative UserService lookup in RegisterServlet", e2);
+            }
+        }
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -72,10 +93,10 @@ public class RegisterServlet extends HttpServlet {
                 return;
             }
 
-            // Check if EJB is injected
+            // Check if UserService is available
             if (userService == null) {
-                logger.severe("UserService EJB is null - injection failed");
-                request.setAttribute("errorMessage", "System error: Service unavailable. Please try again later.");
+                logger.severe("UserService is null - EJB lookup failed in RegisterServlet");
+                request.setAttribute("errorMessage", "System is starting up. Please try again in a moment.");
                 preserveFormData(request, email, username, fullName, phone);
                 request.getRequestDispatcher("/register.jsp").forward(request, response);
                 return;
