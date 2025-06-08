@@ -108,11 +108,11 @@
                                             LIVE NOW
                                         </c:when>
                                         <c:when test="${match.status == 'COMPLETED'}">
-                                            <fmt:formatDate value="${match.matchDate}" pattern="MMM dd" />
+                                            <fmt:formatDate value="${match.matchDateAsDate}" pattern="MMM dd" />
                                         </c:when>
                                         <c:otherwise>
                                             <span class="countdown" data-end-time="${match.matchDate}">
-                                                <fmt:formatDate value="${match.matchDate}" pattern="MMM dd, HH:mm" />
+                                                <fmt:formatDate value="${match.matchDateAsDate}" pattern="MMM dd, HH:mm" />
                                             </span>
                                         </c:otherwise>
                                     </c:choose>
