@@ -3787,3 +3787,1101 @@
 08-Jun-2025 16:55:22.394 WARNING [http-nio-8080-exec-6] lk.esports.betting.web.servlet.RegisterServlet.init Failed UserService lookup at: java:module/UserServiceBean - Name [module/UserServiceBean] is not bound in this Context. Unable to find [module].
 08-Jun-2025 16:55:22.394 SEVERE [http-nio-8080-exec-6] lk.esports.betting.web.servlet.RegisterServlet.init UserService EJB lookup failed at all paths!
 08-Jun-2025 16:55:57.097 SEVERE [http-nio-8080-exec-4] lk.esports.betting.web.servlet.RegisterServlet.doPost UserService is null - EJB lookup failed in RegisterServlet
+08-Jun-2025 17:06:39.508 INFO [Thread-5] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["http-nio-8080"]
+08-Jun-2025 17:06:39.601 INFO [Thread-5] org.apache.catalina.core.StandardService.stopInternal Stopping service [Catalina]
+08-Jun-2025 17:06:39.714 INFO [Thread-5] lk.esports.betting.web.filter.AuthFilter.destroy AuthFilter destroyed
+08-Jun-2025 17:06:40.070 INFO [Thread-5] lk.esports.betting.web.listener.EJBContainerListener.contextDestroyed EJB Container Listener - Application shutting down...
+08-Jun-2025 17:06:40.888 INFO [Thread-5] lk.esports.betting.utils.DatabaseUtil.closeEntityManagerFactory EntityManagerFactory closed
+08-Jun-2025 17:06:40.891 INFO [Thread-5] lk.esports.betting.web.listener.EJBContainerListener.contextDestroyed Application shutdown completed
+08-Jun-2025 17:06:40.892 INFO [Thread-5] lk.esports.betting.web.listener.ApplicationContextListener.contextDestroyed Application context being destroyed - cleaning up resources...
+08-Jun-2025 17:06:40.897 INFO [Thread-5] lk.esports.betting.web.listener.ApplicationContextListener.contextDestroyed MySQL AbandonedConnectionCleanupThread shutdown completed
+08-Jun-2025 17:06:40.930 INFO [Thread-5] lk.esports.betting.web.listener.ApplicationContextListener.contextDestroyed Deregistered JDBC driver: com.mysql.cj.jdbc.Driver
+08-Jun-2025 17:06:40.932 INFO [Thread-5] lk.esports.betting.web.listener.ApplicationContextListener.contextDestroyed Application cleanup completed
+08-Jun-2025 17:06:41.688 INFO [Thread-5] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["http-nio-8080"]
+08-Jun-2025 17:06:41.754 INFO [Thread-5] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["http-nio-8080"]
+08-Jun-2025 17:06:48.870 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/10.1.41
+08-Jun-2025 17:06:48.875 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          May 8 2025 12:44:02 UTC
+08-Jun-2025 17:06:48.876 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 10.1.41.0
+08-Jun-2025 17:06:48.876 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 11
+08-Jun-2025 17:06:48.876 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+08-Jun-2025 17:06:48.876 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+08-Jun-2025 17:06:48.876 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jdk-23
+08-Jun-2025 17:06:48.876 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           23+37-2369
+08-Jun-2025 17:06:48.876 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+08-Jun-2025 17:06:48.876 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting
+08-Jun-2025 17:06:48.876 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         C:\apache-tomcat-10.1.41-windows-x64\apache-tomcat-10.1.41
+08-Jun-2025 17:06:48.888 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang=ALL-UNNAMED
+08-Jun-2025 17:06:48.888 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.io=ALL-UNNAMED
+08-Jun-2025 17:06:48.888 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util=ALL-UNNAMED
+08-Jun-2025 17:06:48.888 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+08-Jun-2025 17:06:48.888 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+08-Jun-2025 17:06:48.888 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=C:\apache-tomcat-10.1.41-windows-x64\apache-tomcat-10.1.41
+08-Jun-2025 17:06:48.888 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting
+08-Jun-2025 17:06:48.888 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting\temp
+08-Jun-2025 17:06:48.888 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting\conf\logging.properties
+08-Jun-2025 17:06:48.888 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+08-Jun-2025 17:06:48.889 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -javaagent:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\lib\idea_rt.jar=51407:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\bin
+08-Jun-2025 17:06:48.889 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dfile.encoding=UTF-8
+08-Jun-2025 17:06:48.889 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dsun.stdout.encoding=UTF-8
+08-Jun-2025 17:06:48.889 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dsun.stderr.encoding=UTF-8
+08-Jun-2025 17:06:48.895 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent Loaded Apache Tomcat Native library [2.0.8] using APR version [1.7.4].
+08-Jun-2025 17:06:48.914 INFO [main] org.apache.catalina.core.AprLifecycleListener.initializeSSL OpenSSL successfully initialized [OpenSSL 3.0.14 4 Jun 2024]
+08-Jun-2025 17:06:49.299 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+08-Jun-2025 17:06:49.314 INFO [main] org.apache.catalina.startup.Catalina.load Server initialization in [722] milliseconds
+08-Jun-2025 17:06:49.360 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+08-Jun-2025 17:06:49.361 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/10.1.41]
+08-Jun-2025 17:06:49.384 INFO [main] org.apache.catalina.startup.HostConfig.deployDescriptor Deploying deployment descriptor [C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting\conf\Catalina\localhost\ESportsBetting.xml]
+08-Jun-2025 17:06:55.718 INFO [main] java.util.ArrayList.forEach Name = esports_betting Ignoring unknown property: value of "MySQL DataSource for E-Sports Betting" for "description" property
+08-Jun-2025 17:06:55.854 INFO [main] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Jun-2025 17:06:55.892 INFO [main] lk.esports.betting.web.listener.ApplicationContextListener.contextInitialized Application context initialized
+08-Jun-2025 17:06:56.083 INFO [main] org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation HHH000204: Processing PersistenceUnitInfo [name: esportsPU]
+08-Jun-2025 17:06:57.258 INFO [main] org.hibernate.Version.logVersion HHH000412: Hibernate ORM core version 6.2.6.Final
+08-Jun-2025 17:06:57.264 INFO [main] org.hibernate.cfg.Environment.<clinit> HHH000406: Using bytecode reflection optimizer
+08-Jun-2025 17:06:57.812 INFO [main] org.hibernate.c3p0.internal.C3P0ConnectionProvider.configure HHH010002: C3P0 using driver: com.mysql.cj.jdbc.Driver at URL: jdbc:mysql://localhost:3306/esports_betting?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true&useUnicode=true&characterEncoding=UTF-8
+08-Jun-2025 17:06:57.813 INFO [main] org.hibernate.c3p0.internal.C3P0ConnectionProvider.configure HHH10001001: Connection properties: {password=****, autocommit=false, user=root}
+08-Jun-2025 17:06:57.813 INFO [main] org.hibernate.c3p0.internal.C3P0ConnectionProvider.configure HHH10001003: Autocommit mode: false
+08-Jun-2025 17:06:57.872 INFO [MLog-Init-Reporter] com.mchange.v2.log.MLog. MLog clients using java 1.4+ standard logging.
+08-Jun-2025 17:06:57.999 INFO [main] com.mchange.v2.c3p0.C3P0Registry. Initializing c3p0-0.9.5.5 [built 11-December-2019 22:18:33 -0800; debug? true; trace: 10]
+08-Jun-2025 17:06:58.049 INFO [main] org.hibernate.c3p0.internal.C3P0ConnectionProvider.configure HHH10001007: JDBC isolation level: READ_COMMITTED
+08-Jun-2025 17:06:58.074 INFO [main] com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource. Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@dfdc5044 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@a9ba6712 [ acquireIncrement -> 1, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceSynchronousCheckins -> false, identityToken -> 1br5l39bbm0eezi1350hdw|7621c3f7, idleConnectionTestPeriod -> 3000, initialPoolSize -> 5, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 300, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 20, maxStatements -> 50, maxStatementsPerConnection -> 0, minPoolSize -> 5, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@a69fe0cf [ description -> null, driverClass -> null, factoryClassLocation -> null, forceUseNamedDriverClass -> false, identityToken -> 1br5l39bbm0eezi1350hdw|eda7dd3, jdbcUrl -> jdbc:mysql://localhost:3306/esports_betting?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true&useUnicode=true&characterEncoding=UTF-8, properties -> {password=******, autocommit=false, user=******} ], preferredTestQuery -> null, privilegeSpawnedThreads -> false, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, extensions -> {}, factoryClassLocation -> null, identityToken -> 1br5l39bbm0eezi1350hdw|209d0037, numHelperThreads -> 3 ]
+08-Jun-2025 17:06:59.142 INFO [main] org.hibernate.bytecode.internal.BytecodeProviderInitiator.buildBytecodeProvider HHH000021: Bytecode provider name : bytebuddy
+08-Jun-2025 17:07:01.466 INFO [main] org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@705a793a] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+08-Jun-2025 17:07:02.099 INFO [main] lk.esports.betting.utils.DatabaseUtil.initializeEntityManagerFactory EntityManagerFactory created successfully
+08-Jun-2025 17:07:02.099 INFO [main] lk.esports.betting.utils.DatabaseUtil.<clinit> EntityManagerFactory initialized successfully
+08-Jun-2025 17:07:02.283 INFO [main] lk.esports.betting.web.listener.ApplicationContextListener.contextInitialized Database health: HEALTHY
+08-Jun-2025 17:07:02.284 INFO [main] lk.esports.betting.web.listener.ApplicationContextListener.contextInitialized Database initialized successfully
+08-Jun-2025 17:07:02.284 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.contextInitialized EJB Container Listener - Initializing application...
+08-Jun-2025 17:07:02.287 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.initializeJNDIContext JNDI Context initialized successfully
+08-Jun-2025 17:07:02.288 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.initializeJNDIContext Available JNDI resources:
+08-Jun-2025 17:07:02.288 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.initializeJNDIContext   - jdbc : org.apache.naming.NamingContext
+08-Jun-2025 17:07:02.296 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.testDatabaseConnection Database connectivity test: SUCCESS
+08-Jun-2025 17:07:02.296 SEVERE [main] lk.esports.betting.web.listener.EJBContainerListener.lookupUserService UserService not found at any lookup path!
+08-Jun-2025 17:07:02.297 SEVERE [main] lk.esports.betting.web.listener.EJBContainerListener.lookupMatchService MatchService not found at any lookup path!
+08-Jun-2025 17:07:02.297 SEVERE [main] lk.esports.betting.web.listener.EJBContainerListener.lookupBettingService BettingService not found at any lookup path!
+08-Jun-2025 17:07:02.297 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.initializeEJBServices EJB services initialized and stored in servlet context
+08-Jun-2025 17:07:02.297 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.contextInitialized Application initialization completed successfully
+08-Jun-2025 17:07:02.306 INFO [main] lk.esports.betting.web.filter.AuthFilter.init AuthFilter initialized
+08-Jun-2025 17:07:02.309 INFO [main] lk.esports.betting.web.servlet.StartupServlet.init Starting application initialization...
+08-Jun-2025 17:07:02.317 INFO [main] lk.esports.betting.web.servlet.StartupServlet.init Database health: HEALTHY
+08-Jun-2025 17:07:02.317 WARNING [main] lk.esports.betting.web.servlet.StartupServlet.init EJB services not available during startup. Will be initialized on first request.
+08-Jun-2025 17:07:02.331 INFO [main] org.apache.catalina.startup.HostConfig.deployDescriptor Deployment of deployment descriptor [C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting\conf\Catalina\localhost\ESportsBetting.xml] has finished in [12,946] ms
+08-Jun-2025 17:07:02.335 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+08-Jun-2025 17:07:02.354 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [13039] milliseconds
+08-Jun-2025 17:07:13.195 INFO [http-nio-8080-exec-2] lk.esports.betting.web.servlet.HomeServlet.init HomeServlet initializing...
+08-Jun-2025 17:07:13.209 INFO [http-nio-8080-exec-2] lk.esports.betting.web.servlet.HomeServlet.init Database health check: HEALTHY
+08-Jun-2025 17:07:13.215 WARNING [http-nio-8080-exec-2] lk.esports.betting.utils.EJBServiceLocator.lookupMatchService JNDI lookup failed for MatchService, creating direct instance
+08-Jun-2025 17:07:13.217 INFO [http-nio-8080-exec-2] lk.esports.betting.utils.EJBServiceLocator.lookupMatchService Created direct MatchService instance
+08-Jun-2025 17:07:13.218 SEVERE [http-nio-8080-exec-2] lk.esports.betting.ejb.MatchServiceBean.getUpcomingMatches Error getting upcoming matches
+	java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNamedQuery(String, java.lang.Class)" because "this.em" is null
+		at lk.esports.betting.ejb.MatchServiceBean.getUpcomingMatches(MatchServiceBean.java:114)
+		at lk.esports.betting.web.servlet.HomeServlet.doGet(HomeServlet.java:52)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:07:13.219 SEVERE [http-nio-8080-exec-2] lk.esports.betting.ejb.MatchServiceBean.getLiveMatches Error getting live matches
+	java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNamedQuery(String, java.lang.Class)" because "this.em" is null
+		at lk.esports.betting.ejb.MatchServiceBean.getLiveMatches(MatchServiceBean.java:125)
+		at lk.esports.betting.web.servlet.HomeServlet.doGet(HomeServlet.java:53)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:07:13.221 INFO [http-nio-8080-exec-2] lk.esports.betting.web.servlet.HomeServlet.doGet Successfully loaded matches: 0 featured, 0 live
+08-Jun-2025 17:07:17.353 INFO [http-nio-8080-exec-6] lk.esports.betting.web.servlet.LoginServlet.init LoginServlet initializing...
+08-Jun-2025 17:07:40.182 WARNING [http-nio-8080-exec-7] lk.esports.betting.utils.EJBServiceLocator.lookupUserService JNDI lookup failed for UserService, creating direct instance
+08-Jun-2025 17:07:40.187 INFO [http-nio-8080-exec-7] lk.esports.betting.ejb.UserServiceBean.init UserServiceBean initialized
+08-Jun-2025 17:07:40.187 INFO [http-nio-8080-exec-7] lk.esports.betting.utils.EJBServiceLocator.lookupUserService Created direct UserService instance
+08-Jun-2025 17:07:40.187 WARNING [http-nio-8080-exec-7] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 17:07:40.596 WARNING [http-nio-8080-exec-7] lk.esports.betting.ejb.UserServiceBean.authenticateUser Authentication failed for: demo@mlbetting.com
+08-Jun-2025 17:07:40.597 WARNING [http-nio-8080-exec-7] lk.esports.betting.web.servlet.LoginServlet.doPost Failed login attempt for email: demo@mlbetting.com
+08-Jun-2025 17:07:43.991 INFO [http-nio-8080-exec-5] lk.esports.betting.web.servlet.RegisterServlet.init RegisterServlet initializing...
+08-Jun-2025 17:08:47.616 WARNING [http-nio-8080-exec-9] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 17:08:50.377 WARNING [http-nio-8080-exec-9] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 17:08:50.392 WARNING [http-nio-8080-exec-9] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 17:08:50.407 WARNING [http-nio-8080-exec-9] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 17:08:50.439 WARNING [http-nio-8080-exec-9] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 17:08:50.835 INFO [http-nio-8080-exec-9] lk.esports.betting.ejb.UserServiceBean.registerUser New user registered successfully: testman12 (hasindutwm@gmail.com)
+08-Jun-2025 17:08:50.835 WARNING [http-nio-8080-exec-9] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 17:08:50.890 INFO [http-nio-8080-exec-9] lk.esports.betting.ejb.UserServiceBean.addFunds Funds added to user testman12: $100.00
+08-Jun-2025 17:08:50.890 WARNING [http-nio-8080-exec-9] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 17:08:50.893 INFO [http-nio-8080-exec-9] lk.esports.betting.web.servlet.RegisterServlet.doPost Welcome bonus added for new user: testman12
+08-Jun-2025 17:08:50.894 INFO [http-nio-8080-exec-9] lk.esports.betting.web.servlet.RegisterServlet.doPost New user registered and logged in: hasindutwm@gmail.com
+08-Jun-2025 17:08:50.903 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 17:08:50.907 WARNING [http-nio-8080-exec-8] lk.esports.betting.utils.EJBServiceLocator.lookupBettingService JNDI lookup failed for BettingService, creating direct instance
+08-Jun-2025 17:08:50.911 INFO [http-nio-8080-exec-8] lk.esports.betting.utils.EJBServiceLocator.lookupBettingService Created direct BettingService instance
+08-Jun-2025 17:08:50.911 SEVERE [http-nio-8080-exec-8] lk.esports.betting.ejb.MatchServiceBean.getUpcomingMatches Error getting upcoming matches
+	java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNamedQuery(String, java.lang.Class)" because "this.em" is null
+		at lk.esports.betting.ejb.MatchServiceBean.getUpcomingMatches(MatchServiceBean.java:114)
+		at lk.esports.betting.web.servlet.DashboardServlet.loadDashboardData(DashboardServlet.java:148)
+		at lk.esports.betting.web.servlet.DashboardServlet.doGet(DashboardServlet.java:71)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at lk.esports.betting.web.filter.AuthFilter.doFilter(AuthFilter.java:89)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:08:50.911 SEVERE [http-nio-8080-exec-8] lk.esports.betting.ejb.MatchServiceBean.getLiveMatches Error getting live matches
+	java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNamedQuery(String, java.lang.Class)" because "this.em" is null
+		at lk.esports.betting.ejb.MatchServiceBean.getLiveMatches(MatchServiceBean.java:125)
+		at lk.esports.betting.web.servlet.DashboardServlet.loadDashboardData(DashboardServlet.java:149)
+		at lk.esports.betting.web.servlet.DashboardServlet.doGet(DashboardServlet.java:71)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at lk.esports.betting.web.filter.AuthFilter.doFilter(AuthFilter.java:89)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:08:50.926 SEVERE [http-nio-8080-exec-8] lk.esports.betting.ejb.BettingServiceBean.getUserBets Error getting user bets: 4
+	java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNamedQuery(String, java.lang.Class)" because "this.em" is null
+		at lk.esports.betting.ejb.BettingServiceBean.getUserBets(BettingServiceBean.java:167)
+		at lk.esports.betting.web.servlet.DashboardServlet.loadDashboardData(DashboardServlet.java:171)
+		at lk.esports.betting.web.servlet.DashboardServlet.doGet(DashboardServlet.java:71)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at lk.esports.betting.web.filter.AuthFilter.doFilter(AuthFilter.java:89)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:08:50.928 SEVERE [http-nio-8080-exec-8] lk.esports.betting.ejb.BettingServiceBean.getUserPendingBets Error getting user pending bets: 4
+	java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String, java.lang.Class)" because "this.em" is null
+		at lk.esports.betting.ejb.BettingServiceBean.getUserPendingBets(BettingServiceBean.java:468)
+		at lk.esports.betting.web.servlet.DashboardServlet.loadDashboardData(DashboardServlet.java:175)
+		at lk.esports.betting.web.servlet.DashboardServlet.doGet(DashboardServlet.java:71)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at lk.esports.betting.web.filter.AuthFilter.doFilter(AuthFilter.java:89)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:08:50.942 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 17:08:50.970 WARNING [http-nio-8080-exec-8] lk.esports.betting.web.servlet.DashboardServlet.getUserStatistics Error getting total bet amount
+	java.lang.NullPointerException: Cannot invoke "lk.esports.betting.ejb.local.UserService.getTotalBetAmount(java.lang.Long)" because "this.userService" is null
+		at lk.esports.betting.ejb.BettingServiceBean.getUserTotalBetAmount(BettingServiceBean.java:481)
+		at lk.esports.betting.web.servlet.DashboardServlet.getUserStatistics(DashboardServlet.java:247)
+		at lk.esports.betting.web.servlet.DashboardServlet.loadDashboardData(DashboardServlet.java:198)
+		at lk.esports.betting.web.servlet.DashboardServlet.doGet(DashboardServlet.java:71)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at lk.esports.betting.web.filter.AuthFilter.doFilter(AuthFilter.java:89)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:08:50.971 WARNING [http-nio-8080-exec-8] lk.esports.betting.web.servlet.DashboardServlet.getUserStatistics Error getting total winnings
+	java.lang.NullPointerException: Cannot invoke "lk.esports.betting.ejb.local.UserService.getTotalWinnings(java.lang.Long)" because "this.userService" is null
+		at lk.esports.betting.ejb.BettingServiceBean.getUserTotalWinnings(BettingServiceBean.java:486)
+		at lk.esports.betting.web.servlet.DashboardServlet.getUserStatistics(DashboardServlet.java:254)
+		at lk.esports.betting.web.servlet.DashboardServlet.loadDashboardData(DashboardServlet.java:198)
+		at lk.esports.betting.web.servlet.DashboardServlet.doGet(DashboardServlet.java:71)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at lk.esports.betting.web.filter.AuthFilter.doFilter(AuthFilter.java:89)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:08:50.972 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 17:08:50.975 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 17:08:50.985 WARNING [http-nio-8080-exec-8] lk.esports.betting.web.servlet.DashboardServlet.getUserStatistics Error getting win rate
+	java.lang.NullPointerException: Cannot invoke "lk.esports.betting.ejb.local.UserService.getWinRate(java.lang.Long)" because "this.userService" is null
+		at lk.esports.betting.ejb.BettingServiceBean.getUserWinRate(BettingServiceBean.java:491)
+		at lk.esports.betting.web.servlet.DashboardServlet.getUserStatistics(DashboardServlet.java:273)
+		at lk.esports.betting.web.servlet.DashboardServlet.loadDashboardData(DashboardServlet.java:198)
+		at lk.esports.betting.web.servlet.DashboardServlet.doGet(DashboardServlet.java:71)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at lk.esports.betting.web.filter.AuthFilter.doFilter(AuthFilter.java:89)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:08:50.986 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 17:12:36.279 SEVERE [http-nio-8080-exec-4] lk.esports.betting.web.servlet.BetServlet.doGet Error in BetServlet GET
+	java.lang.NullPointerException: Cannot invoke "lk.esports.betting.ejb.local.BettingService.getUserBets(java.lang.Long)" because "this.bettingService" is null
+		at lk.esports.betting.web.servlet.BetServlet.handleGetBettingHistory(BetServlet.java:137)
+		at lk.esports.betting.web.servlet.BetServlet.doGet(BetServlet.java:65)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at lk.esports.betting.web.filter.AuthFilter.doFilter(AuthFilter.java:89)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:12:56.636 SEVERE [http-nio-8080-exec-1] lk.esports.betting.web.servlet.MatchServlet.doGet Error in MatchServlet GET
+	java.lang.NullPointerException: Cannot invoke "lk.esports.betting.ejb.local.MatchService.getUpcomingMatches()" because "this.matchService" is null
+		at lk.esports.betting.web.servlet.MatchServlet.handleGetUpcomingMatches(MatchServlet.java:117)
+		at lk.esports.betting.web.servlet.MatchServlet.doGet(MatchServlet.java:52)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:13:20.032 INFO [Thread-5] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["http-nio-8080"]
+08-Jun-2025 17:13:20.046 INFO [Thread-5] org.apache.catalina.core.StandardService.stopInternal Stopping service [Catalina]
+08-Jun-2025 17:13:20.059 INFO [Thread-5] lk.esports.betting.web.filter.AuthFilter.destroy AuthFilter destroyed
+08-Jun-2025 17:13:20.066 INFO [Thread-5] lk.esports.betting.web.listener.EJBContainerListener.contextDestroyed EJB Container Listener - Application shutting down...
+08-Jun-2025 17:13:20.108 INFO [Thread-5] lk.esports.betting.utils.DatabaseUtil.closeEntityManagerFactory EntityManagerFactory closed successfully
+08-Jun-2025 17:13:20.108 INFO [Thread-5] lk.esports.betting.web.listener.EJBContainerListener.contextDestroyed Application shutdown completed
+08-Jun-2025 17:13:20.108 INFO [Thread-5] lk.esports.betting.web.listener.ApplicationContextListener.contextDestroyed Application context being destroyed - cleaning up resources...
+08-Jun-2025 17:13:20.109 INFO [Thread-5] lk.esports.betting.web.listener.ApplicationContextListener.contextDestroyed MySQL AbandonedConnectionCleanupThread shutdown completed
+08-Jun-2025 17:13:20.111 INFO [Thread-5] lk.esports.betting.web.listener.ApplicationContextListener.contextDestroyed Deregistered JDBC driver: com.mysql.cj.jdbc.Driver
+08-Jun-2025 17:13:20.111 INFO [Thread-5] lk.esports.betting.web.listener.ApplicationContextListener.contextDestroyed Application cleanup completed
+08-Jun-2025 17:13:20.150 INFO [Thread-5] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["http-nio-8080"]
+08-Jun-2025 17:13:20.173 INFO [Thread-5] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["http-nio-8080"]
+08-Jun-2025 17:13:23.132 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/10.1.41
+08-Jun-2025 17:13:23.136 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          May 8 2025 12:44:02 UTC
+08-Jun-2025 17:13:23.136 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 10.1.41.0
+08-Jun-2025 17:13:23.136 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 11
+08-Jun-2025 17:13:23.137 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+08-Jun-2025 17:13:23.137 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+08-Jun-2025 17:13:23.137 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jdk-23
+08-Jun-2025 17:13:23.137 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           23+37-2369
+08-Jun-2025 17:13:23.137 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+08-Jun-2025 17:13:23.137 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting
+08-Jun-2025 17:13:23.137 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         C:\apache-tomcat-10.1.41-windows-x64\apache-tomcat-10.1.41
+08-Jun-2025 17:13:23.145 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang=ALL-UNNAMED
+08-Jun-2025 17:13:23.145 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.io=ALL-UNNAMED
+08-Jun-2025 17:13:23.145 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util=ALL-UNNAMED
+08-Jun-2025 17:13:23.146 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+08-Jun-2025 17:13:23.146 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+08-Jun-2025 17:13:23.146 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=C:\apache-tomcat-10.1.41-windows-x64\apache-tomcat-10.1.41
+08-Jun-2025 17:13:23.146 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting
+08-Jun-2025 17:13:23.146 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting\temp
+08-Jun-2025 17:13:23.146 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting\conf\logging.properties
+08-Jun-2025 17:13:23.146 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+08-Jun-2025 17:13:23.146 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -javaagent:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\lib\idea_rt.jar=51910:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\bin
+08-Jun-2025 17:13:23.146 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dfile.encoding=UTF-8
+08-Jun-2025 17:13:23.146 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dsun.stdout.encoding=UTF-8
+08-Jun-2025 17:13:23.146 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dsun.stderr.encoding=UTF-8
+08-Jun-2025 17:13:23.151 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent Loaded Apache Tomcat Native library [2.0.8] using APR version [1.7.4].
+08-Jun-2025 17:13:23.176 INFO [main] org.apache.catalina.core.AprLifecycleListener.initializeSSL OpenSSL successfully initialized [OpenSSL 3.0.14 4 Jun 2024]
+08-Jun-2025 17:13:23.539 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+08-Jun-2025 17:13:23.555 INFO [main] org.apache.catalina.startup.Catalina.load Server initialization in [667] milliseconds
+08-Jun-2025 17:13:23.612 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+08-Jun-2025 17:13:23.612 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/10.1.41]
+08-Jun-2025 17:13:23.621 INFO [main] org.apache.catalina.startup.HostConfig.deployDescriptor Deploying deployment descriptor [C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting\conf\Catalina\localhost\ESportsBetting.xml]
+08-Jun-2025 17:13:25.739 INFO [main] java.util.ArrayList.forEach Name = esports_betting Ignoring unknown property: value of "MySQL DataSource for E-Sports Betting" for "description" property
+08-Jun-2025 17:13:25.913 INFO [main] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Jun-2025 17:13:25.954 INFO [main] lk.esports.betting.web.listener.ApplicationContextListener.contextInitialized Application context initialized
+08-Jun-2025 17:13:26.144 INFO [main] org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation HHH000204: Processing PersistenceUnitInfo [name: esportsPU]
+08-Jun-2025 17:13:26.309 INFO [main] org.hibernate.Version.logVersion HHH000412: Hibernate ORM core version 6.2.6.Final
+08-Jun-2025 17:13:26.314 INFO [main] org.hibernate.cfg.Environment.<clinit> HHH000406: Using bytecode reflection optimizer
+08-Jun-2025 17:13:26.902 INFO [main] org.hibernate.c3p0.internal.C3P0ConnectionProvider.configure HHH010002: C3P0 using driver: com.mysql.cj.jdbc.Driver at URL: jdbc:mysql://localhost:3306/esports_betting?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true&useUnicode=true&characterEncoding=UTF-8
+08-Jun-2025 17:13:26.902 INFO [main] org.hibernate.c3p0.internal.C3P0ConnectionProvider.configure HHH10001001: Connection properties: {password=****, autocommit=false, user=root}
+08-Jun-2025 17:13:26.902 INFO [main] org.hibernate.c3p0.internal.C3P0ConnectionProvider.configure HHH10001003: Autocommit mode: false
+08-Jun-2025 17:13:26.984 INFO [MLog-Init-Reporter] com.mchange.v2.log.MLog. MLog clients using java 1.4+ standard logging.
+08-Jun-2025 17:13:27.233 INFO [main] com.mchange.v2.c3p0.C3P0Registry. Initializing c3p0-0.9.5.5 [built 11-December-2019 22:18:33 -0800; debug? true; trace: 10]
+08-Jun-2025 17:13:27.281 INFO [main] org.hibernate.c3p0.internal.C3P0ConnectionProvider.configure HHH10001007: JDBC isolation level: READ_COMMITTED
+08-Jun-2025 17:13:27.306 INFO [main] com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource. Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@931dd1e1 [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@9f672559 [ acquireIncrement -> 1, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceSynchronousCheckins -> false, identityToken -> 1br5l39bbm0mrax1jd1uih|67cd193d, idleConnectionTestPeriod -> 3000, initialPoolSize -> 5, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 300, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 20, maxStatements -> 50, maxStatementsPerConnection -> 0, minPoolSize -> 5, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@7692085b [ description -> null, driverClass -> null, factoryClassLocation -> null, forceUseNamedDriverClass -> false, identityToken -> 1br5l39bbm0mrax1jd1uih|5b3c2a9f, jdbcUrl -> jdbc:mysql://localhost:3306/esports_betting?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true&useUnicode=true&characterEncoding=UTF-8, properties -> {password=******, autocommit=false, user=******} ], preferredTestQuery -> null, privilegeSpawnedThreads -> false, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, extensions -> {}, factoryClassLocation -> null, identityToken -> 1br5l39bbm0mrax1jd1uih|434a72f2, numHelperThreads -> 3 ]
+08-Jun-2025 17:13:28.736 INFO [main] org.hibernate.bytecode.internal.BytecodeProviderInitiator.buildBytecodeProvider HHH000021: Bytecode provider name : bytebuddy
+08-Jun-2025 17:13:31.230 INFO [main] org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@3a6ba61b] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+08-Jun-2025 17:13:31.771 INFO [main] lk.esports.betting.utils.DatabaseUtil.initializeEntityManagerFactory EntityManagerFactory created successfully
+08-Jun-2025 17:13:31.772 INFO [main] lk.esports.betting.utils.DatabaseUtil.<clinit> EntityManagerFactory initialized successfully
+08-Jun-2025 17:13:31.964 INFO [main] lk.esports.betting.web.listener.ApplicationContextListener.contextInitialized Database health: HEALTHY
+08-Jun-2025 17:13:31.965 INFO [main] lk.esports.betting.web.listener.ApplicationContextListener.contextInitialized Database initialized successfully
+08-Jun-2025 17:13:31.965 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.contextInitialized EJB Container Listener - Initializing application...
+08-Jun-2025 17:13:31.969 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.initializeJNDIContext JNDI Context initialized successfully
+08-Jun-2025 17:13:31.969 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.initializeJNDIContext Available JNDI resources:
+08-Jun-2025 17:13:31.970 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.initializeJNDIContext   - jdbc : org.apache.naming.NamingContext
+08-Jun-2025 17:13:31.978 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.testDatabaseConnection Database connectivity test: SUCCESS
+08-Jun-2025 17:13:31.978 SEVERE [main] lk.esports.betting.web.listener.EJBContainerListener.lookupUserService UserService not found at any lookup path!
+08-Jun-2025 17:13:31.979 SEVERE [main] lk.esports.betting.web.listener.EJBContainerListener.lookupMatchService MatchService not found at any lookup path!
+08-Jun-2025 17:13:31.979 SEVERE [main] lk.esports.betting.web.listener.EJBContainerListener.lookupBettingService BettingService not found at any lookup path!
+08-Jun-2025 17:13:31.980 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.initializeEJBServices EJB services initialized and stored in servlet context
+08-Jun-2025 17:13:31.980 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.contextInitialized Application initialization completed successfully
+08-Jun-2025 17:13:31.991 INFO [main] lk.esports.betting.web.filter.AuthFilter.init AuthFilter initialized
+08-Jun-2025 17:13:31.998 INFO [main] lk.esports.betting.web.servlet.StartupServlet.init Starting application initialization...
+08-Jun-2025 17:13:32.030 INFO [main] lk.esports.betting.web.servlet.StartupServlet.init Database health: HEALTHY
+08-Jun-2025 17:13:32.030 WARNING [main] lk.esports.betting.web.servlet.StartupServlet.init EJB services not available during startup. Will be initialized on first request.
+08-Jun-2025 17:13:32.061 INFO [main] org.apache.catalina.startup.HostConfig.deployDescriptor Deployment of deployment descriptor [C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting\conf\Catalina\localhost\ESportsBetting.xml] has finished in [8,438] ms
+08-Jun-2025 17:13:32.066 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+08-Jun-2025 17:13:32.090 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [8533] milliseconds
+08-Jun-2025 17:13:40.133 INFO [http-nio-8080-exec-2] lk.esports.betting.web.servlet.HomeServlet.init HomeServlet initializing...
+08-Jun-2025 17:13:40.151 INFO [http-nio-8080-exec-2] lk.esports.betting.web.servlet.HomeServlet.init Database health check: HEALTHY
+08-Jun-2025 17:13:40.158 WARNING [http-nio-8080-exec-2] lk.esports.betting.utils.EJBServiceLocator.lookupMatchService JNDI lookup failed for MatchService, creating direct instance
+08-Jun-2025 17:13:40.162 INFO [http-nio-8080-exec-2] lk.esports.betting.utils.EJBServiceLocator.lookupMatchService Created direct MatchService instance
+08-Jun-2025 17:13:40.162 SEVERE [http-nio-8080-exec-2] lk.esports.betting.ejb.MatchServiceBean.getUpcomingMatches Error getting upcoming matches
+	java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNamedQuery(String, java.lang.Class)" because "this.em" is null
+		at lk.esports.betting.ejb.MatchServiceBean.getUpcomingMatches(MatchServiceBean.java:114)
+		at lk.esports.betting.web.servlet.HomeServlet.doGet(HomeServlet.java:52)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:13:40.163 SEVERE [http-nio-8080-exec-2] lk.esports.betting.ejb.MatchServiceBean.getLiveMatches Error getting live matches
+	java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNamedQuery(String, java.lang.Class)" because "this.em" is null
+		at lk.esports.betting.ejb.MatchServiceBean.getLiveMatches(MatchServiceBean.java:125)
+		at lk.esports.betting.web.servlet.HomeServlet.doGet(HomeServlet.java:53)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:13:40.165 INFO [http-nio-8080-exec-2] lk.esports.betting.web.servlet.HomeServlet.doGet Successfully loaded matches: 0 featured, 0 live
+08-Jun-2025 17:13:45.112 INFO [http-nio-8080-exec-4] lk.esports.betting.web.servlet.LoginServlet.init LoginServlet initializing...
+08-Jun-2025 17:13:54.544 WARNING [http-nio-8080-exec-7] lk.esports.betting.utils.EJBServiceLocator.lookupUserService JNDI lookup failed for UserService, creating direct instance
+08-Jun-2025 17:13:54.548 INFO [http-nio-8080-exec-7] lk.esports.betting.ejb.UserServiceBean.init UserServiceBean initialized
+08-Jun-2025 17:13:54.548 INFO [http-nio-8080-exec-7] lk.esports.betting.utils.EJBServiceLocator.lookupUserService Created direct UserService instance
+08-Jun-2025 17:13:54.548 WARNING [http-nio-8080-exec-7] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 17:13:54.752 INFO [http-nio-8080-exec-7] lk.esports.betting.ejb.UserServiceBean.authenticateUser User authenticated successfully: hasindutwm@gmail.com
+08-Jun-2025 17:13:54.754 INFO [http-nio-8080-exec-7] lk.esports.betting.web.servlet.LoginServlet.doPost User logged in successfully: hasindutwm@gmail.com
+08-Jun-2025 17:13:54.761 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 17:13:54.778 WARNING [http-nio-8080-exec-8] lk.esports.betting.utils.EJBServiceLocator.lookupBettingService JNDI lookup failed for BettingService, creating direct instance
+08-Jun-2025 17:13:54.783 INFO [http-nio-8080-exec-8] lk.esports.betting.utils.EJBServiceLocator.lookupBettingService Created direct BettingService instance
+08-Jun-2025 17:13:54.783 SEVERE [http-nio-8080-exec-8] lk.esports.betting.ejb.MatchServiceBean.getUpcomingMatches Error getting upcoming matches
+	java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNamedQuery(String, java.lang.Class)" because "this.em" is null
+		at lk.esports.betting.ejb.MatchServiceBean.getUpcomingMatches(MatchServiceBean.java:114)
+		at lk.esports.betting.web.servlet.DashboardServlet.loadDashboardData(DashboardServlet.java:148)
+		at lk.esports.betting.web.servlet.DashboardServlet.doGet(DashboardServlet.java:71)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at lk.esports.betting.web.filter.AuthFilter.doFilter(AuthFilter.java:89)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:13:54.784 SEVERE [http-nio-8080-exec-8] lk.esports.betting.ejb.MatchServiceBean.getLiveMatches Error getting live matches
+	java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNamedQuery(String, java.lang.Class)" because "this.em" is null
+		at lk.esports.betting.ejb.MatchServiceBean.getLiveMatches(MatchServiceBean.java:125)
+		at lk.esports.betting.web.servlet.DashboardServlet.loadDashboardData(DashboardServlet.java:149)
+		at lk.esports.betting.web.servlet.DashboardServlet.doGet(DashboardServlet.java:71)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at lk.esports.betting.web.filter.AuthFilter.doFilter(AuthFilter.java:89)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:13:54.795 SEVERE [http-nio-8080-exec-8] lk.esports.betting.ejb.BettingServiceBean.getUserBets Error getting user bets: 4
+	java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNamedQuery(String, java.lang.Class)" because "this.em" is null
+		at lk.esports.betting.ejb.BettingServiceBean.getUserBets(BettingServiceBean.java:167)
+		at lk.esports.betting.web.servlet.DashboardServlet.loadDashboardData(DashboardServlet.java:171)
+		at lk.esports.betting.web.servlet.DashboardServlet.doGet(DashboardServlet.java:71)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at lk.esports.betting.web.filter.AuthFilter.doFilter(AuthFilter.java:89)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:13:54.796 SEVERE [http-nio-8080-exec-8] lk.esports.betting.ejb.BettingServiceBean.getUserPendingBets Error getting user pending bets: 4
+	java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createQuery(String, java.lang.Class)" because "this.em" is null
+		at lk.esports.betting.ejb.BettingServiceBean.getUserPendingBets(BettingServiceBean.java:468)
+		at lk.esports.betting.web.servlet.DashboardServlet.loadDashboardData(DashboardServlet.java:175)
+		at lk.esports.betting.web.servlet.DashboardServlet.doGet(DashboardServlet.java:71)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at lk.esports.betting.web.filter.AuthFilter.doFilter(AuthFilter.java:89)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:13:54.810 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 17:13:54.831 WARNING [http-nio-8080-exec-8] lk.esports.betting.web.servlet.DashboardServlet.getUserStatistics Error getting total bet amount
+	java.lang.NullPointerException: Cannot invoke "lk.esports.betting.ejb.local.UserService.getTotalBetAmount(java.lang.Long)" because "this.userService" is null
+		at lk.esports.betting.ejb.BettingServiceBean.getUserTotalBetAmount(BettingServiceBean.java:481)
+		at lk.esports.betting.web.servlet.DashboardServlet.getUserStatistics(DashboardServlet.java:247)
+		at lk.esports.betting.web.servlet.DashboardServlet.loadDashboardData(DashboardServlet.java:198)
+		at lk.esports.betting.web.servlet.DashboardServlet.doGet(DashboardServlet.java:71)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at lk.esports.betting.web.filter.AuthFilter.doFilter(AuthFilter.java:89)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:13:54.831 WARNING [http-nio-8080-exec-8] lk.esports.betting.web.servlet.DashboardServlet.getUserStatistics Error getting total winnings
+	java.lang.NullPointerException: Cannot invoke "lk.esports.betting.ejb.local.UserService.getTotalWinnings(java.lang.Long)" because "this.userService" is null
+		at lk.esports.betting.ejb.BettingServiceBean.getUserTotalWinnings(BettingServiceBean.java:486)
+		at lk.esports.betting.web.servlet.DashboardServlet.getUserStatistics(DashboardServlet.java:254)
+		at lk.esports.betting.web.servlet.DashboardServlet.loadDashboardData(DashboardServlet.java:198)
+		at lk.esports.betting.web.servlet.DashboardServlet.doGet(DashboardServlet.java:71)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at lk.esports.betting.web.filter.AuthFilter.doFilter(AuthFilter.java:89)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:13:54.841 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 17:13:54.855 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 17:13:54.864 WARNING [http-nio-8080-exec-8] lk.esports.betting.web.servlet.DashboardServlet.getUserStatistics Error getting win rate
+	java.lang.NullPointerException: Cannot invoke "lk.esports.betting.ejb.local.UserService.getWinRate(java.lang.Long)" because "this.userService" is null
+		at lk.esports.betting.ejb.BettingServiceBean.getUserWinRate(BettingServiceBean.java:491)
+		at lk.esports.betting.web.servlet.DashboardServlet.getUserStatistics(DashboardServlet.java:273)
+		at lk.esports.betting.web.servlet.DashboardServlet.loadDashboardData(DashboardServlet.java:198)
+		at lk.esports.betting.web.servlet.DashboardServlet.doGet(DashboardServlet.java:71)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at lk.esports.betting.web.filter.AuthFilter.doFilter(AuthFilter.java:89)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:13:54.864 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 17:14:09.671 SEVERE [http-nio-8080-exec-1] lk.esports.betting.web.servlet.BetServlet.doGet Error in BetServlet GET
+	java.lang.NullPointerException: Cannot invoke "lk.esports.betting.ejb.local.BettingService.getUserBets(java.lang.Long)" because "this.bettingService" is null
+		at lk.esports.betting.web.servlet.BetServlet.handleGetBettingHistory(BetServlet.java:137)
+		at lk.esports.betting.web.servlet.BetServlet.doGet(BetServlet.java:65)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at lk.esports.betting.web.filter.AuthFilter.doFilter(AuthFilter.java:89)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:14:13.226 SEVERE [http-nio-8080-exec-2] lk.esports.betting.ejb.MatchServiceBean.getUpcomingMatches Error getting upcoming matches
+	java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNamedQuery(String, java.lang.Class)" because "this.em" is null
+		at lk.esports.betting.ejb.MatchServiceBean.getUpcomingMatches(MatchServiceBean.java:114)
+		at lk.esports.betting.web.servlet.HomeServlet.doGet(HomeServlet.java:52)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at lk.esports.betting.web.filter.AuthFilter.doFilter(AuthFilter.java:89)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:14:13.227 SEVERE [http-nio-8080-exec-2] lk.esports.betting.ejb.MatchServiceBean.getLiveMatches Error getting live matches
+	java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNamedQuery(String, java.lang.Class)" because "this.em" is null
+		at lk.esports.betting.ejb.MatchServiceBean.getLiveMatches(MatchServiceBean.java:125)
+		at lk.esports.betting.web.servlet.HomeServlet.doGet(HomeServlet.java:53)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at lk.esports.betting.web.filter.AuthFilter.doFilter(AuthFilter.java:89)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:14:16.983 INFO [http-nio-8080-exec-2] lk.esports.betting.web.servlet.HomeServlet.doGet Successfully loaded matches: 0 featured, 0 live
+08-Jun-2025 17:14:22.087 SEVERE [http-nio-8080-exec-6] lk.esports.betting.ejb.MatchServiceBean.getUpcomingMatches Error getting upcoming matches
+	java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNamedQuery(String, java.lang.Class)" because "this.em" is null
+		at lk.esports.betting.ejb.MatchServiceBean.getUpcomingMatches(MatchServiceBean.java:114)
+		at lk.esports.betting.web.servlet.HomeServlet.doGet(HomeServlet.java:52)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at lk.esports.betting.web.filter.AuthFilter.doFilter(AuthFilter.java:89)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:14:22.088 SEVERE [http-nio-8080-exec-6] lk.esports.betting.ejb.MatchServiceBean.getLiveMatches Error getting live matches
+	java.lang.NullPointerException: Cannot invoke "jakarta.persistence.EntityManager.createNamedQuery(String, java.lang.Class)" because "this.em" is null
+		at lk.esports.betting.ejb.MatchServiceBean.getLiveMatches(MatchServiceBean.java:125)
+		at lk.esports.betting.web.servlet.HomeServlet.doGet(HomeServlet.java:53)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at lk.esports.betting.web.filter.AuthFilter.doFilter(AuthFilter.java:89)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 17:14:22.089 INFO [http-nio-8080-exec-6] lk.esports.betting.web.servlet.HomeServlet.doGet Successfully loaded matches: 0 featured, 0 live
+08-Jun-2025 17:14:31.707 SEVERE [http-nio-8080-exec-7] lk.esports.betting.web.servlet.MatchServlet.doGet Error in MatchServlet GET
+	java.lang.NullPointerException: Cannot invoke "lk.esports.betting.ejb.local.MatchService.getUpcomingMatches()" because "this.matchService" is null
+		at lk.esports.betting.web.servlet.MatchServlet.handleGetUpcomingMatches(MatchServlet.java:117)
+		at lk.esports.betting.web.servlet.MatchServlet.doGet(MatchServlet.java:52)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:564)
+		at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:658)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.filters.SetCharacterEncodingFilter.doFilter(SetCharacterEncodingFilter.java:115)
+		at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164)
+		at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140)
+		at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+		at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+		at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483)
+		at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:116)
+		at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+		at org.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:666)
+		at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+		at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344)
+		at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:398)
+		at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+		at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:903)
+		at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1740)
+		at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1189)
+		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
+		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+		at java.base/java.lang.Thread.run(Thread.java:1575)

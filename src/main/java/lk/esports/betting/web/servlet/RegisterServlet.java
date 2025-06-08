@@ -2,6 +2,7 @@ package lk.esports.betting.web.servlet;
 
 import lk.esports.betting.ejb.local.UserService;
 import lk.esports.betting.entity.User;
+import lk.esports.betting.utils.EJBServiceLocator;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,8 +11,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.logging.Logger;
@@ -31,45 +30,10 @@ public class RegisterServlet extends HttpServlet {
     private static final Pattern PHONE_PATTERN = Pattern.compile(
             "^[+]?[0-9]{10,15}$");
 
-    private UserService userService;
-
     @Override
     public void init() throws ServletException {
         super.init();
         logger.info("RegisterServlet initializing...");
-
-        try {
-            InitialContext ctx = new InitialContext();
-
-            // Try multiple lookup paths for UserService
-            String[] lookupPaths = {
-                    "java:comp/env/ejb/UserService",
-                    "java:global/ESportsBetting/UserServiceBean",
-                    "java:app/ESportsBetting/UserServiceBean",
-                    "java:module/UserServiceBean"
-            };
-
-            for (String path : lookupPaths) {
-                try {
-                    userService = (UserService) ctx.lookup(path);
-                    if (userService != null) {
-                        logger.info("UserService found at: " + path);
-                        break;
-                    }
-                } catch (NamingException e) {
-                    logger.warning("Failed UserService lookup at: " + path + " - " + e.getMessage());
-                }
-            }
-
-            if (userService == null) {
-                logger.severe("UserService EJB lookup failed at all paths!");
-            } else {
-                logger.info("UserService EJB lookup successful in RegisterServlet");
-            }
-
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error during UserService EJB lookup in RegisterServlet", e);
-        }
     }
 
     @Override
@@ -111,10 +75,12 @@ public class RegisterServlet extends HttpServlet {
                 return;
             }
 
-            // Check if UserService is available
+            // Get UserService using service locator
+            UserService userService = EJBServiceLocator.getUserService();
+
             if (userService == null) {
-                logger.severe("UserService is null - EJB lookup failed in RegisterServlet");
-                request.setAttribute("errorMessage", "System is initializing. Please try again in a moment.");
+                logger.severe("UserService is null - service locator failed");
+                request.setAttribute("errorMessage", "Registration service is temporarily unavailable. Please try again.");
                 preserveFormData(request, email, username, fullName, phone);
                 request.getRequestDispatcher("/register.jsp").forward(request, response);
                 return;
@@ -123,42 +89,72 @@ public class RegisterServlet extends HttpServlet {
             // Check if email or username already exists
             try {
                 if (userService.isEmailExists(email.trim())) {
-                    request.setAttribute("errorMessage", "Email address is already registered");
+                    request.setAttribute("errorMessage", "Email address is already registered. Please use a different email or try logging in.");
                     preserveFormData(request, email, username, fullName, phone);
                     request.getRequestDispatcher("/register.jsp").forward(request, response);
                     return;
                 }
 
                 if (userService.isUsernameExists(username.trim())) {
-                    request.setAttribute("errorMessage", "Username is already taken");
+                    request.setAttribute("errorMessage", "Username is already taken. Please choose a different username.");
                     preserveFormData(request, email, username, fullName, phone);
                     request.getRequestDispatcher("/register.jsp").forward(request, response);
                     return;
                 }
             } catch (Exception e) {
                 logger.log(Level.SEVERE, "Error checking existing user data", e);
-                request.setAttribute("errorMessage", "Database error. Please try again later.");
+                request.setAttribute("errorMessage", "Unable to verify user data. Please try again.");
                 preserveFormData(request, email, username, fullName, phone);
                 request.getRequestDispatcher("/register.jsp").forward(request, response);
                 return;
             }
 
             // Register new user
-            User newUser = userService.registerUser(
-                    email.trim(),
-                    username.trim(),
-                    password,
-                    fullName.trim(),
-                    phone != null ? phone.trim() : null
-            );
+            User newUser = null;
+            try {
+                newUser = userService.registerUser(
+                        email.trim(),
+                        username.trim(),
+                        password,
+                        fullName.trim(),
+                        phone != null ? phone.trim() : null
+                );
+            } catch (IllegalArgumentException e) {
+                logger.log(Level.WARNING, "Registration validation error: " + e.getMessage());
+                request.setAttribute("errorMessage", e.getMessage());
+                preserveFormData(request, email, username, fullName, phone);
+                request.getRequestDispatcher("/register.jsp").forward(request, response);
+                return;
+            } catch (RuntimeException e) {
+                logger.log(Level.SEVERE, "Runtime error during registration", e);
+                String errorMsg = e.getMessage();
+                if (errorMsg != null && errorMsg.contains("email already exists")) {
+                    request.setAttribute("errorMessage", "This email address is already registered. Please use a different email or try logging in.");
+                } else if (errorMsg != null && errorMsg.contains("username already exists")) {
+                    request.setAttribute("errorMessage", "This username is already taken. Please choose a different username.");
+                } else {
+                    request.setAttribute("errorMessage", "Registration failed. Please try again.");
+                }
+                preserveFormData(request, email, username, fullName, phone);
+                request.getRequestDispatcher("/register.jsp").forward(request, response);
+                return;
+            } catch (Exception e) {
+                logger.log(Level.SEVERE, "Unexpected error during registration", e);
+                request.setAttribute("errorMessage", "Registration failed due to a system error. Please try again later.");
+                preserveFormData(request, email, username, fullName, phone);
+                request.getRequestDispatcher("/register.jsp").forward(request, response);
+                return;
+            }
 
             if (newUser != null) {
                 // Registration successful - add welcome bonus
                 try {
                     userService.addFunds(newUser.getId(), new BigDecimal("100.00"), "Welcome bonus");
 
-                    // Update user balance
+                    // Refresh user to get updated balance
                     newUser = userService.findUserById(newUser.getId());
+
+                    logger.info("Welcome bonus added for new user: " + newUser.getUsername());
                 } catch (Exception e) {
                     logger.log(Level.WARNING, "Failed to add welcome bonus for user: " + newUser.getId(), e);
                     // Continue anyway - registration was successful
@@ -177,7 +173,9 @@ public class RegisterServlet extends HttpServlet {
 
                 // Set success message for dashboard
                 session.setAttribute("successMessage",
-                        "Welcome to E-Sports Betting! Your account has been created and you've received a $100 welcome bonus.");
+                        "Welcome to E-Sports Betting! Your account has been created successfully" +
+                                (newUser.getWalletBalance().compareTo(BigDecimal.ZERO) > 0 ?
+                                        " and you've received a $100 welcome bonus." : "."));
 
                 response.sendRedirect(request.getContextPath() + "/dashboard");
 
@@ -187,28 +185,9 @@ public class RegisterServlet extends HttpServlet {
                 request.getRequestDispatcher("/register.jsp").forward(request, response);
             }
 
-        } catch (IllegalArgumentException e) {
-            logger.log(Level.WARNING, "Registration validation error: " + e.getMessage());
-            request.setAttribute("errorMessage", e.getMessage());
-            preserveFormData(request, email, username, fullName, phone);
-            request.getRequestDispatcher("/register.jsp").forward(request, response);
-
-        } catch (RuntimeException e) {
-            logger.log(Level.SEVERE, "Runtime error during registration", e);
-            String errorMsg = e.getMessage();
-            if (errorMsg != null && errorMsg.contains("email already exists")) {
-                request.setAttribute("errorMessage", "This email address is already registered. Please use a different email or try logging in.");
-            } else if (errorMsg != null && errorMsg.contains("username already exists")) {
-                request.setAttribute("errorMessage", "This username is already taken. Please choose a different username.");
-            } else {
-                request.setAttribute("errorMessage", "Registration failed due to a system error. Please try again.");
-            }
-            preserveFormData(request, email, username, fullName, phone);
-            request.getRequestDispatcher("/register.jsp").forward(request, response);
-
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Unexpected error during registration", e);
-            request.setAttribute("errorMessage", "An unexpected error occurred during registration. Please try again later.");
+            logger.log(Level.SEVERE, "Unexpected error in registration servlet", e);
+            request.setAttribute("errorMessage", "An unexpected error occurred. Please try again later.");
             preserveFormData(request, email, username, fullName, phone);
             request.getRequestDispatcher("/register.jsp").forward(request, response);
         }
