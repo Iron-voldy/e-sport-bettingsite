@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @Entity
 @Table(name = "bets")
@@ -89,6 +90,17 @@ public class Bet {
         this.betAmount = betAmount;
         this.oddsAtBet = oddsAtBet;
         this.potentialWinnings = calculatePotentialWinnings();
+    }
+
+    // CRITICAL FIX: Convert LocalDateTime to Date for JSP compatibility
+    public Date getBetPlacedAtAsDate() {
+        if (betPlacedAt == null) return null;
+        return java.sql.Timestamp.valueOf(betPlacedAt);
+    }
+
+    public Date getResultProcessedAtAsDate() {
+        if (resultProcessedAt == null) return null;
+        return java.sql.Timestamp.valueOf(resultProcessedAt);
     }
 
     // Business methods
@@ -193,7 +205,6 @@ public class Bet {
         return BigDecimal.ZERO;
     }
 
-    // Validation methods
     public boolean isValidBet() {
         return user != null &&
                 match != null &&
@@ -207,42 +218,19 @@ public class Bet {
     }
 
     // Getters and Setters
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 
-    public User getUser() {
-        return user;
-    }
+    public Match getMatch() { return match; }
+    public void setMatch(Match match) { this.match = match; }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+    public Team getSelectedTeam() { return selectedTeam; }
+    public void setSelectedTeam(Team selectedTeam) { this.selectedTeam = selectedTeam; }
 
-    public Match getMatch() {
-        return match;
-    }
-
-    public void setMatch(Match match) {
-        this.match = match;
-    }
-
-    public Team getSelectedTeam() {
-        return selectedTeam;
-    }
-
-    public void setSelectedTeam(Team selectedTeam) {
-        this.selectedTeam = selectedTeam;
-    }
-
-    public BigDecimal getBetAmount() {
-        return betAmount;
-    }
-
+    public BigDecimal getBetAmount() { return betAmount; }
     public void setBetAmount(BigDecimal betAmount) {
         this.betAmount = betAmount;
         if (this.oddsAtBet != null) {
@@ -250,10 +238,7 @@ public class Bet {
         }
     }
 
-    public BigDecimal getOddsAtBet() {
-        return oddsAtBet;
-    }
-
+    public BigDecimal getOddsAtBet() { return oddsAtBet; }
     public void setOddsAtBet(BigDecimal oddsAtBet) {
         this.oddsAtBet = oddsAtBet;
         if (this.betAmount != null) {
@@ -261,37 +246,17 @@ public class Bet {
         }
     }
 
-    public BigDecimal getPotentialWinnings() {
-        return potentialWinnings;
-    }
+    public BigDecimal getPotentialWinnings() { return potentialWinnings; }
+    public void setPotentialWinnings(BigDecimal potentialWinnings) { this.potentialWinnings = potentialWinnings; }
 
-    public void setPotentialWinnings(BigDecimal potentialWinnings) {
-        this.potentialWinnings = potentialWinnings;
-    }
+    public BetStatus getStatus() { return status; }
+    public void setStatus(BetStatus status) { this.status = status; }
 
-    public BetStatus getStatus() {
-        return status;
-    }
+    public LocalDateTime getBetPlacedAt() { return betPlacedAt; }
+    public void setBetPlacedAt(LocalDateTime betPlacedAt) { this.betPlacedAt = betPlacedAt; }
 
-    public void setStatus(BetStatus status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getBetPlacedAt() {
-        return betPlacedAt;
-    }
-
-    public void setBetPlacedAt(LocalDateTime betPlacedAt) {
-        this.betPlacedAt = betPlacedAt;
-    }
-
-    public LocalDateTime getResultProcessedAt() {
-        return resultProcessedAt;
-    }
-
-    public void setResultProcessedAt(LocalDateTime resultProcessedAt) {
-        this.resultProcessedAt = resultProcessedAt;
-    }
+    public LocalDateTime getResultProcessedAt() { return resultProcessedAt; }
+    public void setResultProcessedAt(LocalDateTime resultProcessedAt) { this.resultProcessedAt = resultProcessedAt; }
 
     @Override
     public String toString() {

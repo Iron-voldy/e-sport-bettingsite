@@ -1,5 +1,3 @@
-// Option 1: Update Match.java entity to use EAGER fetching for critical relationships
-
 package lk.esports.betting.entity;
 
 import jakarta.persistence.*;
@@ -7,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -29,12 +28,10 @@ public class Match {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // CRITICAL FIX: Change to EAGER fetch for Tournament to avoid lazy loading issues
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
 
-    // CRITICAL FIX: Change to EAGER fetch for teams to avoid lazy loading issues
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "team1_id", nullable = false)
     @NotNull(message = "Team 1 is required")
@@ -57,7 +54,6 @@ public class Match {
     @Column(name = "status")
     private MatchStatus status = MatchStatus.SCHEDULED;
 
-    // CRITICAL FIX: Change to EAGER fetch for winner team
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "winner_team_id")
     private Team winnerTeam;
@@ -86,7 +82,6 @@ public class Match {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // Keep bets as LAZY since they're not needed in most views
     @OneToMany(mappedBy = "match", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Bet> bets;
 
@@ -118,20 +113,34 @@ public class Match {
         this.updatedAt = LocalDateTime.now();
     }
 
+    // CRITICAL FIX: Convert LocalDateTime to Date for JSP compatibility
+    public Date getMatchDateAsDate() {
+        if (matchDate == null) return null;
+        return java.sql.Timestamp.valueOf(matchDate);
+    }
+
+    public Date getCreatedAtAsDate() {
+        if (createdAt == null) return null;
+        return java.sql.Timestamp.valueOf(createdAt);
+    }
+
+    public Date getUpdatedAtAsDate() {
+        if (updatedAt == null) return null;
+        return java.sql.Timestamp.valueOf(updatedAt);
+    }
+
     // Helper method to safely get tournament name
     public String getTournamentName() {
         if (tournament != null) {
             try {
                 return tournament.getTournamentName();
             } catch (Exception e) {
-                // Handle lazy loading exception gracefully
                 return "Tournament TBD";
             }
         }
         return "Tournament TBD";
     }
 
-    // Helper method to safely check if tournament exists
     public boolean hasTournament() {
         return tournament != null;
     }
@@ -191,141 +200,56 @@ public class Match {
     }
 
     // Getters and Setters
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Tournament getTournament() { return tournament; }
+    public void setTournament(Tournament tournament) { this.tournament = tournament; }
 
-    public Tournament getTournament() {
-        return tournament;
-    }
+    public Team getTeam1() { return team1; }
+    public void setTeam1(Team team1) { this.team1 = team1; }
 
-    public void setTournament(Tournament tournament) {
-        this.tournament = tournament;
-    }
+    public Team getTeam2() { return team2; }
+    public void setTeam2(Team team2) { this.team2 = team2; }
 
-    public Team getTeam1() {
-        return team1;
-    }
+    public LocalDateTime getMatchDate() { return matchDate; }
+    public void setMatchDate(LocalDateTime matchDate) { this.matchDate = matchDate; }
 
-    public void setTeam1(Team team1) {
-        this.team1 = team1;
-    }
+    public MatchType getMatchType() { return matchType; }
+    public void setMatchType(MatchType matchType) { this.matchType = matchType; }
 
-    public Team getTeam2() {
-        return team2;
-    }
+    public MatchStatus getStatus() { return status; }
+    public void setStatus(MatchStatus status) { this.status = status; }
 
-    public void setTeam2(Team team2) {
-        this.team2 = team2;
-    }
+    public Team getWinnerTeam() { return winnerTeam; }
+    public void setWinnerTeam(Team winnerTeam) { this.winnerTeam = winnerTeam; }
 
-    public LocalDateTime getMatchDate() {
-        return matchDate;
-    }
+    public Integer getTeam1Score() { return team1Score; }
+    public void setTeam1Score(Integer team1Score) { this.team1Score = team1Score; }
 
-    public void setMatchDate(LocalDateTime matchDate) {
-        this.matchDate = matchDate;
-    }
+    public Integer getTeam2Score() { return team2Score; }
+    public void setTeam2Score(Integer team2Score) { this.team2Score = team2Score; }
 
-    public MatchType getMatchType() {
-        return matchType;
-    }
+    public BigDecimal getTeam1Odds() { return team1Odds; }
+    public void setTeam1Odds(BigDecimal team1Odds) { this.team1Odds = team1Odds; }
 
-    public void setMatchType(MatchType matchType) {
-        this.matchType = matchType;
-    }
+    public BigDecimal getTeam2Odds() { return team2Odds; }
+    public void setTeam2Odds(BigDecimal team2Odds) { this.team2Odds = team2Odds; }
 
-    public MatchStatus getStatus() {
-        return status;
-    }
+    public BigDecimal getTotalPool() { return totalPool; }
+    public void setTotalPool(BigDecimal totalPool) { this.totalPool = totalPool; }
 
-    public void setStatus(MatchStatus status) {
-        this.status = status;
-    }
+    public Boolean getBettingEnabled() { return bettingEnabled; }
+    public void setBettingEnabled(Boolean bettingEnabled) { this.bettingEnabled = bettingEnabled; }
 
-    public Team getWinnerTeam() {
-        return winnerTeam;
-    }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-    public void setWinnerTeam(Team winnerTeam) {
-        this.winnerTeam = winnerTeam;
-    }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 
-    public Integer getTeam1Score() {
-        return team1Score;
-    }
-
-    public void setTeam1Score(Integer team1Score) {
-        this.team1Score = team1Score;
-    }
-
-    public Integer getTeam2Score() {
-        return team2Score;
-    }
-
-    public void setTeam2Score(Integer team2Score) {
-        this.team2Score = team2Score;
-    }
-
-    public BigDecimal getTeam1Odds() {
-        return team1Odds;
-    }
-
-    public void setTeam1Odds(BigDecimal team1Odds) {
-        this.team1Odds = team1Odds;
-    }
-
-    public BigDecimal getTeam2Odds() {
-        return team2Odds;
-    }
-
-    public void setTeam2Odds(BigDecimal team2Odds) {
-        this.team2Odds = team2Odds;
-    }
-
-    public BigDecimal getTotalPool() {
-        return totalPool;
-    }
-
-    public void setTotalPool(BigDecimal totalPool) {
-        this.totalPool = totalPool;
-    }
-
-    public Boolean getBettingEnabled() {
-        return bettingEnabled;
-    }
-
-    public void setBettingEnabled(Boolean bettingEnabled) {
-        this.bettingEnabled = bettingEnabled;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public List<Bet> getBets() {
-        return bets;
-    }
-
-    public void setBets(List<Bet> bets) {
-        this.bets = bets;
-    }
+    public List<Bet> getBets() { return bets; }
+    public void setBets(List<Bet> bets) { this.bets = bets; }
 
     @Override
     public String toString() {
