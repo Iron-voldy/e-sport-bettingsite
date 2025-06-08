@@ -28,51 +28,62 @@ public class DatabaseUtil {
 
     // EntityManagerFactory for JPA operations
     private static EntityManagerFactory entityManagerFactory;
+    private static boolean initializationFailed = false;
 
+    // Initialize EntityManagerFactory with proper error handling
     static {
         try {
-            // Initialize EntityManagerFactory with explicit properties
-            Map<String, String> properties = new HashMap<>();
-            properties.put("jakarta.persistence.jdbc.driver", DB_DRIVER);
-            properties.put("jakarta.persistence.jdbc.url", DB_URL);
-            properties.put("jakarta.persistence.jdbc.user", DB_USERNAME);
-            properties.put("jakarta.persistence.jdbc.password", DB_PASSWORD);
-            properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-            properties.put("hibernate.hbm2ddl.auto", "update");
-            properties.put("hibernate.show_sql", "true");
-            properties.put("hibernate.format_sql", "true");
-            properties.put("hibernate.cache.use_second_level_cache", "false");
-            properties.put("hibernate.cache.use_query_cache", "false");
-            properties.put("hibernate.current_session_context_class", "thread");
-            properties.put("hibernate.connection.autocommit", "false");
-
-            entityManagerFactory = Persistence.createEntityManagerFactory("esportsPU", properties);
+            initializeEntityManagerFactory();
             logger.info("EntityManagerFactory initialized successfully");
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Failed to initialize EntityManagerFactory", e);
-            throw new RuntimeException("Database initialization failed", e);
+            initializationFailed = true;
+            // Don't throw exception here to allow application to start
         }
+    }
+
+    private static void initializeEntityManagerFactory() {
+        Map<String, String> properties = new HashMap<>();
+        properties.put("jakarta.persistence.jdbc.driver", DB_DRIVER);
+        properties.put("jakarta.persistence.jdbc.url", DB_URL);
+        properties.put("jakarta.persistence.jdbc.user", DB_USERNAME);
+        properties.put("jakarta.persistence.jdbc.password", DB_PASSWORD);
+        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+        properties.put("hibernate.hbm2ddl.auto", "update");
+        properties.put("hibernate.show_sql", "true");
+        properties.put("hibernate.format_sql", "true");
+        properties.put("hibernate.cache.use_second_level_cache", "false");
+        properties.put("hibernate.cache.use_query_cache", "false");
+        properties.put("hibernate.current_session_context_class", "thread");
+        properties.put("hibernate.connection.autocommit", "false");
+
+        entityManagerFactory = Persistence.createEntityManagerFactory("esportsPU", properties);
     }
 
     /**
      * Get EntityManagerFactory instance
      */
     public static EntityManagerFactory getEntityManagerFactory() {
-        if (entityManagerFactory == null || !entityManagerFactory.isOpen()) {
+        if (initializationFailed || entityManagerFactory == null || !entityManagerFactory.isOpen()) {
             synchronized (DatabaseUtil.class) {
-                if (entityManagerFactory == null || !entityManagerFactory.isOpen()) {
+                if (initializationFailed) {
+                    // Try to re-initialize
+                    try {
+                        initializeEntityManagerFactory();
+                        initializationFailed = false;
+                        logger.info("EntityManagerFactory re-initialized successfully");
+                    } catch (Exception e) {
+                        logger.log(Level.SEVERE, "Failed to re-initialize EntityManagerFactory", e);
+                        throw new RuntimeException("Database not available", e);
+                    }
+                } else if (entityManagerFactory == null || !entityManagerFactory.isOpen()) {
                     // Reinitialize if needed
-                    Map<String, String> properties = new HashMap<>();
-                    properties.put("jakarta.persistence.jdbc.driver", DB_DRIVER);
-                    properties.put("jakarta.persistence.jdbc.url", DB_URL);
-                    properties.put("jakarta.persistence.jdbc.user", DB_USERNAME);
-                    properties.put("jakarta.persistence.jdbc.password", DB_PASSWORD);
-                    properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-                    properties.put("hibernate.hbm2ddl.auto", "update");
-                    properties.put("hibernate.cache.use_second_level_cache", "false");
-                    properties.put("hibernate.cache.use_query_cache", "false");
-
-                    entityManagerFactory = Persistence.createEntityManagerFactory("esportsPU", properties);
+                    try {
+                        initializeEntityManagerFactory();
+                    } catch (Exception e) {
+                        logger.log(Level.SEVERE, "Failed to reinitialize EntityManagerFactory", e);
+                        throw new RuntimeException("Database not available", e);
+                    }
                 }
             }
         }
@@ -83,7 +94,12 @@ public class DatabaseUtil {
      * Create a new EntityManager
      */
     public static EntityManager createEntityManager() {
-        return getEntityManagerFactory().createEntityManager();
+        try {
+            return getEntityManagerFactory().createEntityManager();
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Failed to create EntityManager", e);
+            throw new RuntimeException("Cannot create EntityManager", e);
+        }
     }
 
     /**

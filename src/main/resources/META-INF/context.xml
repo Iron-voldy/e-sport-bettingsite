@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
-    <!-- Database Resource -->
+    <!-- DataSource Configuration for MySQL -->
     <Resource name="jdbc/esports_betting"
               auth="Container"
               type="javax.sql.DataSource"
-              maxTotal="100"
-              maxIdle="30"
-              maxWaitMillis="10000"
+              factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+              driverClassName="com.mysql.cj.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/esports_betting?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC&amp;autoReconnect=true"
               username="root"
               password="2009928"
-              driverClassName="com.mysql.cj.jdbc.Driver"
-              url="jdbc:mysql://localhost:3306/esports_betting?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC"
+              maxTotal="50"
+              maxIdle="20"
+              minIdle="5"
+              maxWaitMillis="10000"
+              initialSize="5"
               validationQuery="SELECT 1"
               testOnBorrow="true"
-              testWhileIdle="true"/>
+              testOnReturn="false"
+              testWhileIdle="true"
+              timeBetweenEvictionRunsMillis="30000"
+              minEvictableIdleTimeMillis="60000"
+              removeAbandonedOnBorrow="true"
+              removeAbandonedTimeout="300"
+              logAbandoned="true"/>
+
+    <!-- Transaction Manager for JTA -->
+    <Resource name="UserTransaction"
+              auth="Container"
+              type="javax.transaction.UserTransaction"
+              factory="org.apache.naming.factory.BeanFactory"/>
 </Context>

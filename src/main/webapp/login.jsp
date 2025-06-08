@@ -6,17 +6,175 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - ML Betting</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+
+    <!-- Fixed CSS Loading -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css">
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <!-- Emergency inline styles in case external CSS doesn't load -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%);
+            color: #FFFFFF;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background: rgba(15, 15, 35, 0.95);
+            padding: 1rem 0;
+            border-bottom: 1px solid #2A2D5A;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar-brand {
+            color: #6C5CE7;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .navbar-nav {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-link {
+            color: #A0A3BD;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #FFFFFF;
+            background: rgba(108, 92, 231, 0.1);
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #6C5CE7, #5A4FCF);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.3);
+        }
+        .card {
+            background: #1A1A2E;
+            border: 1px solid #2A2D5A;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #2A2D5A;
+            background: rgba(108, 92, 231, 0.05);
+        }
+        .card-body {
+            padding: 1.5rem;
+        }
+        .card-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #2A2D5A;
+            background: rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #FFFFFF;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #2A2D5A;
+            border-radius: 8px;
+            background: #2A2D5A;
+            color: #FFFFFF;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #6C5CE7;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+        }
+        .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .form-check-input {
+            margin-right: 0.5rem;
+            width: 18px;
+            height: 18px;
+        }
+        .form-check-label {
+            color: #A0A3BD;
+            cursor: pointer;
+        }
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+        }
+        .alert-danger {
+            background: rgba(225, 112, 85, 0.1);
+            color: #E17055;
+            border-color: #E17055;
+        }
+        .alert-info {
+            background: rgba(116, 185, 255, 0.1);
+            color: #74B9FF;
+            border-color: #74B9FF;
+        }
+        .text-center { text-align: center; }
+        .mt-3 { margin-top: 1rem; }
+        .w-100 { width: 100%; }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
             <a href="${pageContext.request.contextPath}/" class="navbar-brand">
-                <img src="https://via.placeholder.com/40x40/6C5CE7/FFFFFF?text=ML" alt="ML Betting">
+                <i class="bi bi-controller" style="font-size: 2rem;"></i>
                 ML Betting
             </a>
 
@@ -34,7 +192,7 @@
         <div class="card">
             <div class="card-header text-center">
                 <h2 style="margin: 0;">Welcome Back</h2>
-                <p style="margin: 0.5rem 0 0 0; color: var(--text-secondary);">Login to your ML Betting account</p>
+                <p style="margin: 0.5rem 0 0 0; color: #A0A3BD;">Login to your ML Betting account</p>
             </div>
 
             <div class="card-body">
@@ -70,16 +228,16 @@
                 </form>
 
                 <div class="text-center mt-3">
-                    <a href="#forgot-password" style="color: var(--primary-color); text-decoration: none;">
+                    <a href="#forgot-password" style="color: #6C5CE7; text-decoration: none;">
                         Forgot your password?
                     </a>
                 </div>
             </div>
 
             <div class="card-footer text-center">
-                <p style="margin: 0; color: var(--text-secondary);">
+                <p style="margin: 0; color: #A0A3BD;">
                     Don't have an account?
-                    <a href="${pageContext.request.contextPath}/register" style="color: var(--primary-color); font-weight: 600; text-decoration: none;">
+                    <a href="${pageContext.request.contextPath}/register" style="color: #6C5CE7; font-weight: 600; text-decoration: none;">
                         Sign up here
                     </a>
                 </p>
@@ -87,14 +245,14 @@
         </div>
 
         <!-- Demo Credentials Info -->
-        <div class="card mt-3" style="background: rgba(108, 92, 231, 0.1); border-color: var(--primary-color);">
+        <div class="card mt-3" style="background: rgba(108, 92, 231, 0.1); border-color: #6C5CE7;">
             <div class="card-body text-center">
-                <h5 style="color: var(--primary-color); margin-bottom: 1rem;">Demo Account</h5>
-                <p style="margin-bottom: 0.5rem; color: var(--text-secondary);">
+                <h5 style="color: #6C5CE7; margin-bottom: 1rem;">Demo Account</h5>
+                <p style="margin-bottom: 0.5rem; color: #A0A3BD;">
                     <strong>Email:</strong> demo@mlbetting.com<br>
                     <strong>Password:</strong> Demo123!@#
                 </p>
-                <p style="margin: 0; font-size: 0.875rem; color: var(--text-muted);">
+                <p style="margin: 0; font-size: 0.875rem; color: #6C7293;">
                     Use these credentials to explore the platform
                 </p>
             </div>
@@ -102,137 +260,93 @@
     </section>
 
     <!-- Features Section -->
-    <section class="container mt-5">
-        <h3 class="text-center mb-4">Why Choose ML Betting?</h3>
-        <div class="stats-grid">
+    <section class="container" style="margin-top: 3rem;">
+        <h3 style="text-align: center; margin-bottom: 2rem;">Why Choose ML Betting?</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
             <div class="card">
                 <div class="card-body text-center">
-                    <div class="feature-icon bg-success mb-3" style="width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                    <div style="width: 50px; height: 50px; border-radius: 50%; background: #00B894; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
                         <span style="font-size: 20px;">🔒</span>
                     </div>
                     <h5>Secure & Safe</h5>
-                    <p style="margin: 0; color: var(--text-secondary);">Your funds and data are protected with bank-level security</p>
+                    <p style="margin: 0; color: #A0A3BD;">Your funds and data are protected with bank-level security</p>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-body text-center">
-                    <div class="feature-icon bg-warning mb-3" style="width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                    <div style="width: 50px; height: 50px; border-radius: 50%; background: #FDCB6E; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
                         <span style="font-size: 20px;">⚡</span>
                     </div>
                     <h5>Instant Payouts</h5>
-                    <p style="margin: 0; color: var(--text-secondary);">Get your winnings instantly after match results</p>
+                    <p style="margin: 0; color: #A0A3BD;">Get your winnings instantly after match results</p>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-body text-center">
-                    <div class="feature-icon bg-primary mb-3" style="width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                    <div style="width: 50px; height: 50px; border-radius: 50%; background: #6C5CE7; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
                         <span style="font-size: 20px;">📱</span>
                     </div>
                     <h5>Mobile Friendly</h5>
-                    <p style="margin: 0; color: var(--text-secondary);">Bet on the go with our responsive mobile platform</p>
+                    <p style="margin: 0; color: #A0A3BD;">Bet on the go with our responsive mobile platform</p>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-body text-center">
-                    <div class="feature-icon bg-secondary mb-3" style="width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                    <div style="width: 50px; height: 50px; border-radius: 50%; background: #00D2D3; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
                         <span style="font-size: 20px;">🎮</span>
                     </div>
                     <h5>Live Betting</h5>
-                    <p style="margin: 0; color: var(--text-secondary);">Bet during live matches with real-time odds</p>
+                    <p style="margin: 0; color: #A0A3BD;">Bet during live matches with real-time odds</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer style="background: #1A1A2E; border-top: 1px solid #2A2D5A; padding: 3rem 0 1rem; margin-top: 4rem;">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h5>About ML Betting</h5>
-                    <p>The premier platform for Mobile Legends Professional League betting. Experience the excitement of e-sports with secure, fair, and transparent betting.</p>
-                </div>
-
-                <div class="footer-section">
-                    <h5>Quick Links</h5>
-                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                        <a href="${pageContext.request.contextPath}/">Home</a>
-                        <a href="${pageContext.request.contextPath}/matches/upcoming">Upcoming Matches</a>
-                        <a href="${pageContext.request.contextPath}/register">Create Account</a>
-                    </div>
-                </div>
-
-                <div class="footer-section">
-                    <h5>Support</h5>
-                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                        <a href="#help">Help Center</a>
-                        <a href="#contact">Contact Us</a>
-                        <a href="#terms">Terms & Conditions</a>
-                    </div>
-                </div>
-
-                <div class="footer-section">
-                    <h5>Security</h5>
-                    <p>Your account is protected with 256-bit SSL encryption and two-factor authentication options.</p>
-                    <div style="margin-top: 1rem;">
-                        <span class="badge badge-success">SSL Secured</span>
-                        <span class="badge badge-primary">Encrypted</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
+            <div style="text-align: center; padding-top: 2rem; border-top: 1px solid #2A2D5A; color: #A0A3BD;">
                 <p>&copy; 2024 ML Betting Platform. All rights reserved. |
-                   <span class="text-warning">Please bet responsibly. 18+ only.</span>
+                   <span style="color: #FDCB6E;">Please bet responsibly. 18+ only.</span>
                 </p>
             </div>
         </div>
     </footer>
 
-    <!-- Alert Container -->
-    <div class="alert-container"></div>
-
-    <!-- Scripts -->
+    <!-- JavaScript -->
     <script src="${pageContext.request.contextPath}/js/script.js"></script>
 
-    <!-- Forgot Password Modal -->
-    <div id="forgotPasswordModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 9999; align-items: center; justify-content: center;">
-        <div class="card" style="width: 100%; max-width: 400px; margin: 2rem;">
-            <div class="card-header">
-                <h4 style="margin: 0;">Reset Password</h4>
-            </div>
-            <div class="card-body">
-                <p style="color: var(--text-secondary);">Enter your email address and we'll send you a link to reset your password.</p>
-                <form id="forgotPasswordForm">
-                    <div class="form-group">
-                        <label for="resetEmail" class="form-label">Email Address</label>
-                        <input type="email" id="resetEmail" name="resetEmail" class="form-control" required>
-                    </div>
-                    <div class="d-flex" style="gap: 1rem;">
-                        <button type="submit" class="btn btn-primary">Send Reset Link</button>
-                        <button type="button" class="btn btn-outline modal-close">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
+    <!-- Emergency JavaScript in case external script fails -->
     <script>
-        // Handle forgot password link
+        // Basic login form handling if external script doesn't load
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                e.preventDefault();
+                alert('Please enter both email and password');
+                return false;
+            }
+        });
+
+        // Forgot password link
         document.querySelector('a[href="#forgot-password"]').addEventListener('click', function(e) {
             e.preventDefault();
-            openModal('forgotPasswordModal');
+            alert('Password reset functionality will be available soon. Please contact support if needed.');
         });
 
-        // Handle forgot password form
-        document.getElementById('forgotPasswordForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            showAlert('Password reset link has been sent to your email!', 'success');
-            closeModal('forgotPasswordModal');
-        });
+        // Display alerts if any
+        <c:if test="${not empty successMessage}">
+            alert('${successMessage}');
+        </c:if>
+
+        <c:if test="${not empty errorMessage}">
+            console.log('Error: ${errorMessage}');
+        </c:if>
     </script>
 </body>
 </html>

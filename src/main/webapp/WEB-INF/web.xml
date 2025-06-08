@@ -8,24 +8,36 @@
   <display-name>E-Sports Betting Platform</display-name>
   <description>Mobile Legends Professional League Betting Platform</description>
 
-  <!-- Context parameters -->
-  <context-param>
-    <param-name>jakarta.faces.PROJECT_STAGE</param-name>
-    <param-value>Development</param-value>
-  </context-param>
-
   <!-- Data Source Resource Reference -->
   <resource-ref>
-    <description>MySQL DataSource</description>
+    <description>MySQL DataSource for E-Sports Betting</description>
     <res-ref-name>jdbc/esports_betting</res-ref-name>
     <res-type>javax.sql.DataSource</res-type>
     <res-auth>Container</res-auth>
+    <res-sharing-scope>Shareable</res-sharing-scope>
   </resource-ref>
 
-  <!-- Welcome File List -->
-  <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
-  </welcome-file-list>
+  <!-- EJB References -->
+  <ejb-local-ref>
+    <ejb-ref-name>ejb/UserServiceBean</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>lk.esports.betting.ejb.local.UserService</local>
+    <ejb-link>UserServiceBean</ejb-link>
+  </ejb-local-ref>
+
+  <ejb-local-ref>
+    <ejb-ref-name>ejb/MatchServiceBean</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>lk.esports.betting.ejb.local.MatchService</local>
+    <ejb-link>MatchServiceBean</ejb-link>
+  </ejb-local-ref>
+
+  <ejb-local-ref>
+    <ejb-ref-name>ejb/BettingServiceBean</ejb-ref-name>
+    <ejb-ref-type>Session</ejb-ref-type>
+    <local>lk.esports.betting.ejb.local.BettingService</local>
+    <ejb-link>BettingServiceBean</ejb-link>
+  </ejb-local-ref>
 
   <!-- Session Configuration -->
   <session-config>
@@ -35,7 +47,6 @@
       <secure>false</secure>
       <max-age>1800</max-age>
     </cookie-config>
-    <tracking-mode>COOKIE</tracking-mode>
   </session-config>
 
   <!-- Character Encoding Filter -->
@@ -46,16 +57,17 @@
       <param-name>encoding</param-name>
       <param-value>UTF-8</param-value>
     </init-param>
-    <init-param>
-      <param-name>ignore</param-name>
-      <param-value>false</param-value>
-    </init-param>
   </filter>
 
   <filter-mapping>
     <filter-name>CharacterEncodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+
+  <!-- Welcome File List -->
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
 
   <!-- Error Pages -->
   <error-page>
@@ -67,26 +79,5 @@
     <error-code>500</error-code>
     <location>/WEB-INF/error/500.jsp</location>
   </error-page>
-
-  <error-page>
-    <exception-type>java.lang.Exception</exception-type>
-    <location>/WEB-INF/error/500.jsp</location>
-  </error-page>
-
-  <!-- MIME Type Mappings -->
-  <mime-mapping>
-    <extension>css</extension>
-    <mime-type>text/css</mime-type>
-  </mime-mapping>
-
-  <mime-mapping>
-    <extension>js</extension>
-    <mime-type>application/javascript</mime-type>
-  </mime-mapping>
-
-  <mime-mapping>
-    <extension>json</extension>
-    <mime-type>application/json</mime-type>
-  </mime-mapping>
 
 </web-app>

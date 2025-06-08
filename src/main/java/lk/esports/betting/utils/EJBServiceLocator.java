@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 
 /**
- * Service locator to handle EJB lookup and provide fallback CDI instances
+ * Service locator to handle EJB lookup and provide fallback direct instances
  */
 public class EJBServiceLocator {
 
@@ -88,7 +88,17 @@ public class EJBServiceLocator {
 
             // If JNDI lookup fails, create direct instance
             logger.warning("JNDI lookup failed for UserService, creating direct instance");
-            return new UserServiceBean();
+            UserServiceBean directInstance = new UserServiceBean();
+
+            // Initialize the EntityManager manually since we're not using EJB container
+            try {
+                // The direct instance will use DatabaseUtil for persistence operations
+                logger.info("Created direct UserService instance");
+                return directInstance;
+            } catch (Exception e) {
+                logger.log(Level.SEVERE, "Error initializing direct UserService instance", e);
+                return directInstance; // Return anyway, errors will be handled in service methods
+            }
 
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error looking up UserService", e);
@@ -122,7 +132,9 @@ public class EJBServiceLocator {
             }
 
             logger.warning("JNDI lookup failed for MatchService, creating direct instance");
-            return new MatchServiceBean();
+            MatchServiceBean directInstance = new MatchServiceBean();
+            logger.info("Created direct MatchService instance");
+            return directInstance;
 
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error looking up MatchService", e);
@@ -155,7 +167,9 @@ public class EJBServiceLocator {
             }
 
             logger.warning("JNDI lookup failed for BettingService, creating direct instance");
-            return new BettingServiceBean();
+            BettingServiceBean directInstance = new BettingServiceBean();
+            logger.info("Created direct BettingService instance");
+            return directInstance;
 
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error looking up BettingService", e);
