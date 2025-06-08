@@ -12,14 +12,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Main initialization function
 function initializeApp() {
+    console.log('E-Sports Betting Platform initializing...');
+
     // Initialize components
     initializeNavigation();
     initializeForms();
     initializeBetting();
     initializeModals();
-    initializeTooltips();
     initializeCountdowns();
-    initializeCharts();
 
     // Start periodic updates
     startPeriodicUpdates();
@@ -39,16 +39,6 @@ function initializeNavigation() {
             this.classList.add('active');
         });
     });
-
-    // Mobile menu toggle
-    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-    const navMenu = document.querySelector('.navbar-nav');
-
-    if (mobileMenuToggle && navMenu) {
-        mobileMenuToggle.addEventListener('click', function() {
-            navMenu.classList.toggle('show');
-        });
-    }
 }
 
 // Form handling
@@ -65,18 +55,13 @@ function initializeForms() {
         registerForm.addEventListener('submit', handleRegistration);
     }
 
-    // Profile update form
-    const profileForm = document.getElementById('profileForm');
-    if (profileForm) {
-        profileForm.addEventListener('submit', handleProfileUpdate);
-    }
-
-    // Wallet forms
+    // Add funds form
     const addFundsForm = document.getElementById('addFundsForm');
     if (addFundsForm) {
         addFundsForm.addEventListener('submit', handleAddFunds);
     }
 
+    // Withdraw form
     const withdrawForm = document.getElementById('withdrawForm');
     if (withdrawForm) {
         withdrawForm.addEventListener('submit', handleWithdrawFunds);
@@ -86,28 +71,32 @@ function initializeForms() {
 // Betting functionality
 function initializeBetting() {
     // Bet amount input listeners
-    const betAmountInputs = document.querySelectorAll('.bet-amount-input');
-    betAmountInputs.forEach(input => {
-        input.addEventListener('input', calculatePotentialWinnings);
-        input.addEventListener('blur', validateBetAmount);
+    document.addEventListener('input', function(e) {
+        if (e.target.classList.contains('bet-amount-input')) {
+            calculatePotentialWinnings(e);
+            validateBetAmount(e);
+        }
     });
 
     // Team selection
-    const teamButtons = document.querySelectorAll('.team-select-btn');
-    teamButtons.forEach(button => {
-        button.addEventListener('click', selectTeam);
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('team-select-btn')) {
+            selectTeam(e);
+        }
     });
 
     // Place bet buttons
-    const placeBetButtons = document.querySelectorAll('.place-bet-btn');
-    placeBetButtons.forEach(button => {
-        button.addEventListener('click', placeBet);
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('place-bet-btn')) {
+            placeBet(e);
+        }
     });
 
     // Quick bet amount buttons
-    const quickBetButtons = document.querySelectorAll('.quick-bet-btn');
-    quickBetButtons.forEach(button => {
-        button.addEventListener('click', setQuickBetAmount);
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('quick-bet-btn')) {
+            setQuickBetAmount(e);
+        }
     });
 }
 
@@ -119,7 +108,6 @@ async function handleLogin(e) {
     const formData = new FormData(form);
     const submitBtn = form.querySelector('button[type="submit"]');
 
-    // Show loading state
     setButtonLoading(submitBtn, true);
 
     try {
@@ -129,10 +117,8 @@ async function handleLogin(e) {
         });
 
         if (response.ok) {
-            // Login successful, redirect will be handled by server
             window.location.reload();
         } else {
-            // Handle login error
             showAlert('Login failed. Please check your credentials.', 'danger');
         }
     } catch (error) {
@@ -176,9 +162,10 @@ async function handleRegistration(e) {
 
         if (response.ok) {
             showAlert('Registration successful! Welcome to E-Sports Betting!', 'success');
-            // Redirect will be handled by server
+            setTimeout(() => {
+                window.location.reload();
+            }, 1500);
         } else {
-            const errorText = await response.text();
             showAlert('Registration failed. Please try again.', 'danger');
         }
     } catch (error) {
@@ -192,6 +179,8 @@ async function handleRegistration(e) {
 // Handle team selection
 function selectTeam(e) {
     const button = e.target.closest('.team-select-btn');
+    if (!button) return;
+
     const matchCard = button.closest('.match-card');
     const teamId = button.dataset.teamId;
     const teamName = button.dataset.teamName;
@@ -210,7 +199,7 @@ function selectTeam(e) {
     selectedTeam = teamId;
 
     // Update betting panel
-    updateBettingPanel(teamName, odds);
+    updateBettingPanel(matchCard, teamName, odds);
 
     // Show betting form
     const bettingPanel = matchCard.querySelector('.betting-panel');
@@ -221,9 +210,9 @@ function selectTeam(e) {
 }
 
 // Update betting panel with selected team info
-function updateBettingPanel(teamName, odds) {
-    const selectedTeamDisplay = document.querySelector('.selected-team-display');
-    const selectedOddsDisplay = document.querySelector('.selected-odds-display');
+function updateBettingPanel(matchCard, teamName, odds) {
+    const selectedTeamDisplay = matchCard.querySelector('.selected-team-display');
+    const selectedOddsDisplay = matchCard.querySelector('.selected-odds-display');
 
     if (selectedTeamDisplay) {
         selectedTeamDisplay.textContent = teamName;
@@ -241,7 +230,7 @@ function calculatePotentialWinnings(e) {
     const selectedTeamBtn = matchCard?.querySelector('.team-select-btn.selected');
 
     if (!selectedTeamBtn || betAmount <= 0) {
-        updateWinningsDisplay(0);
+        updateWinningsDisplay(matchCard, 0);
         return;
     }
 
@@ -249,20 +238,20 @@ function calculatePotentialWinnings(e) {
     const potentialWinnings = betAmount * odds;
     const profit = potentialWinnings - betAmount;
 
-    updateWinningsDisplay(potentialWinnings, profit);
+    updateWinningsDisplay(matchCard, potentialWinnings, profit);
 }
 
 // Update winnings display
-function updateWinningsDisplay(winnings, profit = 0) {
-    const winningsDisplay = document.querySelector('.potential-winnings-amount');
-    const profitDisplay = document.querySelector('.potential-profit-amount');
+function updateWinningsDisplay(matchCard, winnings, profit = 0) {
+    const winningsDisplay = matchCard?.querySelector('.potential-winnings-amount');
+    const profitDisplay = matchCard?.querySelector('.potential-profit-amount');
 
     if (winningsDisplay) {
-        winningsDisplay.textContent = `${winnings.toFixed(2)}`;
+        winningsDisplay.textContent = `$${winnings.toFixed(2)}`;
     }
 
     if (profitDisplay) {
-        profitDisplay.textContent = `Profit: ${profit.toFixed(2)}`;
+        profitDisplay.textContent = `Profit: $${profit.toFixed(2)}`;
     }
 }
 
@@ -272,13 +261,13 @@ function validateBetAmount(e) {
     const minBet = 1;
     const maxBet = 10000;
 
-    if (betAmount < minBet) {
-        showAlert(`Minimum bet amount is ${minBet}`, 'warning');
+    if (betAmount < minBet && betAmount > 0) {
+        showAlert(`Minimum bet amount is $${minBet}`, 'warning');
         e.target.value = minBet;
     } else if (betAmount > maxBet) {
-        showAlert(`Maximum bet amount is ${maxBet}`, 'warning');
+        showAlert(`Maximum bet amount is $${maxBet}`, 'warning');
         e.target.value = maxBet;
-    } else if (betAmount > userBalance) {
+    } else if (betAmount > userBalance && userBalance > 0) {
         showAlert('Insufficient balance for this bet amount', 'warning');
         e.target.value = Math.min(userBalance, maxBet);
     }
@@ -287,7 +276,8 @@ function validateBetAmount(e) {
 // Set quick bet amount
 function setQuickBetAmount(e) {
     const amount = e.target.dataset.amount;
-    const betAmountInput = e.target.closest('.betting-form').querySelector('.bet-amount-input');
+    const matchCard = e.target.closest('.match-card');
+    const betAmountInput = matchCard?.querySelector('.bet-amount-input');
 
     if (betAmountInput) {
         betAmountInput.value = amount;
@@ -312,7 +302,7 @@ async function placeBet(e) {
     setButtonLoading(button, true);
 
     try {
-        const response = await fetch('/esports-betting/bets/place', {
+        const response = await fetch('/ESportsBetting/bets/place', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -327,7 +317,7 @@ async function placeBet(e) {
         const result = await response.json();
 
         if (result.success) {
-            showAlert(`Bet placed successfully! Potential winnings: ${result.potentialWinnings}`, 'success');
+            showAlert(`Bet placed successfully! Potential winnings: $${result.potentialWinnings}`, 'success');
 
             // Update user balance
             updateUserBalance();
@@ -362,7 +352,7 @@ function resetBettingForm(matchCard) {
 
     if (bettingPanel) bettingPanel.style.display = 'none';
 
-    updateWinningsDisplay(0);
+    updateWinningsDisplay(matchCard, 0);
     selectedMatch = null;
     selectedTeam = null;
 }
@@ -370,7 +360,11 @@ function resetBettingForm(matchCard) {
 // Update user balance
 async function updateUserBalance() {
     try {
-        const response = await fetch('/esports-betting/api/user/balance');
+        const response = await fetch('/ESportsBetting/api/user/balance');
+        if (!response.ok) {
+            throw new Error('Failed to fetch balance');
+        }
+
         const data = await response.json();
 
         if (data.success) {
@@ -388,11 +382,14 @@ async function updateUserBalance() {
 // Refresh match data
 async function refreshMatchData(matchId) {
     try {
-        const response = await fetch(`/esports-betting/matches/details/${matchId}?format=json`);
+        const response = await fetch(`/ESportsBetting/matches/details/${matchId}?format=json`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch match data');
+        }
+
         const data = await response.json();
 
         if (data.match) {
-            // Update match card with new odds and betting stats
             updateMatchCard(data.match, data.bettingStats);
         }
     } catch (error) {
@@ -406,20 +403,20 @@ function updateMatchCard(match, bettingStats) {
     if (!matchCard) return;
 
     // Update odds
-    const team1OddsDisplay = matchCard.querySelector('.team1-odds');
-    const team2OddsDisplay = matchCard.querySelector('.team2-odds');
+    const team1OddsDisplays = matchCard.querySelectorAll('[data-team-id="' + match.team1.id + '"]');
+    const team2OddsDisplays = matchCard.querySelectorAll('[data-team-id="' + match.team2.id + '"]');
 
-    if (team1OddsDisplay) team1OddsDisplay.textContent = match.team1Odds;
-    if (team2OddsDisplay) team2OddsDisplay.textContent = match.team2Odds;
+    team1OddsDisplays.forEach(display => {
+        if (display.textContent !== match.team1.teamName) {
+            display.textContent = match.team1Odds;
+        }
+    });
 
-    // Update betting statistics
-    if (bettingStats) {
-        const totalBetsDisplay = matchCard.querySelector('.total-bets');
-        const totalAmountDisplay = matchCard.querySelector('.total-amount');
-
-        if (totalBetsDisplay) totalBetsDisplay.textContent = bettingStats.totalBets;
-        if (totalAmountDisplay) totalAmountDisplay.textContent = `${bettingStats.totalAmount}`;
-    }
+    team2OddsDisplays.forEach(display => {
+        if (display.textContent !== match.team2.teamName) {
+            display.textContent = match.team2Odds;
+        }
+    });
 }
 
 // Handle wallet operations
@@ -488,31 +485,27 @@ async function handleWithdrawFunds(e) {
 // Modal functionality
 function initializeModals() {
     // Modal open buttons
-    const modalTriggers = document.querySelectorAll('[data-modal-target]');
-    modalTriggers.forEach(trigger => {
-        trigger.addEventListener('click', function() {
-            const modalId = this.dataset.modalTarget;
+    document.addEventListener('click', function(e) {
+        const trigger = e.target.closest('[data-modal-target]');
+        if (trigger) {
+            const modalId = trigger.dataset.modalTarget;
             openModal(modalId);
-        });
+        }
     });
 
     // Modal close buttons
-    const modalCloseButtons = document.querySelectorAll('.modal-close');
-    modalCloseButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const modal = this.closest('.modal');
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('modal-close')) {
+            const modal = e.target.closest('.modal');
             if (modal) closeModal(modal.id);
-        });
+        }
     });
 
     // Close modal on backdrop click
-    const modals = document.querySelectorAll('.modal');
-    modals.forEach(modal => {
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                closeModal(modal.id);
-            }
-        });
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('modal')) {
+            closeModal(e.target.id);
+        }
     });
 }
 
@@ -560,80 +553,14 @@ function updateCountdowns() {
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        element.textContent = `${hours}h ${minutes}m ${seconds}s`;
-    });
-}
-
-// Tooltip initialization
-function initializeTooltips() {
-    const tooltipElements = document.querySelectorAll('[data-tooltip]');
-
-    tooltipElements.forEach(element => {
-        element.addEventListener('mouseenter', showTooltip);
-        element.addEventListener('mouseleave', hideTooltip);
-    });
-}
-
-function showTooltip(e) {
-    const element = e.target;
-    const tooltipText = element.dataset.tooltip;
-
-    const tooltip = document.createElement('div');
-    tooltip.className = 'tooltip';
-    tooltip.textContent = tooltipText;
-    tooltip.id = 'active-tooltip';
-
-    document.body.appendChild(tooltip);
-
-    const rect = element.getBoundingClientRect();
-    tooltip.style.left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + 'px';
-    tooltip.style.top = rect.top - tooltip.offsetHeight - 10 + 'px';
-}
-
-function hideTooltip() {
-    const tooltip = document.getElementById('active-tooltip');
-    if (tooltip) {
-        tooltip.remove();
-    }
-}
-
-// Chart initialization (for statistics)
-function initializeCharts() {
-    // Initialize betting history chart
-    const bettingChartCanvas = document.getElementById('bettingChart');
-    if (bettingChartCanvas) {
-        createBettingChart(bettingChartCanvas);
-    }
-
-    // Initialize match statistics chart
-    const matchStatsCanvas = document.getElementById('matchStatsChart');
-    if (matchStatsCanvas) {
-        createMatchStatsChart(matchStatsCanvas);
-    }
-}
-
-function createBettingChart(canvas) {
-    // Simple chart implementation
-    const ctx = canvas.getContext('2d');
-    const data = [10, 25, 15, 30, 20, 35, 40]; // Sample data
-
-    // Basic line chart
-    ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--primary-color');
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-
-    data.forEach((value, index) => {
-        const x = (index / (data.length - 1)) * canvas.width;
-        const y = canvas.height - (value / 50) * canvas.height;
-
-        if (index === 0) {
-            ctx.moveTo(x, y);
+        if (hours > 0) {
+            element.textContent = `${hours}h ${minutes}m ${seconds}s`;
+        } else if (minutes > 0) {
+            element.textContent = `${minutes}m ${seconds}s`;
         } else {
-            ctx.lineTo(x, y);
+            element.textContent = `${seconds}s`;
         }
     });
-
-    ctx.stroke();
 }
 
 // Periodic updates
@@ -650,12 +577,15 @@ function startPeriodicUpdates() {
 
 async function refreshAllMatches() {
     try {
-        const response = await fetch('/esports-betting/matches/upcoming?format=json');
-        const matches = await response.json();
+        const response = await fetch('/ESportsBetting/api/matches/upcoming');
+        if (!response.ok) return;
 
-        matches.forEach(match => {
-            updateMatchCard(match);
-        });
+        const data = await response.json();
+        if (data.success && data.matches) {
+            data.matches.forEach(match => {
+                updateMatchCard(match);
+            });
+        }
     } catch (error) {
         console.error('Error refreshing matches:', error);
     }
@@ -663,20 +593,22 @@ async function refreshAllMatches() {
 
 async function updateLiveMatches() {
     try {
-        const response = await fetch('/esports-betting/matches/live?format=json');
-        const liveMatches = await response.json();
+        const response = await fetch('/ESportsBetting/api/matches/live');
+        if (!response.ok) return;
 
-        // Update live match indicators
-        liveMatches.forEach(match => {
-            const matchCard = document.querySelector(`[data-match-id="${match.id}"]`);
-            if (matchCard) {
-                const statusBadge = matchCard.querySelector('.match-status');
-                if (statusBadge) {
-                    statusBadge.textContent = 'LIVE';
-                    statusBadge.className = 'match-status status-live';
+        const data = await response.json();
+        if (data.success && data.matches) {
+            data.matches.forEach(match => {
+                const matchCard = document.querySelector(`[data-match-id="${match.id}"]`);
+                if (matchCard) {
+                    const statusBadge = matchCard.querySelector('.match-status');
+                    if (statusBadge) {
+                        statusBadge.textContent = 'LIVE';
+                        statusBadge.className = 'match-status status-live';
+                    }
                 }
-            }
-        });
+            });
+        }
     } catch (error) {
         console.error('Error updating live matches:', error);
     }
@@ -701,7 +633,7 @@ function showAlert(message, type = 'info') {
     alert.className = `alert alert-${type}`;
     alert.innerHTML = `
         <span>${message}</span>
-        <button class="alert-close" onclick="this.parentElement.remove()">&times;</button>
+        <button class="alert-close" onclick="this.parentElement.remove()" style="background: none; border: none; color: inherit; font-size: 1.2rem; cursor: pointer; margin-left: 1rem;">&times;</button>
     `;
 
     alertContainer.appendChild(alert);
@@ -804,6 +736,27 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeSearch();
 });
 
+// Cancel bet function
+function cancelBet(betId) {
+    if (confirm('Are you sure you want to cancel this bet?')) {
+        fetch(`/ESportsBetting/bets/cancel/${betId}`, {
+            method: 'POST'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert('Bet cancelled successfully! Refund:  + data.refundAmount, 'success');
+                location.reload();
+            } else {
+                showAlert(data.error || 'Failed to cancel bet', 'danger');
+            }
+        })
+        .catch(error => {
+            showAlert('Error cancelling bet', 'danger');
+        });
+    }
+}
+
 // Export functions for global access
 window.ESportsBetting = {
     selectTeam,
@@ -812,5 +765,8 @@ window.ESportsBetting = {
     closeModal,
     showAlert,
     updateUserBalance,
-    refreshMatchData
+    refreshMatchData,
+    cancelBet
 };
+
+console.log('E-Sports Betting Platform JavaScript loaded successfully');
