@@ -3,12 +3,14 @@ package lk.esports.betting.ejb;
 import lk.esports.betting.ejb.local.UserService;
 import lk.esports.betting.entity.User;
 import lk.esports.betting.entity.Transaction;
+import lk.esports.betting.utils.DatabaseUtil;
 
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
+import jakarta.annotation.PostConstruct;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.math.BigDecimal;
@@ -25,9 +27,32 @@ public class UserServiceBean implements UserService {
     @PersistenceContext(unitName = "esportsPU")
     private EntityManager em;
 
+    @PostConstruct
+    public void init() {
+        logger.info("UserServiceBean initialized");
+        if (em == null) {
+            logger.warning("EntityManager is null after injection, creating manually");
+            try {
+                em = DatabaseUtil.createEntityManager();
+                logger.info("EntityManager created manually");
+            } catch (Exception e) {
+                logger.log(Level.SEVERE, "Failed to create EntityManager manually", e);
+            }
+        }
+    }
+
+    private EntityManager getEntityManager() {
+        if (em == null) {
+            logger.warning("EntityManager is null, creating new one");
+            em = DatabaseUtil.createEntityManager();
+        }
+        return em;
+    }
+
     // User Authentication and Registration
     @Override
     public User registerUser(String email, String username, String password, String fullName, String phone) {
+        EntityManager entityManager = getEntityManager();
         try {
             // Check if email or username already exists
             if (isEmailExists(email)) {
@@ -47,13 +72,22 @@ public class UserServiceBean implements UserService {
             user.setIsActive(true);
 
             // Persist user
-            em.persist(user);
-            em.flush(); // Force immediate write to get ID
+            if (!entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().begin();
+            }
+
+            entityManager.persist(user);
+            entityManager.flush(); // Force immediate write to get ID
+
+            entityManager.getTransaction().commit();
 
             logger.info("New user registered successfully: " + username + " (" + email + ")");
             return user;
 
         } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
             logger.log(Level.SEVERE, "Error registering user: " + email, e);
             throw new RuntimeException("Failed to register user: " + e.getMessage(), e);
         }
@@ -77,8 +111,9 @@ public class UserServiceBean implements UserService {
 
     @Override
     public boolean isEmailExists(String email) {
+        EntityManager entityManager = getEntityManager();
         try {
-            TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class);
+            TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class);
             query.setParameter("email", email);
             query.getSingleResult();
             return true;
@@ -92,8 +127,9 @@ public class UserServiceBean implements UserService {
 
     @Override
     public boolean isUsernameExists(String username) {
+        EntityManager entityManager = getEntityManager();
         try {
-            TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
+            TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
             query.setParameter("username", username);
             query.getSingleResult();
             return true;
@@ -108,8 +144,9 @@ public class UserServiceBean implements UserService {
     // User Management
     @Override
     public User findUserById(Long userId) {
+        EntityManager entityManager = getEntityManager();
         try {
-            return em.find(User.class, userId);
+            return entityManager.find(User.class, userId);
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error finding user by ID: " + userId, e);
             return null;
@@ -118,8 +155,9 @@ public class UserServiceBean implements UserService {
 
     @Override
     public User findUserByEmail(String email) {
+        EntityManager entityManager = getEntityManager();
         try {
-            TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class);
+            TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class);
             query.setParameter("email", email);
             return query.getSingleResult();
         } catch (NoResultException e) {
@@ -132,8 +170,9 @@ public class UserServiceBean implements UserService {
 
     @Override
     public User findUserByUsername(String username) {
+        EntityManager entityManager = getEntityManager();
         try {
-            TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
+            TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class);
             query.setParameter("username", username);
             return query.getSingleResult();
         } catch (NoResultException e) {
@@ -146,11 +185,21 @@ public class UserServiceBean implements UserService {
 
     @Override
     public void updateUser(User user) {
+        EntityManager entityManager = getEntityManager();
         try {
+            if (!entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().begin();
+            }
+
             user.setUpdatedAt(LocalDateTime.now());
-            em.merge(user);
+            entityManager.merge(user);
+
+            entityManager.getTransaction().commit();
             logger.info("User updated: " + user.getUsername());
         } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
             logger.log(Level.SEVERE, "Error updating user: " + user.getUsername(), e);
             throw new RuntimeException("Failed to update user", e);
         }
@@ -195,19 +244,30 @@ public class UserServiceBean implements UserService {
 
     @Override
     public void addFunds(Long userId, BigDecimal amount, String description) {
+        EntityManager entityManager = getEntityManager();
         try {
+            if (!entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().begin();
+            }
+
             User user = findUserById(userId);
             if (user != null && amount.compareTo(BigDecimal.ZERO) > 0) {
                 user.addBalance(amount);
-                em.merge(user);
+                entityManager.merge(user);
 
                 // Create transaction record
                 Transaction txn = new Transaction(user, Transaction.TransactionType.DEPOSIT, amount, description);
-                em.persist(txn);
+                entityManager.persist(txn);
 
+                entityManager.getTransaction().commit();
                 logger.info("Funds added to user " + user.getUsername() + ": $" + amount);
+            } else {
+                entityManager.getTransaction().rollback();
             }
         } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
             logger.log(Level.SEVERE, "Error adding funds for user: " + userId, e);
             throw new RuntimeException("Failed to add funds", e);
         }
@@ -215,21 +275,32 @@ public class UserServiceBean implements UserService {
 
     @Override
     public boolean withdrawFunds(Long userId, BigDecimal amount, String description) {
+        EntityManager entityManager = getEntityManager();
         try {
+            if (!entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().begin();
+            }
+
             User user = findUserById(userId);
             if (user != null && user.canPlaceBet(amount)) {
                 user.deductBalance(amount);
-                em.merge(user);
+                entityManager.merge(user);
 
                 // Create transaction record
                 Transaction txn = new Transaction(user, Transaction.TransactionType.WITHDRAWAL, amount, description);
-                em.persist(txn);
+                entityManager.persist(txn);
 
+                entityManager.getTransaction().commit();
                 logger.info("Funds withdrawn from user " + user.getUsername() + ": $" + amount);
                 return true;
+            } else {
+                entityManager.getTransaction().rollback();
+                return false;
             }
-            return false;
         } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
             logger.log(Level.SEVERE, "Error withdrawing funds for user: " + userId, e);
             return false;
         }
@@ -237,16 +308,28 @@ public class UserServiceBean implements UserService {
 
     @Override
     public boolean deductFunds(Long userId, BigDecimal amount, String description) {
+        EntityManager entityManager = getEntityManager();
         try {
+            if (!entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().begin();
+            }
+
             User user = findUserById(userId);
             if (user != null && user.canPlaceBet(amount)) {
                 user.deductBalance(amount);
-                em.merge(user);
+                entityManager.merge(user);
+
+                entityManager.getTransaction().commit();
                 logger.info("Funds deducted from user " + user.getUsername() + ": $" + amount);
                 return true;
+            } else {
+                entityManager.getTransaction().rollback();
+                return false;
             }
-            return false;
         } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
             logger.log(Level.SEVERE, "Error deducting funds for user: " + userId, e);
             return false;
         }
@@ -254,19 +337,30 @@ public class UserServiceBean implements UserService {
 
     @Override
     public void refundFunds(Long userId, BigDecimal amount, String description) {
+        EntityManager entityManager = getEntityManager();
         try {
+            if (!entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().begin();
+            }
+
             User user = findUserById(userId);
             if (user != null && amount.compareTo(BigDecimal.ZERO) > 0) {
                 user.addBalance(amount);
-                em.merge(user);
+                entityManager.merge(user);
 
                 // Create transaction record
                 Transaction txn = new Transaction(user, Transaction.TransactionType.REFUND, amount, description);
-                em.persist(txn);
+                entityManager.persist(txn);
 
+                entityManager.getTransaction().commit();
                 logger.info("Funds refunded to user " + user.getUsername() + ": $" + amount);
+            } else {
+                entityManager.getTransaction().rollback();
             }
         } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
             logger.log(Level.SEVERE, "Error refunding funds for user: " + userId, e);
             throw new RuntimeException("Failed to refund funds", e);
         }
@@ -275,8 +369,9 @@ public class UserServiceBean implements UserService {
     // Transaction History
     @Override
     public List<Transaction> getUserTransactions(Long userId) {
+        EntityManager entityManager = getEntityManager();
         try {
-            TypedQuery<Transaction> query = em.createQuery(
+            TypedQuery<Transaction> query = entityManager.createQuery(
                     "SELECT t FROM Transaction t WHERE t.user.id = :userId ORDER BY t.createdAt DESC",
                     Transaction.class);
             query.setParameter("userId", userId);
@@ -289,8 +384,9 @@ public class UserServiceBean implements UserService {
 
     @Override
     public List<Transaction> getUserTransactionsByType(Long userId, Transaction.TransactionType type) {
+        EntityManager entityManager = getEntityManager();
         try {
-            TypedQuery<Transaction> query = em.createQuery(
+            TypedQuery<Transaction> query = entityManager.createQuery(
                     "SELECT t FROM Transaction t WHERE t.user.id = :userId AND t.transactionType = :type ORDER BY t.createdAt DESC",
                     Transaction.class);
             query.setParameter("userId", userId);
@@ -305,16 +401,26 @@ public class UserServiceBean implements UserService {
     @Override
     public Transaction createTransaction(Long userId, Transaction.TransactionType type,
                                          BigDecimal amount, String description, Long referenceId) {
+        EntityManager entityManager = getEntityManager();
         try {
             User user = findUserById(userId);
             if (user == null) {
                 throw new IllegalArgumentException("User not found");
             }
 
+            if (!entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().begin();
+            }
+
             Transaction txn = new Transaction(user, type, amount, description, referenceId);
-            em.persist(txn);
+            entityManager.persist(txn);
+
+            entityManager.getTransaction().commit();
             return txn;
         } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
             logger.log(Level.SEVERE, "Error creating transaction for user: " + userId, e);
             throw new RuntimeException("Failed to create transaction", e);
         }
@@ -323,8 +429,9 @@ public class UserServiceBean implements UserService {
     // User Statistics
     @Override
     public BigDecimal getTotalBetAmount(Long userId) {
+        EntityManager entityManager = getEntityManager();
         try {
-            TypedQuery<BigDecimal> query = em.createQuery(
+            TypedQuery<BigDecimal> query = entityManager.createQuery(
                     "SELECT COALESCE(SUM(b.betAmount), 0) FROM Bet b WHERE b.user.id = :userId",
                     BigDecimal.class);
             query.setParameter("userId", userId);
@@ -337,8 +444,9 @@ public class UserServiceBean implements UserService {
 
     @Override
     public BigDecimal getTotalWinnings(Long userId) {
+        EntityManager entityManager = getEntityManager();
         try {
-            TypedQuery<BigDecimal> query = em.createQuery(
+            TypedQuery<BigDecimal> query = entityManager.createQuery(
                     "SELECT COALESCE(SUM(b.potentialWinnings - b.betAmount), 0) FROM Bet b WHERE b.user.id = :userId AND b.status = 'WON'",
                     BigDecimal.class);
             query.setParameter("userId", userId);
@@ -351,8 +459,9 @@ public class UserServiceBean implements UserService {
 
     @Override
     public int getTotalBetsPlaced(Long userId) {
+        EntityManager entityManager = getEntityManager();
         try {
-            TypedQuery<Long> query = em.createQuery(
+            TypedQuery<Long> query = entityManager.createQuery(
                     "SELECT COUNT(b) FROM Bet b WHERE b.user.id = :userId",
                     Long.class);
             query.setParameter("userId", userId);
@@ -365,8 +474,9 @@ public class UserServiceBean implements UserService {
 
     @Override
     public int getWonBetsCount(Long userId) {
+        EntityManager entityManager = getEntityManager();
         try {
-            TypedQuery<Long> query = em.createQuery(
+            TypedQuery<Long> query = entityManager.createQuery(
                     "SELECT COUNT(b) FROM Bet b WHERE b.user.id = :userId AND b.status = 'WON'",
                     Long.class);
             query.setParameter("userId", userId);
@@ -433,8 +543,9 @@ public class UserServiceBean implements UserService {
 
     @Override
     public List<User> getActiveUsers() {
+        EntityManager entityManager = getEntityManager();
         try {
-            TypedQuery<User> query = em.createQuery(
+            TypedQuery<User> query = entityManager.createQuery(
                     "SELECT u FROM User u WHERE u.isActive = true ORDER BY u.createdAt DESC",
                     User.class);
             return query.getResultList();
@@ -446,8 +557,9 @@ public class UserServiceBean implements UserService {
 
     @Override
     public List<User> getAllUsers() {
+        EntityManager entityManager = getEntityManager();
         try {
-            TypedQuery<User> query = em.createQuery("SELECT u FROM User u ORDER BY u.createdAt DESC", User.class);
+            TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u ORDER BY u.createdAt DESC", User.class);
             return query.getResultList();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting all users", e);
