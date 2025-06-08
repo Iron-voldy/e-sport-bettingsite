@@ -1,3 +1,5 @@
+// Option 1: Update Match.java entity to use EAGER fetching for critical relationships
+
 package lk.esports.betting.entity;
 
 import jakarta.persistence.*;
@@ -11,15 +13,15 @@ import java.util.List;
 @Table(name = "matches")
 @NamedQueries({
         @NamedQuery(name = "Match.findUpcoming",
-                query = "SELECT m FROM Match m WHERE m.status = 'SCHEDULED' AND m.matchDate > CURRENT_TIMESTAMP ORDER BY m.matchDate"),
+                query = "SELECT m FROM Match m LEFT JOIN FETCH m.tournament LEFT JOIN FETCH m.team1 LEFT JOIN FETCH m.team2 WHERE m.status = 'SCHEDULED' AND m.matchDate > CURRENT_TIMESTAMP ORDER BY m.matchDate"),
         @NamedQuery(name = "Match.findLive",
-                query = "SELECT m FROM Match m WHERE m.status = 'LIVE' ORDER BY m.matchDate"),
+                query = "SELECT m FROM Match m LEFT JOIN FETCH m.tournament LEFT JOIN FETCH m.team1 LEFT JOIN FETCH m.team2 WHERE m.status = 'LIVE' ORDER BY m.matchDate"),
         @NamedQuery(name = "Match.findCompleted",
-                query = "SELECT m FROM Match m WHERE m.status = 'COMPLETED' ORDER BY m.matchDate DESC"),
+                query = "SELECT m FROM Match m LEFT JOIN FETCH m.tournament LEFT JOIN FETCH m.team1 LEFT JOIN FETCH m.team2 LEFT JOIN FETCH m.winnerTeam WHERE m.status = 'COMPLETED' ORDER BY m.matchDate DESC"),
         @NamedQuery(name = "Match.findByTournament",
-                query = "SELECT m FROM Match m WHERE m.tournament.id = :tournamentId ORDER BY m.matchDate"),
+                query = "SELECT m FROM Match m LEFT JOIN FETCH m.tournament LEFT JOIN FETCH m.team1 LEFT JOIN FETCH m.team2 WHERE m.tournament.id = :tournamentId ORDER BY m.matchDate"),
         @NamedQuery(name = "Match.findBettable",
-                query = "SELECT m FROM Match m WHERE m.bettingEnabled = true AND m.status = 'SCHEDULED' AND m.matchDate > CURRENT_TIMESTAMP ORDER BY m.matchDate")
+                query = "SELECT m FROM Match m LEFT JOIN FETCH m.tournament LEFT JOIN FETCH m.team1 LEFT JOIN FETCH m.team2 WHERE m.bettingEnabled = true AND m.status = 'SCHEDULED' AND m.matchDate > CURRENT_TIMESTAMP ORDER BY m.matchDate")
 })
 public class Match {
 
@@ -27,10 +29,12 @@ public class Match {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    // CRITICAL FIX: Change to EAGER fetch for Tournament to avoid lazy loading issues
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tournament_id")
     private Tournament tournament;
 
+    // CRITICAL FIX: Change to EAGER fetch for teams to avoid lazy loading issues
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "team1_id", nullable = false)
     @NotNull(message = "Team 1 is required")
@@ -53,6 +57,7 @@ public class Match {
     @Column(name = "status")
     private MatchStatus status = MatchStatus.SCHEDULED;
 
+    // CRITICAL FIX: Change to EAGER fetch for winner team
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "winner_team_id")
     private Team winnerTeam;
@@ -81,7 +86,7 @@ public class Match {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // Relationships
+    // Keep bets as LAZY since they're not needed in most views
     @OneToMany(mappedBy = "match", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Bet> bets;
 
@@ -111,6 +116,24 @@ public class Match {
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    // Helper method to safely get tournament name
+    public String getTournamentName() {
+        if (tournament != null) {
+            try {
+                return tournament.getTournamentName();
+            } catch (Exception e) {
+                // Handle lazy loading exception gracefully
+                return "Tournament TBD";
+            }
+        }
+        return "Tournament TBD";
+    }
+
+    // Helper method to safely check if tournament exists
+    public boolean hasTournament() {
+        return tournament != null;
     }
 
     // Business methods

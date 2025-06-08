@@ -132,7 +132,16 @@
                                     </div>
 
                                     <div class="match-info">
-                                        <span class="tournament-name">${match.tournament.tournamentName}</span>
+                                        <span class="tournament-name">
+                                            <c:choose>
+                                                <c:when test="${not empty match.tournament and not empty match.tournament.tournamentName}">
+                                                    ${match.tournament.tournamentName}
+                                                </c:when>
+                                                <c:otherwise>
+                                                    Tournament TBD
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </span>
                                         <a href="${pageContext.request.contextPath}/matches/details/${match.id}" class="btn btn-danger btn-sm">
                                             Watch Live
                                         </a>
@@ -220,7 +229,16 @@
                                         </div>
 
                                         <div class="match-info">
-                                            <span class="tournament-name">${match.tournament.tournamentName}</span>
+                                            <span class="tournament-name">
+                                                <c:choose>
+                                                    <c:when test="${not empty match.tournament and not empty match.tournament.tournamentName}">
+                                                        ${match.tournament.tournamentName}
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        Tournament TBD
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </span>
                                             <a href="${pageContext.request.contextPath}/matches/details/${match.id}" class="btn btn-primary btn-sm">
                                                 View Details
                                             </a>
@@ -288,7 +306,7 @@
                                                 </div>
                                             </div>
                                             <div style="text-align: right;">
-                                                <div style="font-weight: 600;">$${bet.betAmount}</div>
+                                                <div style="font-weight: 600;">${bet.betAmount}</div>
                                                 <div class="badge badge-${bet.status == 'WON' ? 'success' : bet.status == 'LOST' ? 'danger' : 'warning'}">
                                                     ${bet.status}
                                                 </div>
@@ -328,11 +346,11 @@
                                         <div>
                                             <div style="font-weight: 600;">${bet.selectedTeam.teamName}</div>
                                             <div style="font-size: 0.875rem; color: var(--text-secondary);">
-                                                Potential: $${bet.potentialWinnings}
+                                                Potential: ${bet.potentialWinnings}
                                             </div>
                                         </div>
                                         <div style="text-align: right;">
-                                            <div style="font-weight: 600; color: var(--warning-color);">$${bet.betAmount}</div>
+                                            <div style="font-weight: 600; color: var(--warning-color);">${bet.betAmount}</div>
                                             <c:if test="${bet.canBeCancelled}">
                                                 <button class="btn btn-sm btn-danger" onclick="cancelBet(${bet.id})">
                                                     Cancel

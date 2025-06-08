@@ -29,9 +29,15 @@
             <!-- Hibernate Specific Properties -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
-            <property name="hibernate.show_sql" value="true"/>
-            <property name="hibernate.format_sql" value="true"/>
-            <property name="hibernate.use_sql_comments" value="true"/>
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.format_sql" value="false"/>
+            <property name="hibernate.use_sql_comments" value="false"/>
+
+            <!-- CRITICAL: Enable lazy loading in open session -->
+            <property name="hibernate.enable_lazy_load_no_trans" value="true"/>
+
+            <!-- Session management -->
+            <property name="hibernate.current_session_context_class" value="thread"/>
 
             <!-- Connection Pool Properties -->
             <property name="hibernate.c3p0.min_size" value="5"/>
@@ -39,14 +45,27 @@
             <property name="hibernate.c3p0.timeout" value="300"/>
             <property name="hibernate.c3p0.max_statements" value="50"/>
             <property name="hibernate.c3p0.idle_test_period" value="3000"/>
+            <property name="hibernate.c3p0.acquire_increment" value="1"/>
+            <property name="hibernate.c3p0.max_idle_time" value="1800"/>
 
             <!-- Disable Caching -->
             <property name="hibernate.cache.use_second_level_cache" value="false"/>
             <property name="hibernate.cache.use_query_cache" value="false"/>
 
             <!-- Transaction Properties -->
-            <property name="hibernate.current_session_context_class" value="thread"/>
             <property name="hibernate.connection.autocommit" value="false"/>
+            <property name="hibernate.connection.isolation" value="2"/>
+
+            <!-- Batch processing -->
+            <property name="hibernate.jdbc.batch_size" value="20"/>
+            <property name="hibernate.order_inserts" value="true"/>
+            <property name="hibernate.order_updates" value="true"/>
+            <property name="hibernate.jdbc.batch_versioned_data" value="true"/>
+
+            <!-- Performance settings -->
+            <property name="hibernate.connection.provider_disables_autocommit" value="true"/>
+            <property name="hibernate.query.plan_cache_max_size" value="128"/>
+            <property name="hibernate.query.plan_parameter_metadata_max_size" value="128"/>
         </properties>
     </persistence-unit>
 </persistence>
