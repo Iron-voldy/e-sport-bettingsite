@@ -4,13 +4,14 @@ import lk.esports.betting.ejb.local.MatchService;
 import lk.esports.betting.entity.Match;
 import lk.esports.betting.utils.DatabaseUtil;
 
-import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,20 +22,45 @@ import java.util.logging.Level;
 public class HomeServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(HomeServlet.class.getName());
-
-    @EJB
     private MatchService matchService;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        logger.info("HomeServlet initialized");
+        logger.info("HomeServlet initializing...");
 
-        // Check if EJB injection worked
-        if (matchService == null) {
-            logger.severe("MatchService EJB injection failed!");
-        } else {
-            logger.info("MatchService EJB injection successful");
+        // Manual EJB lookup since @EJB annotation may not work in Tomcat
+        try {
+            InitialContext ctx = new InitialContext();
+
+            // Try multiple lookup paths
+            String[] lookupPaths = {
+                    "java:comp/env/ejb/MatchService",
+                    "java:global/ESportsBetting/MatchServiceBean",
+                    "java:app/ESportsBetting/MatchServiceBean",
+                    "java:module/MatchServiceBean"
+            };
+
+            for (String path : lookupPaths) {
+                try {
+                    matchService = (MatchService) ctx.lookup(path);
+                    if (matchService != null) {
+                        logger.info("MatchService found at: " + path);
+                        break;
+                    }
+                } catch (NamingException e) {
+                    logger.warning("Failed lookup at: " + path + " - " + e.getMessage());
+                }
+            }
+
+            if (matchService == null) {
+                logger.severe("MatchService EJB lookup failed at all paths!");
+            } else {
+                logger.info("MatchService EJB injection successful");
+            }
+
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error during EJB lookup", e);
         }
 
         // Test database connection
@@ -80,7 +106,7 @@ public class HomeServlet extends HttpServlet {
                     liveMatches = new ArrayList<>();
                 }
             } else {
-                logger.warning("MatchService is null - EJB injection may have failed");
+                logger.warning("MatchService is null - EJB injection failed");
                 // Create empty lists to avoid JSP errors
                 featuredMatches = new ArrayList<>();
                 liveMatches = new ArrayList<>();

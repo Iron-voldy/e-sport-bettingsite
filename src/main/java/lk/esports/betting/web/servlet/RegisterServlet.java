@@ -36,21 +36,39 @@ public class RegisterServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
+        logger.info("RegisterServlet initializing...");
+
         try {
-            // Manual JNDI lookup as fallback for @EJB injection
             InitialContext ctx = new InitialContext();
-            userService = (UserService) ctx.lookup("java:global/ESportsBetting/UserServiceBean");
-            logger.info("UserService lookup successful in RegisterServlet");
-        } catch (NamingException e) {
-            logger.log(Level.SEVERE, "Failed to lookup UserService in RegisterServlet", e);
-            // Try alternative lookup paths
-            try {
-                InitialContext ctx = new InitialContext();
-                userService = (UserService) ctx.lookup("java:comp/env/ejb/UserService");
-                logger.info("UserService lookup successful with alternative path in RegisterServlet");
-            } catch (NamingException e2) {
-                logger.log(Level.SEVERE, "Failed alternative UserService lookup in RegisterServlet", e2);
+
+            // Try multiple lookup paths for UserService
+            String[] lookupPaths = {
+                    "java:comp/env/ejb/UserService",
+                    "java:global/ESportsBetting/UserServiceBean",
+                    "java:app/ESportsBetting/UserServiceBean",
+                    "java:module/UserServiceBean"
+            };
+
+            for (String path : lookupPaths) {
+                try {
+                    userService = (UserService) ctx.lookup(path);
+                    if (userService != null) {
+                        logger.info("UserService found at: " + path);
+                        break;
+                    }
+                } catch (NamingException e) {
+                    logger.warning("Failed UserService lookup at: " + path + " - " + e.getMessage());
+                }
             }
+
+            if (userService == null) {
+                logger.severe("UserService EJB lookup failed at all paths!");
+            } else {
+                logger.info("UserService EJB lookup successful in RegisterServlet");
+            }
+
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error during UserService EJB lookup in RegisterServlet", e);
         }
     }
 
@@ -96,7 +114,7 @@ public class RegisterServlet extends HttpServlet {
             // Check if UserService is available
             if (userService == null) {
                 logger.severe("UserService is null - EJB lookup failed in RegisterServlet");
-                request.setAttribute("errorMessage", "System is starting up. Please try again in a moment.");
+                request.setAttribute("errorMessage", "System is initializing. Please try again in a moment.");
                 preserveFormData(request, email, username, fullName, phone);
                 request.getRequestDispatcher("/register.jsp").forward(request, response);
                 return;

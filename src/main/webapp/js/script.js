@@ -1,4 +1,4 @@
-// E-Sports Betting Platform JavaScript
+// E-Sports Betting Platform Complete JavaScript
 
 // Global variables
 let userBalance = 0;
@@ -20,11 +20,12 @@ function initializeApp() {
     initializeBetting();
     initializeModals();
     initializeCountdowns();
+    initializeSearch();
 
     // Start periodic updates
     startPeriodicUpdates();
 
-    console.log('E-Sports Betting Platform initialized');
+    console.log('E-Sports Betting Platform initialized successfully');
 }
 
 // Navigation functionality
@@ -116,10 +117,20 @@ async function handleLogin(e) {
             body: formData
         });
 
-        if (response.ok) {
+        // Check if response is redirect or contains error
+        const responseText = await response.text();
+
+        if (response.ok && !responseText.includes('errorMessage')) {
+            // Success - page will redirect
             window.location.reload();
         } else {
-            showAlert('Login failed. Please check your credentials.', 'danger');
+            // Extract error message if present
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(responseText, 'text/html');
+            const errorElement = doc.querySelector('.alert-danger span');
+            const errorMessage = errorElement ? errorElement.textContent : 'Login failed. Please check your credentials.';
+
+            showAlert(errorMessage, 'danger');
         }
     } catch (error) {
         console.error('Login error:', error);
@@ -160,13 +171,21 @@ async function handleRegistration(e) {
             body: formData
         });
 
-        if (response.ok) {
+        const responseText = await response.text();
+
+        if (response.ok && !responseText.includes('errorMessage')) {
             showAlert('Registration successful! Welcome to E-Sports Betting!', 'success');
             setTimeout(() => {
                 window.location.reload();
             }, 1500);
         } else {
-            showAlert('Registration failed. Please try again.', 'danger');
+            // Extract error message
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(responseText, 'text/html');
+            const errorElement = doc.querySelector('.alert-danger span');
+            const errorMessage = errorElement ? errorElement.textContent : 'Registration failed. Please try again.';
+
+            showAlert(errorMessage, 'danger');
         }
     } catch (error) {
         console.error('Registration error:', error);
@@ -262,10 +281,10 @@ function validateBetAmount(e) {
     const maxBet = 10000;
 
     if (betAmount < minBet && betAmount > 0) {
-        showAlert(`Minimum bet amount is $${minBet}`, 'warning');
+        showAlert(`Minimum bet amount is ${minBet}`, 'warning');
         e.target.value = minBet;
     } else if (betAmount > maxBet) {
-        showAlert(`Maximum bet amount is $${maxBet}`, 'warning');
+        showAlert(`Maximum bet amount is ${maxBet}`, 'warning');
         e.target.value = maxBet;
     } else if (betAmount > userBalance && userBalance > 0) {
         showAlert('Insufficient balance for this bet amount', 'warning');
@@ -317,7 +336,7 @@ async function placeBet(e) {
         const result = await response.json();
 
         if (result.success) {
-            showAlert(`Bet placed successfully! Potential winnings: $${result.potentialWinnings}`, 'success');
+            showAlert(`Bet placed successfully! Potential winnings: ${result.potentialWinnings}`, 'success');
 
             // Update user balance
             updateUserBalance();
@@ -614,6 +633,38 @@ async function updateLiveMatches() {
     }
 }
 
+// Search functionality
+function initializeSearch() {
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('input', debounce(handleSearch, 300));
+    }
+}
+
+function handleSearch(e) {
+    const query = e.target.value.toLowerCase();
+    const matchCards = document.querySelectorAll('.match-card');
+
+    matchCards.forEach(card => {
+        const teamNames = card.querySelectorAll('.team-name');
+        const tournamentName = card.querySelector('.tournament-name');
+
+        let matchFound = false;
+
+        teamNames.forEach(team => {
+            if (team.textContent.toLowerCase().includes(query)) {
+                matchFound = true;
+            }
+        });
+
+        if (tournamentName && tournamentName.textContent.toLowerCase().includes(query)) {
+            matchFound = true;
+        }
+
+        card.style.display = matchFound || query === '' ? 'block' : 'none';
+    });
+}
+
 // Utility functions
 function setButtonLoading(button, loading) {
     if (loading) {
@@ -687,38 +738,6 @@ function formatDate(date) {
     }).format(new Date(date));
 }
 
-// Search functionality
-function initializeSearch() {
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('input', debounce(handleSearch, 300));
-    }
-}
-
-function handleSearch(e) {
-    const query = e.target.value.toLowerCase();
-    const matchCards = document.querySelectorAll('.match-card');
-
-    matchCards.forEach(card => {
-        const teamNames = card.querySelectorAll('.team-name');
-        const tournamentName = card.querySelector('.tournament-name');
-
-        let matchFound = false;
-
-        teamNames.forEach(team => {
-            if (team.textContent.toLowerCase().includes(query)) {
-                matchFound = true;
-            }
-        });
-
-        if (tournamentName && tournamentName.textContent.toLowerCase().includes(query)) {
-            matchFound = true;
-        }
-
-        card.style.display = matchFound || query === '' ? 'block' : 'none';
-    });
-}
-
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -730,11 +749,6 @@ function debounce(func, wait) {
         timeout = setTimeout(later, wait);
     };
 }
-
-// Initialize search when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-    initializeSearch();
-});
 
 // Cancel bet function
 function cancelBet(betId) {
