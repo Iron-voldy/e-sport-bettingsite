@@ -1,3 +1,4 @@
+<%-- Fixed index.jsp with proper CSS and image references --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -7,17 +8,118 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-Sports Betting - Mobile Legends Championship</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+
+    <!-- Fixed CSS Loading -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css">
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    <style>
+        /* Emergency inline styles in case external CSS doesn't load */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0F0F23 0%, #1A1A2E 100%);
+            color: #FFFFFF;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background: rgba(15, 15, 35, 0.95);
+            padding: 1rem 0;
+            border-bottom: 1px solid #2A2D5A;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar-brand {
+            color: #6C5CE7;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .navbar-nav {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-link {
+            color: #A0A3BD;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #FFFFFF;
+            background: rgba(108, 92, 231, 0.1);
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #6C5CE7, #5A4FCF);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.3);
+        }
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+        }
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #6C5CE7, #00D2D3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #A0A3BD;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
             <a href="${pageContext.request.contextPath}/" class="navbar-brand">
-                <img src="https://via.placeholder.com/40x40/6C5CE7/FFFFFF?text=ML" alt="ML Betting">
+                <!-- Using Bootstrap Icon instead of placeholder -->
+                <i class="bi bi-controller" style="font-size: 2rem;"></i>
                 ML Betting
             </a>
 
@@ -47,282 +149,158 @@
                 Experience the thrill of competitive gaming with real-time betting on Mobile Legends Professional League matches.
                 Join thousands of fans in the ultimate e-sports betting platform.
             </p>
-            <div class="d-flex justify-content-center" style="gap: 1rem;">
+            <div style="display: flex; justify-content: center; gap: 1rem;">
                 <c:choose>
                     <c:when test="${sessionScope.user != null}">
-                        <a href="${pageContext.request.contextPath}/dashboard" class="btn btn-primary btn-lg">Go to Dashboard</a>
-                        <a href="${pageContext.request.contextPath}/matches/upcoming" class="btn btn-outline btn-lg">View Matches</a>
+                        <a href="${pageContext.request.contextPath}/dashboard" class="btn btn-primary">Go to Dashboard</a>
+                        <a href="${pageContext.request.contextPath}/matches/upcoming" class="btn btn-outline">View Matches</a>
                     </c:when>
                     <c:otherwise>
-                        <a href="${pageContext.request.contextPath}/register" class="btn btn-primary btn-lg">Start Betting</a>
-                        <a href="${pageContext.request.contextPath}/matches/upcoming" class="btn btn-outline btn-lg">View Matches</a>
+                        <a href="${pageContext.request.contextPath}/register" class="btn btn-primary">Start Betting</a>
+                        <a href="${pageContext.request.contextPath}/matches/upcoming" class="btn btn-outline">View Matches</a>
                     </c:otherwise>
                 </c:choose>
             </div>
         </div>
     </section>
 
+    <!-- System Status (for debugging) -->
+    <c:if test="${serviceStatus == 'unavailable' || dbStatus == 'unhealthy'}">
+        <section class="container" style="margin-top: 2rem;">
+            <div style="background: rgba(225, 112, 85, 0.1); border: 1px solid #E17055; border-radius: 8px; padding: 1rem; text-align: center;">
+                <p style="margin: 0; color: #E17055;">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    System Status: Services are initializing. Some features may be limited.
+                    <br>Service: ${serviceStatus} | Database: ${dbStatus}
+                    <br><a href="${pageContext.request.contextPath}/test/database" style="color: #E17055;">View Database Test</a>
+                </p>
+            </div>
+        </section>
+    </c:if>
+
     <!-- Featured Matches -->
-    <section class="container mt-5">
-        <h2 class="text-center mb-4">Featured Matches</h2>
+    <section class="container" style="margin-top: 3rem;">
+        <h2 style="text-align: center; margin-bottom: 2rem;">Featured Matches</h2>
 
-        <c:if test="${not empty featuredMatches}">
-            <div class="stats-grid">
-                <c:forEach items="${featuredMatches}" var="match" varStatus="status">
-                    <c:if test="${status.index < 3}">
-                        <div class="match-card" data-match-id="${match.id}">
-                            <div class="match-header">
-                                <span class="match-status ${match.status == 'LIVE' ? 'status-live' : 'status-upcoming'}">
-                                    ${match.status}
-                                </span>
-                                <span class="match-date">
-                                    <fmt:formatDate value="${match.matchDate}" pattern="MMM dd, HH:mm" />
-                                </span>
-                            </div>
-
-                            <div class="teams-container">
-                                <div class="team">
-                                    <img src="https://via.placeholder.com/60x60/FF6B6B/FFFFFF?text=${match.team1.teamCode}"
-                                         alt="${match.team1.teamName}" class="team-logo">
-                                    <div class="team-name">${match.team1.teamName}</div>
-                                    <div class="team-odds">${match.team1Odds}</div>
+        <c:choose>
+            <c:when test="${not empty featuredMatches}">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem;">
+                    <c:forEach items="${featuredMatches}" var="match" varStatus="status">
+                        <c:if test="${status.index < 3}">
+                            <div style="background: #1A1A2E; border: 1px solid #2A2D5A; border-radius: 16px; padding: 1.5rem; transition: all 0.3s ease;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                    <span style="padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; background: #FDCB6E; color: #0F0F23;">
+                                        ${match.status}
+                                    </span>
+                                    <span style="color: #A0A3BD; font-size: 0.875rem;">
+                                        <fmt:formatDate value="${match.matchDate}" pattern="MMM dd, HH:mm" />
+                                    </span>
                                 </div>
 
-                                <div class="vs-divider">VS</div>
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                    <div style="flex: 1; text-align: center;">
+                                        <!-- Team 1 Icon -->
+                                        <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #FF6B6B, #FF5252); display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem; color: white; font-weight: bold; font-size: 1.2rem;">
+                                            ${match.team1.teamCode}
+                                        </div>
+                                        <div style="font-weight: 600; margin-bottom: 0.5rem;">${match.team1.teamName}</div>
+                                        <div style="font-size: 1.2rem; font-weight: 700; color: #6C5CE7;">${match.team1Odds}</div>
+                                    </div>
 
-                                <div class="team">
-                                    <img src="https://via.placeholder.com/60x60/00D2D3/FFFFFF?text=${match.team2.teamCode}"
-                                         alt="${match.team2.teamName}" class="team-logo">
-                                    <div class="team-name">${match.team2.teamName}</div>
-                                    <div class="team-odds">${match.team2Odds}</div>
+                                    <div style="text-align: center; font-weight: 700; color: #6C7293; font-size: 1.2rem;">VS</div>
+
+                                    <div style="flex: 1; text-align: center;">
+                                        <!-- Team 2 Icon -->
+                                        <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #00D2D3, #00B2D3); display: flex; align-items: center; justify-content: center; margin: 0 auto 0.5rem; color: white; font-weight: bold; font-size: 1.2rem;">
+                                            ${match.team2.teamCode}
+                                        </div>
+                                        <div style="font-weight: 600; margin-bottom: 0.5rem;">${match.team2.teamName}</div>
+                                        <div style="font-size: 1.2rem; font-weight: 700; color: #6C5CE7;">${match.team2Odds}</div>
+                                    </div>
+                                </div>
+
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="color: #A0A3BD; font-size: 0.875rem;">${match.tournament.tournamentName}</span>
+                                    <a href="${pageContext.request.contextPath}/matches/details/${match.id}" class="btn btn-primary" style="font-size: 0.875rem; padding: 8px 16px;">
+                                        View Details
+                                    </a>
                                 </div>
                             </div>
-
-                            <div class="match-info">
-                                <span class="tournament-name">${match.tournament.tournamentName}</span>
-                                <a href="${pageContext.request.contextPath}/matches/details/${match.id}" class="btn btn-primary btn-sm">
-                                    View Details
-                                </a>
-                            </div>
+                        </c:if>
+                    </c:forEach>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div style="text-align: center; padding: 4rem 2rem;">
+                    <i class="bi bi-calendar-x" style="font-size: 4rem; color: #6C7293; margin-bottom: 1rem;"></i>
+                    <h3>No matches available</h3>
+                    <p style="color: #A0A3BD;">New matches will be posted soon. Check back later!</p>
+                    <c:if test="${not empty errorMessage}">
+                        <div style="background: rgba(225, 112, 85, 0.1); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                            <p style="color: #E17055; margin: 0;">${errorMessage}</p>
                         </div>
                     </c:if>
-                </c:forEach>
-            </div>
-        </c:if>
+                </div>
+            </c:otherwise>
+        </c:choose>
 
-        <div class="text-center mt-4">
-            <a href="${pageContext.request.contextPath}/matches/upcoming" class="btn btn-secondary">
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="${pageContext.request.contextPath}/matches/upcoming" class="btn" style="background: linear-gradient(135deg, #00D2D3, #00B2D3); color: white;">
                 View All Matches
             </a>
         </div>
     </section>
 
     <!-- Platform Stats -->
-    <section class="container mt-5">
-        <h2 class="text-center mb-4">Platform Statistics</h2>
-        <div class="stats-grid">
-            <div class="stat-card">
-                <span class="stat-value">10,000+</span>
-                <span class="stat-label">Active Users</span>
+    <section class="container" style="margin: 4rem auto;">
+        <h2 style="text-align: center; margin-bottom: 2rem;">Platform Statistics</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+            <div style="background: linear-gradient(135deg, #1A1A2E, #2A2D5A); border: 1px solid #2A2D5A; border-radius: 12px; padding: 1.5rem; text-align: center;">
+                <span style="display: block; font-size: 2.5rem; font-weight: 700; color: #6C5CE7; margin-bottom: 0.5rem;">10,000+</span>
+                <span style="color: #A0A3BD; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 1px;">Active Users</span>
             </div>
-            <div class="stat-card">
-                <span class="stat-value">$2.5M</span>
-                <span class="stat-label">Total Bets Placed</span>
+            <div style="background: linear-gradient(135deg, #1A1A2E, #2A2D5A); border: 1px solid #2A2D5A; border-radius: 12px; padding: 1.5rem; text-align: center;">
+                <span style="display: block; font-size: 2.5rem; font-weight: 700; color: #6C5CE7; margin-bottom: 0.5rem;">$2.5M</span>
+                <span style="color: #A0A3BD; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 1px;">Total Bets Placed</span>
             </div>
-            <div class="stat-card">
-                <span class="stat-value">150+</span>
-                <span class="stat-label">Matches This Month</span>
+            <div style="background: linear-gradient(135deg, #1A1A2E, #2A2D5A); border: 1px solid #2A2D5A; border-radius: 12px; padding: 1.5rem; text-align: center;">
+                <span style="display: block; font-size: 2.5rem; font-weight: 700; color: #6C5CE7; margin-bottom: 0.5rem;">150+</span>
+                <span style="color: #A0A3BD; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 1px;">Matches This Month</span>
             </div>
-            <div class="stat-card">
-                <span class="stat-value">98.5%</span>
-                <span class="stat-label">Payout Rate</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- How It Works -->
-    <section class="container mt-5">
-        <h2 class="text-center mb-4">How It Works</h2>
-        <div class="stats-grid">
-            <div class="card">
-                <div class="card-body text-center">
-                    <div class="feature-icon bg-primary mb-3" style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
-                        <span style="font-size: 24px;">1</span>
-                    </div>
-                    <h4>Sign Up</h4>
-                    <p>Create your account and get a welcome bonus to start betting on your favorite teams.</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body text-center">
-                    <div class="feature-icon bg-secondary mb-3" style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
-                        <span style="font-size: 24px;">2</span>
-                    </div>
-                    <h4>Choose Match</h4>
-                    <p>Browse upcoming matches and select the teams you think will win in the championship.</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body text-center">
-                    <div class="feature-icon bg-success mb-3" style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
-                        <span style="font-size: 24px;">3</span>
-                    </div>
-                    <h4>Place Bet</h4>
-                    <p>Place your bets with competitive odds and watch the matches live to see if you win.</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body text-center">
-                    <div class="feature-icon bg-warning mb-3" style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
-                        <span style="font-size: 24px;">4</span>
-                    </div>
-                    <h4>Win Big</h4>
-                    <p>Collect your winnings instantly when your predictions are correct. Withdraw anytime!</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Recent Winners -->
-    <c:if test="${sessionScope.user != null}">
-        <section class="container mt-5">
-            <h2 class="text-center mb-4">Recent Winners</h2>
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>User</th>
-                                    <th>Match</th>
-                                    <th>Bet Amount</th>
-                                    <th>Winnings</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>User****123</td>
-                                    <td>RRQ vs EVOS</td>
-                                    <td>$50.00</td>
-                                    <td class="text-success">$95.00</td>
-                                    <td>2 hours ago</td>
-                                </tr>
-                                <tr>
-                                    <td>Player****456</td>
-                                    <td>Blacklist vs ONIC</td>
-                                    <td>$25.00</td>
-                                    <td class="text-success">$62.50</td>
-                                    <td>5 hours ago</td>
-                                </tr>
-                                <tr>
-                                    <td>Gamer****789</td>
-                                    <td>Echo vs BTK</td>
-                                    <td>$100.00</td>
-                                    <td class="text-success">$180.00</td>
-                                    <td>1 day ago</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </c:if>
-
-    <!-- Live Matches Ticker -->
-    <section class="mt-5" style="background: var(--dark-surface); padding: 1rem 0; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center">
-                <span class="text-primary font-weight-bold">🔴 LIVE NOW:</span>
-                <div class="d-flex" style="gap: 2rem; overflow-x: auto;">
-                    <span>RRQ Hoshi vs EVOS Legends - Game 2</span>
-                    <span>•</span>
-                    <span>Blacklist vs ONIC - Game 1</span>
-                    <span>•</span>
-                    <span>Echo vs Team Flash - Starting Soon</span>
-                </div>
-                <a href="${pageContext.request.contextPath}/matches/live" class="btn btn-sm btn-danger">Watch Live</a>
+            <div style="background: linear-gradient(135deg, #1A1A2E, #2A2D5A); border: 1px solid #2A2D5A; border-radius: 12px; padding: 1.5rem; text-align: center;">
+                <span style="display: block; font-size: 2.5rem; font-weight: 700; color: #6C5CE7; margin-bottom: 0.5rem;">98.5%</span>
+                <span style="color: #A0A3BD; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 1px;">Payout Rate</span>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer style="background: #1A1A2E; border-top: 1px solid #2A2D5A; padding: 3rem 0 1rem; margin-top: 4rem;">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h5>About ML Betting</h5>
-                    <p>The premier platform for Mobile Legends Professional League betting. Experience the excitement of e-sports with secure, fair, and transparent betting.</p>
-                    <div style="margin-top: 1rem;">
-                        <span class="badge badge-success">Licensed</span>
-                        <span class="badge badge-primary">Secure</span>
-                        <span class="badge badge-warning">24/7 Support</span>
-                    </div>
-                </div>
-
-                <div class="footer-section">
-                    <h5>Quick Links</h5>
-                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                        <a href="${pageContext.request.contextPath}/">Home</a>
-                        <a href="${pageContext.request.contextPath}/matches/upcoming">Upcoming Matches</a>
-                        <a href="${pageContext.request.contextPath}/matches/live">Live Matches</a>
-                        <a href="${pageContext.request.contextPath}/dashboard">Dashboard</a>
-                        <a href="${pageContext.request.contextPath}/results">Results</a>
-                    </div>
-                </div>
-
-                <div class="footer-section">
-                    <h5>Support</h5>
-                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                        <a href="#help">Help Center</a>
-                        <a href="#contact">Contact Us</a>
-                        <a href="#responsible">Responsible Gaming</a>
-                        <a href="#terms">Terms & Conditions</a>
-                        <a href="#privacy">Privacy Policy</a>
-                    </div>
-                </div>
-
-                <div class="footer-section">
-                    <h5>Connect With Us</h5>
-                    <p>Follow us for the latest updates on matches, odds, and exclusive promotions.</p>
-                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-                        <a href="#facebook" class="btn btn-outline btn-sm">Facebook</a>
-                        <a href="#twitter" class="btn btn-outline btn-sm">Twitter</a>
-                        <a href="#discord" class="btn btn-outline btn-sm">Discord</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
+            <div style="text-align: center; padding-top: 2rem; border-top: 1px solid #2A2D5A; color: #A0A3BD;">
                 <p>&copy; 2024 ML Betting Platform. All rights reserved. |
-                   <span class="text-warning">Please bet responsibly. 18+ only.</span>
+                   <span style="color: #FDCB6E;">Please bet responsibly. 18+ only.</span>
                 </p>
             </div>
         </div>
     </footer>
 
-    <!-- Alert Container -->
-    <div class="alert-container"></div>
-
-    <!-- Scripts -->
+    <!-- JavaScript -->
     <script src="${pageContext.request.contextPath}/js/script.js"></script>
 
-    <!-- Display alerts if any -->
-    <c:if test="${not empty successMessage}">
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                showAlert('${successMessage}', 'success');
-            });
-        </script>
-    </c:if>
+    <!-- Emergency JavaScript in case external script fails -->
+    <script>
+        // Basic functionality if external script doesn't load
+        console.log('E-Sports Betting Platform loaded');
 
-    <c:if test="${not empty errorMessage}">
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                showAlert('${errorMessage}', 'danger');
-            });
-        </script>
-    </c:if>
+        // Display alerts if any
+        <c:if test="${not empty successMessage}">
+            alert('${successMessage}');
+        </c:if>
+
+        <c:if test="${not empty errorMessage}">
+            alert('${errorMessage}');
+        </c:if>
+    </script>
 </body>
 </html>

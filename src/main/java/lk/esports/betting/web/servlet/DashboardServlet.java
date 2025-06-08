@@ -7,8 +7,8 @@ import lk.esports.betting.entity.User;
 import lk.esports.betting.entity.Match;
 import lk.esports.betting.entity.Bet;
 import lk.esports.betting.entity.Transaction;
+import lk.esports.betting.utils.EJBServiceLocator;
 
-import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
@@ -27,15 +28,6 @@ import java.util.logging.Level;
 public class DashboardServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(DashboardServlet.class.getName());
-
-    @EJB
-    private UserService userService;
-
-    @EJB
-    private MatchService matchService;
-
-    @EJB
-    private BettingService bettingService;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -53,6 +45,16 @@ public class DashboardServlet extends HttpServlet {
         Long userId = (Long) session.getAttribute("userId");
 
         try {
+            // Get services using service locator
+            UserService userService = EJBServiceLocator.getUserService();
+
+            if (userService == null) {
+                logger.severe("UserService is null - service locator failed");
+                session.invalidate();
+                response.sendRedirect(request.getContextPath() + "/login");
+                return;
+            }
+
             // Get user information
             User user = userService.findUserById(userId);
             if (user == null || !user.getIsActive()) {
@@ -132,42 +134,75 @@ public class DashboardServlet extends HttpServlet {
 
     private void loadDashboardData(HttpServletRequest request, Long userId) {
         try {
-            // Get upcoming matches for betting
-            List<Match> upcomingMatches = matchService.getUpcomingMatches();
-            List<Match> liveMatches = matchService.getLiveMatches();
+            // Get services
+            MatchService matchService = EJBServiceLocator.getMatchService();
+            BettingService bettingService = EJBServiceLocator.getBettingService();
+            UserService userService = EJBServiceLocator.getUserService();
 
-            // Limit to first 6 matches for dashboard display
-            if (upcomingMatches.size() > 6) {
-                upcomingMatches = upcomingMatches.subList(0, 6);
-            }
-            if (liveMatches.size() > 3) {
-                liveMatches = liveMatches.subList(0, 3);
+            // Get upcoming matches for betting
+            List<Match> upcomingMatches = List.of();
+            List<Match> liveMatches = List.of();
+
+            if (matchService != null) {
+                try {
+                    upcomingMatches = matchService.getUpcomingMatches();
+                    liveMatches = matchService.getLiveMatches();
+
+                    // Limit to first 6 matches for dashboard display
+                    if (upcomingMatches != null && upcomingMatches.size() > 6) {
+                        upcomingMatches = upcomingMatches.subList(0, 6);
+                    }
+                    if (liveMatches != null && liveMatches.size() > 3) {
+                        liveMatches = liveMatches.subList(0, 3);
+                    }
+                } catch (Exception e) {
+                    logger.log(Level.WARNING, "Error loading matches", e);
+                    upcomingMatches = List.of();
+                    liveMatches = List.of();
+                }
             }
 
             // Get user's recent bets
-            List<Bet> recentBets = bettingService.getUserBets(userId);
-            if (recentBets.size() > 5) {
-                recentBets = recentBets.subList(0, 5);
+            List<Bet> recentBets = List.of();
+            List<Bet> pendingBets = List.of();
+
+            if (bettingService != null) {
+                try {
+                    recentBets = bettingService.getUserBets(userId);
+                    if (recentBets != null && recentBets.size() > 5) {
+                        recentBets = recentBets.subList(0, 5);
+                    }
+                    pendingBets = bettingService.getUserPendingBets(userId);
+                } catch (Exception e) {
+                    logger.log(Level.WARNING, "Error loading user bets", e);
+                    recentBets = List.of();
+                    pendingBets = List.of();
+                }
             }
 
-            // Get user's pending bets
-            List<Bet> pendingBets = bettingService.getUserPendingBets(userId);
-
             // Get user's recent transactions
-            List<Transaction> recentTransactions = userService.getUserTransactions(userId);
-            if (recentTransactions.size() > 5) {
-                recentTransactions = recentTransactions.subList(0, 5);
+            List<Transaction> recentTransactions = List.of();
+            if (userService != null) {
+                try {
+                    recentTransactions = userService.getUserTransactions(userId);
+                    if (recentTransactions != null && recentTransactions.size() > 5) {
+                        recentTransactions = recentTransactions.subList(0, 5);
+                    }
+                } catch (Exception e) {
+                    logger.log(Level.WARNING, "Error loading user transactions", e);
+                    recentTransactions = List.of();
+                }
             }
 
             // Get user statistics
             Map<String, Object> userStats = getUserStatistics(userId);
 
-            // Set attributes for JSP
-            request.setAttribute("upcomingMatches", upcomingMatches);
-            request.setAttribute("liveMatches", liveMatches);
-            request.setAttribute("recentBets", recentBets);
-            request.setAttribute("pendingBets", pendingBets);
-            request.setAttribute("recentTransactions", recentTransactions);
+            // Set attributes for JSP (always set, even if empty)
+            request.setAttribute("upcomingMatches", upcomingMatches != null ? upcomingMatches : List.of());
+            request.setAttribute("liveMatches", liveMatches != null ? liveMatches : List.of());
+            request.setAttribute("recentBets", recentBets != null ? recentBets : List.of());
+            request.setAttribute("pendingBets", pendingBets != null ? pendingBets : List.of());
+            request.setAttribute("recentTransactions", recentTransactions != null ? recentTransactions : List.of());
             request.setAttribute("userStats", userStats);
 
         } catch (Exception e) {
@@ -183,35 +218,84 @@ public class DashboardServlet extends HttpServlet {
     }
 
     private Map<String, Object> getUserStatistics(Long userId) {
-        try {
-            BigDecimal totalBetAmount = bettingService.getUserTotalBetAmount(userId);
-            BigDecimal totalWinnings = bettingService.getUserTotalWinnings(userId);
-            int totalBets = userService.getTotalBetsPlaced(userId);
-            int wonBets = userService.getWonBetsCount(userId);
-            double winRate = bettingService.getUserWinRate(userId);
-            BigDecimal currentBalance = userService.getUserBalance(userId);
+        Map<String, Object> defaultStats = Map.of(
+                "totalBetAmount", BigDecimal.ZERO,
+                "totalWinnings", BigDecimal.ZERO,
+                "totalBets", 0,
+                "wonBets", 0,
+                "winRate", 0.0,
+                "currentBalance", BigDecimal.ZERO,
+                "netProfit", BigDecimal.ZERO
+        );
 
-            return Map.of(
-                    "totalBetAmount", totalBetAmount,
-                    "totalWinnings", totalWinnings,
-                    "totalBets", totalBets,
-                    "wonBets", wonBets,
-                    "winRate", winRate,
-                    "currentBalance", currentBalance,
-                    "netProfit", totalWinnings.subtract(totalBetAmount)
-            );
+        try {
+            BettingService bettingService = EJBServiceLocator.getBettingService();
+            UserService userService = EJBServiceLocator.getUserService();
+
+            if (bettingService == null || userService == null) {
+                return defaultStats;
+            }
+
+            BigDecimal totalBetAmount = BigDecimal.ZERO;
+            BigDecimal totalWinnings = BigDecimal.ZERO;
+            int totalBets = 0;
+            int wonBets = 0;
+            double winRate = 0.0;
+            BigDecimal currentBalance = BigDecimal.ZERO;
+
+            try {
+                totalBetAmount = bettingService.getUserTotalBetAmount(userId);
+                if (totalBetAmount == null) totalBetAmount = BigDecimal.ZERO;
+            } catch (Exception e) {
+                logger.log(Level.WARNING, "Error getting total bet amount", e);
+            }
+
+            try {
+                totalWinnings = bettingService.getUserTotalWinnings(userId);
+                if (totalWinnings == null) totalWinnings = BigDecimal.ZERO;
+            } catch (Exception e) {
+                logger.log(Level.WARNING, "Error getting total winnings", e);
+            }
+
+            try {
+                totalBets = userService.getTotalBetsPlaced(userId);
+            } catch (Exception e) {
+                logger.log(Level.WARNING, "Error getting total bets", e);
+            }
+
+            try {
+                wonBets = userService.getWonBetsCount(userId);
+            } catch (Exception e) {
+                logger.log(Level.WARNING, "Error getting won bets count", e);
+            }
+
+            try {
+                winRate = bettingService.getUserWinRate(userId);
+            } catch (Exception e) {
+                logger.log(Level.WARNING, "Error getting win rate", e);
+            }
+
+            try {
+                currentBalance = userService.getUserBalance(userId);
+                if (currentBalance == null) currentBalance = BigDecimal.ZERO;
+            } catch (Exception e) {
+                logger.log(Level.WARNING, "Error getting current balance", e);
+            }
+
+            Map<String, Object> stats = new HashMap<>();
+            stats.put("totalBetAmount", totalBetAmount);
+            stats.put("totalWinnings", totalWinnings);
+            stats.put("totalBets", totalBets);
+            stats.put("wonBets", wonBets);
+            stats.put("winRate", winRate);
+            stats.put("currentBalance", currentBalance);
+            stats.put("netProfit", totalWinnings.subtract(totalBetAmount));
+
+            return stats;
 
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting user statistics: " + userId, e);
-            return Map.of(
-                    "totalBetAmount", BigDecimal.ZERO,
-                    "totalWinnings", BigDecimal.ZERO,
-                    "totalBets", 0,
-                    "wonBets", 0,
-                    "winRate", 0.0,
-                    "currentBalance", BigDecimal.ZERO,
-                    "netProfit", BigDecimal.ZERO
-            );
+            return defaultStats;
         }
     }
 
@@ -243,19 +327,24 @@ public class DashboardServlet extends HttpServlet {
             }
 
             // Add funds to user account
-            String finalDescription = description != null && !description.trim().isEmpty()
-                    ? description.trim() : "Account deposit";
+            UserService userService = EJBServiceLocator.getUserService();
+            if (userService != null) {
+                String finalDescription = description != null && !description.trim().isEmpty()
+                        ? description.trim() : "Account deposit";
 
-            userService.addFunds(userId, amount, finalDescription);
+                userService.addFunds(userId, amount, finalDescription);
 
-            // Update balance in session
-            BigDecimal newBalance = userService.getUserBalance(userId);
-            session.setAttribute("userBalance", newBalance);
+                // Update balance in session
+                BigDecimal newBalance = userService.getUserBalance(userId);
+                session.setAttribute("userBalance", newBalance);
 
-            session.setAttribute("successMessage",
-                    String.format("Successfully added $%.2f to your account", amount));
+                session.setAttribute("successMessage",
+                        String.format("Successfully added $%.2f to your account", amount));
 
-            logger.info("Funds added: User " + userId + ", Amount $" + amount);
+                logger.info("Funds added: User " + userId + ", Amount $" + amount);
+            } else {
+                session.setAttribute("errorMessage", "Service unavailable. Please try again.");
+            }
 
         } catch (NumberFormatException e) {
             session.setAttribute("errorMessage", "Invalid amount format");
@@ -288,30 +377,35 @@ public class DashboardServlet extends HttpServlet {
                 return;
             }
 
-            // Check if user has sufficient balance
-            if (!userService.canPlaceBet(userId, amount)) {
-                session.setAttribute("errorMessage", "Insufficient balance for withdrawal");
-                response.sendRedirect(request.getContextPath() + "/dashboard");
-                return;
-            }
+            UserService userService = EJBServiceLocator.getUserService();
+            if (userService != null) {
+                // Check if user has sufficient balance
+                if (!userService.canPlaceBet(userId, amount)) {
+                    session.setAttribute("errorMessage", "Insufficient balance for withdrawal");
+                    response.sendRedirect(request.getContextPath() + "/dashboard");
+                    return;
+                }
 
-            // Withdraw funds from user account
-            String finalDescription = description != null && !description.trim().isEmpty()
-                    ? description.trim() : "Account withdrawal";
+                // Withdraw funds from user account
+                String finalDescription = description != null && !description.trim().isEmpty()
+                        ? description.trim() : "Account withdrawal";
 
-            boolean success = userService.withdrawFunds(userId, amount, finalDescription);
+                boolean success = userService.withdrawFunds(userId, amount, finalDescription);
 
-            if (success) {
-                // Update balance in session
-                BigDecimal newBalance = userService.getUserBalance(userId);
-                session.setAttribute("userBalance", newBalance);
+                if (success) {
+                    // Update balance in session
+                    BigDecimal newBalance = userService.getUserBalance(userId);
+                    session.setAttribute("userBalance", newBalance);
 
-                session.setAttribute("successMessage",
-                        String.format("Successfully withdrew $%.2f from your account", amount));
+                    session.setAttribute("successMessage",
+                            String.format("Successfully withdrew $%.2f from your account", amount));
 
-                logger.info("Funds withdrawn: User " + userId + ", Amount $" + amount);
+                    logger.info("Funds withdrawn: User " + userId + ", Amount $" + amount);
+                } else {
+                    session.setAttribute("errorMessage", "Withdrawal failed. Please try again.");
+                }
             } else {
-                session.setAttribute("errorMessage", "Withdrawal failed. Please try again.");
+                session.setAttribute("errorMessage", "Service unavailable. Please try again.");
             }
 
         } catch (NumberFormatException e) {
@@ -337,16 +431,21 @@ public class DashboardServlet extends HttpServlet {
                 return;
             }
 
-            // Update user profile
-            userService.updateProfile(userId, fullName.trim(),
-                    phone != null ? phone.trim() : null);
+            UserService userService = EJBServiceLocator.getUserService();
+            if (userService != null) {
+                // Update user profile
+                userService.updateProfile(userId, fullName.trim(),
+                        phone != null ? phone.trim() : null);
 
-            // Update user object in session
-            User updatedUser = userService.findUserById(userId);
-            session.setAttribute("user", updatedUser);
+                // Update user object in session
+                User updatedUser = userService.findUserById(userId);
+                session.setAttribute("user", updatedUser);
 
-            session.setAttribute("successMessage", "Profile updated successfully");
-            logger.info("Profile updated for user: " + userId);
+                session.setAttribute("successMessage", "Profile updated successfully");
+                logger.info("Profile updated for user: " + userId);
+            } else {
+                session.setAttribute("errorMessage", "Service unavailable. Please try again.");
+            }
 
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error updating profile for user: " + userId, e);

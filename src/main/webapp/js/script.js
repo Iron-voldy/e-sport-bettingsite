@@ -1,4 +1,4 @@
-// E-Sports Betting Platform Complete JavaScript
+// E-Sports Betting Platform JavaScript
 
 // Global variables
 let userBalance = 0;
@@ -14,18 +14,18 @@ document.addEventListener('DOMContentLoaded', function() {
 function initializeApp() {
     console.log('E-Sports Betting Platform initializing...');
 
-    // Initialize components
-    initializeNavigation();
-    initializeForms();
-    initializeBetting();
-    initializeModals();
-    initializeCountdowns();
-    initializeSearch();
+    try {
+        // Initialize components
+        initializeNavigation();
+        initializeForms();
+        initializeBetting();
+        initializeModals();
+        initializeCountdowns();
 
-    // Start periodic updates
-    startPeriodicUpdates();
-
-    console.log('E-Sports Betting Platform initialized successfully');
+        console.log('E-Sports Betting Platform initialized successfully');
+    } catch (error) {
+        console.error('Error initializing app:', error);
+    }
 }
 
 // Navigation functionality
@@ -34,6 +34,11 @@ function initializeNavigation() {
 
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
+            // Don't prevent default for external links
+            if (this.href && !this.href.includes('#')) {
+                return;
+            }
+
             // Remove active class from all links
             navLinks.forEach(l => l.classList.remove('active'));
             // Add active class to clicked link
@@ -117,20 +122,15 @@ async function handleLogin(e) {
             body: formData
         });
 
-        // Check if response is redirect or contains error
-        const responseText = await response.text();
-
-        if (response.ok && !responseText.includes('errorMessage')) {
-            // Success - page will redirect
-            window.location.reload();
+        if (response.ok) {
+            // Check if we got redirected to dashboard
+            if (response.url.includes('/dashboard') || response.url.includes('/login')) {
+                window.location.href = response.url;
+            } else {
+                window.location.reload();
+            }
         } else {
-            // Extract error message if present
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(responseText, 'text/html');
-            const errorElement = doc.querySelector('.alert-danger span');
-            const errorMessage = errorElement ? errorElement.textContent : 'Login failed. Please check your credentials.';
-
-            showAlert(errorMessage, 'danger');
+            showAlert('Login failed. Please check your credentials.', 'danger');
         }
     } catch (error) {
         console.error('Login error:', error);
@@ -171,21 +171,13 @@ async function handleRegistration(e) {
             body: formData
         });
 
-        const responseText = await response.text();
-
-        if (response.ok && !responseText.includes('errorMessage')) {
+        if (response.ok) {
             showAlert('Registration successful! Welcome to E-Sports Betting!', 'success');
             setTimeout(() => {
-                window.location.reload();
+                window.location.href = '/ESportsBetting/dashboard';
             }, 1500);
         } else {
-            // Extract error message
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(responseText, 'text/html');
-            const errorElement = doc.querySelector('.alert-danger span');
-            const errorMessage = errorElement ? errorElement.textContent : 'Registration failed. Please try again.';
-
-            showAlert(errorMessage, 'danger');
+            showAlert('Registration failed. Please try again.', 'danger');
         }
     } catch (error) {
         console.error('Registration error:', error);
@@ -266,11 +258,11 @@ function updateWinningsDisplay(matchCard, winnings, profit = 0) {
     const profitDisplay = matchCard?.querySelector('.potential-profit-amount');
 
     if (winningsDisplay) {
-        winningsDisplay.textContent = `$${winnings.toFixed(2)}`;
+        winningsDisplay.textContent = `${winnings.toFixed(2)}`;
     }
 
     if (profitDisplay) {
-        profitDisplay.textContent = `Profit: $${profit.toFixed(2)}`;
+        profitDisplay.textContent = `Profit: ${profit.toFixed(2)}`;
     }
 }
 
@@ -579,89 +571,6 @@ function updateCountdowns() {
         } else {
             element.textContent = `${seconds}s`;
         }
-    });
-}
-
-// Periodic updates
-function startPeriodicUpdates() {
-    // Update match odds every 30 seconds
-    setInterval(refreshAllMatches, 30000);
-
-    // Update user balance every 60 seconds
-    setInterval(updateUserBalance, 60000);
-
-    // Update live match statuses every 10 seconds
-    setInterval(updateLiveMatches, 10000);
-}
-
-async function refreshAllMatches() {
-    try {
-        const response = await fetch('/ESportsBetting/api/matches/upcoming');
-        if (!response.ok) return;
-
-        const data = await response.json();
-        if (data.success && data.matches) {
-            data.matches.forEach(match => {
-                updateMatchCard(match);
-            });
-        }
-    } catch (error) {
-        console.error('Error refreshing matches:', error);
-    }
-}
-
-async function updateLiveMatches() {
-    try {
-        const response = await fetch('/ESportsBetting/api/matches/live');
-        if (!response.ok) return;
-
-        const data = await response.json();
-        if (data.success && data.matches) {
-            data.matches.forEach(match => {
-                const matchCard = document.querySelector(`[data-match-id="${match.id}"]`);
-                if (matchCard) {
-                    const statusBadge = matchCard.querySelector('.match-status');
-                    if (statusBadge) {
-                        statusBadge.textContent = 'LIVE';
-                        statusBadge.className = 'match-status status-live';
-                    }
-                }
-            });
-        }
-    } catch (error) {
-        console.error('Error updating live matches:', error);
-    }
-}
-
-// Search functionality
-function initializeSearch() {
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('input', debounce(handleSearch, 300));
-    }
-}
-
-function handleSearch(e) {
-    const query = e.target.value.toLowerCase();
-    const matchCards = document.querySelectorAll('.match-card');
-
-    matchCards.forEach(card => {
-        const teamNames = card.querySelectorAll('.team-name');
-        const tournamentName = card.querySelector('.tournament-name');
-
-        let matchFound = false;
-
-        teamNames.forEach(team => {
-            if (team.textContent.toLowerCase().includes(query)) {
-                matchFound = true;
-            }
-        });
-
-        if (tournamentName && tournamentName.textContent.toLowerCase().includes(query)) {
-            matchFound = true;
-        }
-
-        card.style.display = matchFound || query === '' ? 'block' : 'none';
     });
 }
 

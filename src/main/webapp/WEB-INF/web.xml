@@ -22,28 +22,6 @@
     <res-auth>Container</res-auth>
   </resource-ref>
 
-  <!-- EJB Local References -->
-  <ejb-local-ref>
-    <ejb-ref-name>ejb/UserService</ejb-ref-name>
-    <ejb-ref-type>Session</ejb-ref-type>
-    <local>lk.esports.betting.ejb.local.UserService</local>
-    <ejb-link>UserServiceBean</ejb-link>
-  </ejb-local-ref>
-
-  <ejb-local-ref>
-    <ejb-ref-name>ejb/MatchService</ejb-ref-name>
-    <ejb-ref-type>Session</ejb-ref-type>
-    <local>lk.esports.betting.ejb.local.MatchService</local>
-    <ejb-link>MatchServiceBean</ejb-link>
-  </ejb-local-ref>
-
-  <ejb-local-ref>
-    <ejb-ref-name>ejb/BettingService</ejb-ref-name>
-    <ejb-ref-type>Session</ejb-ref-type>
-    <local>lk.esports.betting.ejb.local.BettingService</local>
-    <ejb-link>BettingServiceBean</ejb-link>
-  </ejb-local-ref>
-
   <!-- Welcome File List -->
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>

@@ -2,6 +2,7 @@ package lk.esports.betting.web.servlet;
 
 import lk.esports.betting.ejb.local.UserService;
 import lk.esports.betting.entity.User;
+import lk.esports.betting.utils.EJBServiceLocator;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,8 +11,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import java.io.IOException;
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -20,45 +19,11 @@ import java.util.logging.Level;
 public class LoginServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(LoginServlet.class.getName());
-    private UserService userService;
 
     @Override
     public void init() throws ServletException {
         super.init();
         logger.info("LoginServlet initializing...");
-
-        try {
-            InitialContext ctx = new InitialContext();
-
-            // Try multiple lookup paths for UserService
-            String[] lookupPaths = {
-                    "java:comp/env/ejb/UserService",
-                    "java:global/ESportsBetting/UserServiceBean",
-                    "java:app/ESportsBetting/UserServiceBean",
-                    "java:module/UserServiceBean"
-            };
-
-            for (String path : lookupPaths) {
-                try {
-                    userService = (UserService) ctx.lookup(path);
-                    if (userService != null) {
-                        logger.info("UserService found at: " + path);
-                        break;
-                    }
-                } catch (NamingException e) {
-                    logger.warning("Failed UserService lookup at: " + path + " - " + e.getMessage());
-                }
-            }
-
-            if (userService == null) {
-                logger.severe("UserService EJB lookup failed at all paths!");
-            } else {
-                logger.info("UserService EJB lookup successful");
-            }
-
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error during UserService EJB lookup", e);
-        }
     }
 
     @Override
@@ -95,9 +60,11 @@ public class LoginServlet extends HttpServlet {
                 return;
             }
 
-            // Check if UserService is available
+            // Get UserService using service locator
+            UserService userService = EJBServiceLocator.getUserService();
+
             if (userService == null) {
-                logger.severe("UserService is null - EJB lookup failed");
+                logger.severe("UserService is null - service locator failed");
                 request.setAttribute("errorMessage", "System is initializing. Please try again in a moment.");
                 request.setAttribute("email", email);
                 request.getRequestDispatcher("/login.jsp").forward(request, response);

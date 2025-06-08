@@ -14,20 +14,4 @@
               validationQuery="SELECT 1"
               testOnBorrow="true"
               testWhileIdle="true"/>
-
-    <!-- EJB JNDI Environment -->
-    <Environment name="ejb/UserService"
-                 value="java:global/ESportsBetting/UserServiceBean"
-                 type="java.lang.String"
-                 override="false"/>
-
-    <Environment name="ejb/MatchService"
-                 value="java:global/ESportsBetting/MatchServiceBean"
-                 type="java.lang.String"
-                 override="false"/>
-
-    <Environment name="ejb/BettingService"
-                 value="java:global/ESportsBetting/BettingServiceBean"
-                 type="java.lang.String"
-                 override="false"/>
 </Context>
