@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://esports.betting/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -108,7 +109,7 @@
                                     <div class="match-header">
                                         <span class="match-status status-live">LIVE</span>
                                         <span class="match-date">
-                                            <fmt:formatDate value="${match.matchDate}" pattern="HH:mm" />
+                                            ${fn:formatTime(match.matchDate)}
                                         </span>
                                     </div>
 
@@ -155,7 +156,7 @@
                                         <div class="match-header">
                                             <span class="match-status status-upcoming">UPCOMING</span>
                                             <span class="match-date countdown" data-end-time="${match.matchDate}">
-                                                <fmt:formatDate value="${match.matchDate}" pattern="MMM dd, HH:mm" />
+                                                ${fn:formatShort(match.matchDate)}
                                             </span>
                                         </div>
 
