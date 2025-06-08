@@ -8,12 +8,15 @@ import lk.esports.betting.entity.Match;
 import lk.esports.betting.entity.User;
 import lk.esports.betting.entity.Team;
 import lk.esports.betting.entity.Transaction;
+import lk.esports.betting.utils.DatabaseUtil;
+import lk.esports.betting.utils.EJBServiceLocator;
 
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import jakarta.annotation.PostConstruct;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -39,17 +42,51 @@ public class BettingServiceBean implements BettingService {
     @EJB
     private MatchService matchService;
 
-    // Bet Placement
+    @PostConstruct
+    public void init() {
+        logger.info("BettingServiceBean initialized");
+    }
+
+    // Helper method to get EntityManager with fallback
+    private EntityManager getEntityManager() {
+        if (em == null) {
+            logger.warning("EntityManager is null, creating new one using DatabaseUtil");
+            return DatabaseUtil.createEntityManager();
+        }
+        return em;
+    }
+
+    // Helper method to get services with fallback
+    private UserService getUserService() {
+        if (userService == null) {
+            return EJBServiceLocator.getUserService();
+        }
+        return userService;
+    }
+
+    private MatchService getMatchService() {
+        if (matchService == null) {
+            return EJBServiceLocator.getMatchService();
+        }
+        return matchService;
+    }
+
     @Override
     public Bet placeBet(Long userId, Long matchId, Long selectedTeamId, BigDecimal betAmount) {
+        EntityManager entityManager = null;
+        boolean useLocalTransaction = false;
+
         try {
             if (!validateBet(userId, matchId, selectedTeamId, betAmount)) {
                 throw new IllegalArgumentException("Invalid bet parameters");
             }
 
-            User user = userService.findUserById(userId);
-            Match match = matchService.findMatchById(matchId);
-            Team selectedTeam = matchService.findTeamById(selectedTeamId);
+            UserService userSvc = getUserService();
+            MatchService matchSvc = getMatchService();
+
+            User user = userSvc.findUserById(userId);
+            Match match = matchSvc.findMatchById(matchId);
+            Team selectedTeam = matchSvc.findTeamById(selectedTeamId);
 
             if (user == null || match == null || selectedTeam == null) {
                 throw new IllegalArgumentException("Invalid entities");
@@ -64,25 +101,32 @@ public class BettingServiceBean implements BettingService {
             BigDecimal currentOdds = match.getOddsForTeam(selectedTeam);
 
             // Deduct funds from user wallet
-            if (!userService.deductFunds(userId, betAmount, "Bet placed on " + match.getMatchTitle())) {
+            if (!userSvc.deductFunds(userId, betAmount, "Bet placed on " + match.getMatchTitle())) {
                 throw new IllegalArgumentException("Insufficient funds");
+            }
+
+            entityManager = getEntityManager();
+
+            if (em == null) {
+                useLocalTransaction = true;
+                if (!entityManager.getTransaction().isActive()) {
+                    entityManager.getTransaction().begin();
+                }
             }
 
             // Create bet
             Bet bet = new Bet(user, match, selectedTeam, betAmount, currentOdds);
-            em.persist(bet);
-            em.flush();
+            entityManager.persist(bet);
+
+            if (useLocalTransaction) {
+                entityManager.getTransaction().commit();
+            } else {
+                entityManager.flush();
+            }
 
             // Create transaction record
-            userService.createTransaction(userId, Transaction.TransactionType.BET_PLACED,
+            userSvc.createTransaction(userId, Transaction.TransactionType.BET_PLACED,
                     betAmount, "Bet placed on " + match.getMatchTitle(), bet.getId());
-
-            // Update match total pool
-            match.setTotalPool(match.getTotalPool().add(betAmount));
-            matchService.updateMatch(match);
-
-            // Recalculate odds
-            updateMatchOdds(matchId);
 
             logger.info("Bet placed: User " + user.getUsername() + " bet $" + betAmount +
                     " on " + selectedTeam.getTeamName() + " for match " + match.getMatchTitle());
@@ -90,16 +134,26 @@ public class BettingServiceBean implements BettingService {
             return bet;
 
         } catch (Exception e) {
+            if (useLocalTransaction && entityManager != null && entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
             logger.log(Level.SEVERE, "Error placing bet", e);
             throw new RuntimeException("Failed to place bet: " + e.getMessage(), e);
+        } finally {
+            if (useLocalTransaction && entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
     }
 
     @Override
     public boolean validateBet(Long userId, Long matchId, Long selectedTeamId, BigDecimal betAmount) {
         try {
+            UserService userSvc = getUserService();
+            MatchService matchSvc = getMatchService();
+
             // Check user
-            if (!userService.isAccountActive(userId)) {
+            if (!userSvc.isAccountActive(userId)) {
                 return false;
             }
 
@@ -119,7 +173,7 @@ public class BettingServiceBean implements BettingService {
             }
 
             // Check if selected team is participating in the match
-            Match match = matchService.findMatchById(matchId);
+            Match match = matchSvc.findMatchById(matchId);
             if (match == null) {
                 return false;
             }
@@ -136,8 +190,9 @@ public class BettingServiceBean implements BettingService {
     @Override
     public BigDecimal calculatePotentialWinnings(Long matchId, Long selectedTeamId, BigDecimal betAmount) {
         try {
-            Match match = matchService.findMatchById(matchId);
-            Team selectedTeam = matchService.findTeamById(selectedTeamId);
+            MatchService matchSvc = getMatchService();
+            Match match = matchSvc.findMatchById(matchId);
+            Team selectedTeam = matchSvc.findTeamById(selectedTeamId);
 
             if (match != null && selectedTeam != null && betAmount != null) {
                 BigDecimal odds = match.getOddsForTeam(selectedTeam);
@@ -150,82 +205,142 @@ public class BettingServiceBean implements BettingService {
         }
     }
 
-    // Bet Management
     @Override
     public Bet findBetById(Long betId) {
+        EntityManager entityManager = null;
         try {
-            return em.find(Bet.class, betId);
+            entityManager = getEntityManager();
+            return entityManager.find(Bet.class, betId);
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error finding bet by ID: " + betId, e);
             return null;
+        } finally {
+            if (em == null && entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
     }
 
     @Override
     public List<Bet> getUserBets(Long userId) {
+        EntityManager entityManager = null;
         try {
-            return em.createNamedQuery("Bet.findByUser", Bet.class)
-                    .setParameter("userId", userId)
-                    .getResultList();
+            entityManager = getEntityManager();
+            TypedQuery<Bet> query = entityManager.createQuery(
+                    "SELECT b FROM Bet b WHERE b.user.id = :userId ORDER BY b.betPlacedAt DESC", Bet.class);
+            query.setParameter("userId", userId);
+            return query.getResultList();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting user bets: " + userId, e);
             return List.of();
+        } finally {
+            if (em == null && entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
     }
 
     @Override
     public List<Bet> getMatchBets(Long matchId) {
+        EntityManager entityManager = null;
         try {
-            return em.createNamedQuery("Bet.findByMatch", Bet.class)
-                    .setParameter("matchId", matchId)
-                    .getResultList();
+            entityManager = getEntityManager();
+            TypedQuery<Bet> query = entityManager.createQuery(
+                    "SELECT b FROM Bet b WHERE b.match.id = :matchId ORDER BY b.betPlacedAt DESC", Bet.class);
+            query.setParameter("matchId", matchId);
+            return query.getResultList();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting match bets: " + matchId, e);
             return List.of();
+        } finally {
+            if (em == null && entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
     }
 
     @Override
     public List<Bet> getBetsByStatus(Bet.BetStatus status) {
+        EntityManager entityManager = null;
         try {
-            return em.createNamedQuery("Bet.findByStatus", Bet.class)
-                    .setParameter("status", status)
-                    .getResultList();
+            entityManager = getEntityManager();
+            TypedQuery<Bet> query = entityManager.createQuery(
+                    "SELECT b FROM Bet b WHERE b.status = :status ORDER BY b.betPlacedAt DESC", Bet.class);
+            query.setParameter("status", status);
+            return query.getResultList();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting bets by status: " + status, e);
             return List.of();
+        } finally {
+            if (em == null && entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
     }
 
     @Override
     public List<Bet> getUserBetsByMatch(Long userId, Long matchId) {
+        EntityManager entityManager = null;
         try {
-            return em.createNamedQuery("Bet.findUserBetsByMatch", Bet.class)
-                    .setParameter("userId", userId)
-                    .setParameter("matchId", matchId)
-                    .getResultList();
+            entityManager = getEntityManager();
+            TypedQuery<Bet> query = entityManager.createQuery(
+                    "SELECT b FROM Bet b WHERE b.user.id = :userId AND b.match.id = :matchId", Bet.class);
+            query.setParameter("userId", userId);
+            query.setParameter("matchId", matchId);
+            return query.getResultList();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting user bets by match", e);
             return List.of();
+        } finally {
+            if (em == null && entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
     }
 
     @Override
     public List<Bet> getPendingBets() {
+        EntityManager entityManager = null;
         try {
-            return em.createNamedQuery("Bet.findPendingBets", Bet.class)
-                    .getResultList();
+            entityManager = getEntityManager();
+            TypedQuery<Bet> query = entityManager.createQuery(
+                    "SELECT b FROM Bet b WHERE b.status = 'PENDING' ORDER BY b.betPlacedAt", Bet.class);
+            return query.getResultList();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting pending bets", e);
             return List.of();
+        } finally {
+            if (em == null && entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
     }
 
-    // Bet Processing
+    @Override
+    public List<Bet> getUserPendingBets(Long userId) {
+        EntityManager entityManager = null;
+        try {
+            entityManager = getEntityManager();
+            TypedQuery<Bet> query = entityManager.createQuery(
+                    "SELECT b FROM Bet b WHERE b.user.id = :userId AND b.status = 'PENDING' ORDER BY b.betPlacedAt DESC",
+                    Bet.class);
+            query.setParameter("userId", userId);
+            return query.getResultList();
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error getting user pending bets: " + userId, e);
+            return List.of();
+        } finally {
+            if (em == null && entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
+        }
+    }
+
     @Override
     public void processBetResults(Long matchId) {
         try {
-            Match match = matchService.findMatchById(matchId);
+            MatchService matchSvc = getMatchService();
+            Match match = matchSvc.findMatchById(matchId);
             if (match == null || !match.isCompleted()) {
                 logger.warning("Cannot process bets for incomplete match: " + matchId);
                 return;
@@ -254,52 +369,115 @@ public class BettingServiceBean implements BettingService {
 
     @Override
     public void markBetAsWon(Long betId) {
+        EntityManager entityManager = null;
+        boolean useLocalTransaction = false;
+
         try {
-            Bet bet = findBetById(betId);
+            entityManager = getEntityManager();
+
+            if (em == null) {
+                useLocalTransaction = true;
+                if (!entityManager.getTransaction().isActive()) {
+                    entityManager.getTransaction().begin();
+                }
+            }
+
+            Bet bet = entityManager.find(Bet.class, betId);
             if (bet != null && bet.isPending()) {
                 bet.markAsWon();
-                em.merge(bet);
+                entityManager.merge(bet);
+
+                if (useLocalTransaction) {
+                    entityManager.getTransaction().commit();
+                }
 
                 // Add winnings to user wallet
                 BigDecimal winnings = bet.getPotentialWinnings();
-                userService.addFunds(bet.getUser().getId(), winnings,
+                UserService userSvc = getUserService();
+                userSvc.addFunds(bet.getUser().getId(), winnings,
                         "Winnings from bet on " + bet.getMatch().getMatchTitle());
 
                 // Create transaction record
-                userService.createTransaction(bet.getUser().getId(), Transaction.TransactionType.WINNINGS,
+                userSvc.createTransaction(bet.getUser().getId(), Transaction.TransactionType.WINNINGS,
                         winnings, "Winnings from bet on " + bet.getMatch().getMatchTitle(), betId);
 
                 logger.info("Bet marked as won: " + betId + ", Winnings: $" + winnings);
             }
         } catch (Exception e) {
+            if (useLocalTransaction && entityManager != null && entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
             logger.log(Level.SEVERE, "Error marking bet as won: " + betId, e);
             throw new RuntimeException("Failed to mark bet as won", e);
+        } finally {
+            if (useLocalTransaction && entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
     }
 
     @Override
     public void markBetAsLost(Long betId) {
+        EntityManager entityManager = null;
+        boolean useLocalTransaction = false;
+
         try {
-            Bet bet = findBetById(betId);
+            entityManager = getEntityManager();
+
+            if (em == null) {
+                useLocalTransaction = true;
+                if (!entityManager.getTransaction().isActive()) {
+                    entityManager.getTransaction().begin();
+                }
+            }
+
+            Bet bet = entityManager.find(Bet.class, betId);
             if (bet != null && bet.isPending()) {
                 bet.markAsLost();
-                em.merge(bet);
+                entityManager.merge(bet);
+
+                if (useLocalTransaction) {
+                    entityManager.getTransaction().commit();
+                }
 
                 logger.info("Bet marked as lost: " + betId);
             }
         } catch (Exception e) {
+            if (useLocalTransaction && entityManager != null && entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
             logger.log(Level.SEVERE, "Error marking bet as lost: " + betId, e);
             throw new RuntimeException("Failed to mark bet as lost", e);
+        } finally {
+            if (useLocalTransaction && entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
     }
 
     @Override
     public void cancelBet(Long betId) {
+        EntityManager entityManager = null;
+        boolean useLocalTransaction = false;
+
         try {
-            Bet bet = findBetById(betId);
+            entityManager = getEntityManager();
+
+            if (em == null) {
+                useLocalTransaction = true;
+                if (!entityManager.getTransaction().isActive()) {
+                    entityManager.getTransaction().begin();
+                }
+            }
+
+            Bet bet = entityManager.find(Bet.class, betId);
             if (bet != null && bet.canBeCancelled()) {
                 bet.markAsCancelled();
-                em.merge(bet);
+                entityManager.merge(bet);
+
+                if (useLocalTransaction) {
+                    entityManager.getTransaction().commit();
+                }
 
                 // Refund bet amount to user
                 refundBet(betId);
@@ -307,8 +485,15 @@ public class BettingServiceBean implements BettingService {
                 logger.info("Bet cancelled: " + betId);
             }
         } catch (Exception e) {
+            if (useLocalTransaction && entityManager != null && entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
             logger.log(Level.SEVERE, "Error cancelling bet: " + betId, e);
             throw new RuntimeException("Failed to cancel bet", e);
+        } finally {
+            if (useLocalTransaction && entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
     }
 
@@ -317,8 +502,9 @@ public class BettingServiceBean implements BettingService {
         try {
             Bet bet = findBetById(betId);
             if (bet != null) {
+                UserService userSvc = getUserService();
                 // Refund bet amount to user wallet
-                userService.refundFunds(bet.getUser().getId(), bet.getBetAmount(),
+                userSvc.refundFunds(bet.getUser().getId(), bet.getBetAmount(),
                         "Refund for cancelled bet on " + bet.getMatch().getMatchTitle());
 
                 logger.info("Bet refunded: " + betId + ", Amount: $" + bet.getBetAmount());
@@ -329,10 +515,10 @@ public class BettingServiceBean implements BettingService {
         }
     }
 
-    // Bet Validation
     @Override
     public boolean canPlaceBet(Long userId, Long matchId, BigDecimal amount) {
-        return userService.canPlaceBet(userId, amount) &&
+        UserService userSvc = getUserService();
+        return userSvc.canPlaceBet(userId, amount) &&
                 isMatchBettable(matchId) &&
                 isValidBetAmount(amount) &&
                 !hasUserBetOnMatch(userId, matchId);
@@ -358,27 +544,38 @@ public class BettingServiceBean implements BettingService {
 
     @Override
     public boolean isMatchBettable(Long matchId) {
-        return matchService.isMatchBettable(matchId);
+        MatchService matchSvc = getMatchService();
+        return matchSvc.isMatchBettable(matchId);
     }
 
-    // Bet Statistics
     @Override
     public BigDecimal getTotalBetAmount(Long matchId) {
+        EntityManager entityManager = null;
         try {
-            TypedQuery<BigDecimal> query = em.createNamedQuery("Bet.getTotalBetAmount", BigDecimal.class);
+            entityManager = getEntityManager();
+            TypedQuery<BigDecimal> query = entityManager.createQuery(
+                    "SELECT COALESCE(SUM(b.betAmount), 0) FROM Bet b WHERE b.match.id = :matchId", BigDecimal.class);
             query.setParameter("matchId", matchId);
             BigDecimal result = query.getSingleResult();
             return result != null ? result : BigDecimal.ZERO;
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting total bet amount for match: " + matchId, e);
             return BigDecimal.ZERO;
+        } finally {
+            if (em == null && entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
     }
 
     @Override
     public BigDecimal getTeamBetAmount(Long matchId, Long teamId) {
+        EntityManager entityManager = null;
         try {
-            TypedQuery<BigDecimal> query = em.createNamedQuery("Bet.getTotalBetAmountForTeam", BigDecimal.class);
+            entityManager = getEntityManager();
+            TypedQuery<BigDecimal> query = entityManager.createQuery(
+                    "SELECT COALESCE(SUM(b.betAmount), 0) FROM Bet b WHERE b.match.id = :matchId AND b.selectedTeam.id = :teamId",
+                    BigDecimal.class);
             query.setParameter("matchId", matchId);
             query.setParameter("teamId", teamId);
             BigDecimal result = query.getSingleResult();
@@ -386,26 +583,38 @@ public class BettingServiceBean implements BettingService {
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting team bet amount", e);
             return BigDecimal.ZERO;
+        } finally {
+            if (em == null && entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
     }
 
     @Override
     public int getTotalBetsCount(Long matchId) {
+        EntityManager entityManager = null;
         try {
-            TypedQuery<Long> query = em.createQuery(
+            entityManager = getEntityManager();
+            TypedQuery<Long> query = entityManager.createQuery(
                     "SELECT COUNT(b) FROM Bet b WHERE b.match.id = :matchId", Long.class);
             query.setParameter("matchId", matchId);
             return query.getSingleResult().intValue();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting total bets count for match: " + matchId, e);
             return 0;
+        } finally {
+            if (em == null && entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
     }
 
     @Override
     public int getTeamBetsCount(Long matchId, Long teamId) {
+        EntityManager entityManager = null;
         try {
-            TypedQuery<Long> query = em.createQuery(
+            entityManager = getEntityManager();
+            TypedQuery<Long> query = entityManager.createQuery(
                     "SELECT COUNT(b) FROM Bet b WHERE b.match.id = :matchId AND b.selectedTeam.id = :teamId", Long.class);
             query.setParameter("matchId", matchId);
             query.setParameter("teamId", teamId);
@@ -413,13 +622,18 @@ public class BettingServiceBean implements BettingService {
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting team bets count", e);
             return 0;
+        } finally {
+            if (em == null && entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
     }
 
     @Override
     public Map<Long, BigDecimal> getTeamBetDistribution(Long matchId) {
         try {
-            Match match = matchService.findMatchById(matchId);
+            MatchService matchSvc = getMatchService();
+            Match match = matchSvc.findMatchById(matchId);
             if (match == null) {
                 return new HashMap<>();
             }
@@ -435,23 +649,32 @@ public class BettingServiceBean implements BettingService {
         }
     }
 
-    // User Betting History
     @Override
     public List<Bet> getUserWinningBets(Long userId) {
+        EntityManager entityManager = null;
         try {
-            return em.createNamedQuery("Bet.findUserWinnings", Bet.class)
-                    .setParameter("userId", userId)
-                    .getResultList();
+            entityManager = getEntityManager();
+            TypedQuery<Bet> query = entityManager.createQuery(
+                    "SELECT b FROM Bet b WHERE b.user.id = :userId AND b.status = 'WON' ORDER BY b.resultProcessedAt DESC",
+                    Bet.class);
+            query.setParameter("userId", userId);
+            return query.getResultList();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting user winning bets: " + userId, e);
             return List.of();
+        } finally {
+            if (em == null && entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
     }
 
     @Override
     public List<Bet> getUserLosingBets(Long userId) {
+        EntityManager entityManager = null;
         try {
-            TypedQuery<Bet> query = em.createQuery(
+            entityManager = getEntityManager();
+            TypedQuery<Bet> query = entityManager.createQuery(
                     "SELECT b FROM Bet b WHERE b.user.id = :userId AND b.status = 'LOST' ORDER BY b.resultProcessedAt DESC",
                     Bet.class);
             query.setParameter("userId", userId);
@@ -459,39 +682,32 @@ public class BettingServiceBean implements BettingService {
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting user losing bets: " + userId, e);
             return List.of();
-        }
-    }
-
-    @Override
-    public List<Bet> getUserPendingBets(Long userId) {
-        try {
-            TypedQuery<Bet> query = em.createQuery(
-                    "SELECT b FROM Bet b WHERE b.user.id = :userId AND b.status = 'PENDING' ORDER BY b.betPlacedAt DESC",
-                    Bet.class);
-            query.setParameter("userId", userId);
-            return query.getResultList();
-        } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error getting user pending bets: " + userId, e);
-            return List.of();
+        } finally {
+            if (em == null && entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
     }
 
     @Override
     public BigDecimal getUserTotalBetAmount(Long userId) {
-        return userService.getTotalBetAmount(userId);
+        UserService userSvc = getUserService();
+        return userSvc.getTotalBetAmount(userId);
     }
 
     @Override
     public BigDecimal getUserTotalWinnings(Long userId) {
-        return userService.getTotalWinnings(userId);
+        UserService userSvc = getUserService();
+        return userSvc.getTotalWinnings(userId);
     }
 
     @Override
     public double getUserWinRate(Long userId) {
-        return userService.getWinRate(userId);
+        UserService userSvc = getUserService();
+        return userSvc.getWinRate(userId);
     }
 
-    // Odds Calculation
+    // Additional required methods with basic implementations
     @Override
     public BigDecimal calculateCurrentOdds(Long matchId, Long teamId) {
         try {
@@ -520,12 +736,13 @@ public class BettingServiceBean implements BettingService {
     @Override
     public void updateMatchOdds(Long matchId) {
         try {
-            Match match = matchService.findMatchById(matchId);
+            MatchService matchSvc = getMatchService();
+            Match match = matchSvc.findMatchById(matchId);
             if (match != null) {
                 BigDecimal team1Odds = calculateCurrentOdds(matchId, match.getTeam1().getId());
                 BigDecimal team2Odds = calculateCurrentOdds(matchId, match.getTeam2().getId());
 
-                matchService.updateOdds(matchId, team1Odds, team2Odds);
+                matchSvc.updateOdds(matchId, team1Odds, team2Odds);
                 logger.info("Odds updated for match " + matchId + ": " + team1Odds + " / " + team2Odds);
             }
         } catch (Exception e) {
@@ -536,7 +753,8 @@ public class BettingServiceBean implements BettingService {
     @Override
     public Map<Long, BigDecimal> getCurrentOddsForMatch(Long matchId) {
         try {
-            Match match = matchService.findMatchById(matchId);
+            MatchService matchSvc = getMatchService();
+            Match match = matchSvc.findMatchById(matchId);
             if (match == null) {
                 return new HashMap<>();
             }
@@ -552,7 +770,6 @@ public class BettingServiceBean implements BettingService {
         }
     }
 
-    // Bet Limits and Rules
     @Override
     public BigDecimal getMinimumBetAmount() {
         return MIN_BET_AMOUNT;
@@ -565,8 +782,6 @@ public class BettingServiceBean implements BettingService {
 
     @Override
     public BigDecimal getUserMaxBetAmount(Long userId) {
-        // For now, return standard max bet amount
-        // Could be customized based on user tier, VIP status, etc.
         return MAX_BET_AMOUNT;
     }
 
@@ -576,22 +791,29 @@ public class BettingServiceBean implements BettingService {
                 amount.compareTo(getUserMaxBetAmount(userId)) <= 0;
     }
 
-    // Administrative Functions
     @Override
     public List<Bet> getAllBets() {
+        EntityManager entityManager = null;
         try {
-            TypedQuery<Bet> query = em.createQuery("SELECT b FROM Bet b ORDER BY b.betPlacedAt DESC", Bet.class);
+            entityManager = getEntityManager();
+            TypedQuery<Bet> query = entityManager.createQuery("SELECT b FROM Bet b ORDER BY b.betPlacedAt DESC", Bet.class);
             return query.getResultList();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting all bets", e);
             return List.of();
+        } finally {
+            if (em == null && entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
     }
 
     @Override
     public List<Bet> getBetsByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+        EntityManager entityManager = null;
         try {
-            TypedQuery<Bet> query = em.createQuery(
+            entityManager = getEntityManager();
+            TypedQuery<Bet> query = entityManager.createQuery(
                     "SELECT b FROM Bet b WHERE b.betPlacedAt BETWEEN :startDate AND :endDate ORDER BY b.betPlacedAt DESC",
                     Bet.class);
             query.setParameter("startDate", startDate);
@@ -600,6 +822,10 @@ public class BettingServiceBean implements BettingService {
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting bets by date range", e);
             return List.of();
+        } finally {
+            if (em == null && entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
     }
 
@@ -616,9 +842,10 @@ public class BettingServiceBean implements BettingService {
             }
 
             // Process each match's bets
+            MatchService matchSvc = getMatchService();
             for (Map.Entry<Long, List<Bet>> entry : betsByMatch.entrySet()) {
                 Long matchId = entry.getKey();
-                Match match = matchService.findMatchById(matchId);
+                Match match = matchSvc.findMatchById(matchId);
 
                 if (match != null && match.isCompleted()) {
                     processBetResults(matchId);
@@ -634,7 +861,8 @@ public class BettingServiceBean implements BettingService {
     @Override
     public void recalculateAllOdds() {
         try {
-            List<Match> bettableMatches = matchService.getBettableMatches();
+            MatchService matchSvc = getMatchService();
+            List<Match> bettableMatches = matchSvc.getBettableMatches();
             for (Match match : bettableMatches) {
                 updateMatchOdds(match.getId());
             }
@@ -644,32 +872,38 @@ public class BettingServiceBean implements BettingService {
         }
     }
 
-    // Reporting
     @Override
     public Map<String, Object> getBettingStatistics() {
         Map<String, Object> stats = new HashMap<>();
+        EntityManager entityManager = null;
         try {
+            entityManager = getEntityManager();
+
             // Total bets
-            TypedQuery<Long> totalBetsQuery = em.createQuery("SELECT COUNT(b) FROM Bet b", Long.class);
+            TypedQuery<Long> totalBetsQuery = entityManager.createQuery("SELECT COUNT(b) FROM Bet b", Long.class);
             stats.put("totalBets", totalBetsQuery.getSingleResult());
 
             // Total bet amount
-            TypedQuery<BigDecimal> totalAmountQuery = em.createQuery(
+            TypedQuery<BigDecimal> totalAmountQuery = entityManager.createQuery(
                     "SELECT COALESCE(SUM(b.betAmount), 0) FROM Bet b", BigDecimal.class);
             stats.put("totalBetAmount", totalAmountQuery.getSingleResult());
 
             // Pending bets
-            TypedQuery<Long> pendingBetsQuery = em.createQuery(
+            TypedQuery<Long> pendingBetsQuery = entityManager.createQuery(
                     "SELECT COUNT(b) FROM Bet b WHERE b.status = 'PENDING'", Long.class);
             stats.put("pendingBets", pendingBetsQuery.getSingleResult());
 
             // Won bets
-            TypedQuery<Long> wonBetsQuery = em.createQuery(
+            TypedQuery<Long> wonBetsQuery = entityManager.createQuery(
                     "SELECT COUNT(b) FROM Bet b WHERE b.status = 'WON'", Long.class);
             stats.put("wonBets", wonBetsQuery.getSingleResult());
 
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting betting statistics", e);
+        } finally {
+            if (em == null && entityManager != null && entityManager.isOpen()) {
+                entityManager.close();
+            }
         }
         return stats;
     }
@@ -678,7 +912,8 @@ public class BettingServiceBean implements BettingService {
     public Map<String, Object> getMatchBettingReport(Long matchId) {
         Map<String, Object> report = new HashMap<>();
         try {
-            Match match = matchService.findMatchById(matchId);
+            MatchService matchSvc = getMatchService();
+            Match match = matchSvc.findMatchById(matchId);
             if (match != null) {
                 report.put("match", match);
                 report.put("totalBets", getTotalBetsCount(matchId));
@@ -699,15 +934,16 @@ public class BettingServiceBean implements BettingService {
     public Map<String, Object> getUserBettingReport(Long userId) {
         Map<String, Object> report = new HashMap<>();
         try {
-            User user = userService.findUserById(userId);
+            UserService userSvc = getUserService();
+            User user = userSvc.findUserById(userId);
             if (user != null) {
                 report.put("user", user);
-                report.put("totalBets", userService.getTotalBetsPlaced(userId));
+                report.put("totalBets", userSvc.getTotalBetsPlaced(userId));
                 report.put("totalBetAmount", getUserTotalBetAmount(userId));
                 report.put("totalWinnings", getUserTotalWinnings(userId));
                 report.put("winRate", getUserWinRate(userId));
                 report.put("pendingBets", getUserPendingBets(userId).size());
-                report.put("wonBets", userService.getWonBetsCount(userId));
+                report.put("wonBets", userSvc.getWonBetsCount(userId));
             }
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error getting user betting report: " + userId, e);
@@ -717,17 +953,16 @@ public class BettingServiceBean implements BettingService {
 
     @Override
     public List<Map<String, Object>> getTopBettors(int limit) {
-        // Implementation would return top bettors by total bet amount or winnings
+        // Basic implementation - could be enhanced with actual query
         return List.of();
     }
 
     @Override
     public List<Map<String, Object>> getPopularMatches(int limit) {
-        // Implementation would return matches with most bets or highest bet amounts
+        // Basic implementation - could be enhanced with actual query
         return List.of();
     }
 
-    // Risk Management
     @Override
     public BigDecimal calculateBookmakerMargin(Long matchId) {
         try {
@@ -751,45 +986,46 @@ public class BettingServiceBean implements BettingService {
 
     @Override
     public void adjustOddsForRiskManagement(Long matchId) {
-        // Implementation for risk-based odds adjustment
         updateMatchOdds(matchId);
     }
 
     @Override
     public boolean isMatchAtRiskLimit(Long matchId) {
-        // Implementation to check if match betting exposure is too high
         BigDecimal totalPool = getTotalBetAmount(matchId);
         BigDecimal riskLimit = new BigDecimal("50000.00"); // Example limit
         return totalPool.compareTo(riskLimit) > 0;
     }
 
-    // Live Betting Features
     @Override
     public boolean isLiveBettingEnabled(Long matchId) {
-        Match match = matchService.findMatchById(matchId);
+        MatchService matchSvc = getMatchService();
+        Match match = matchSvc.findMatchById(matchId);
         return match != null && match.isLive() && match.getBettingEnabled();
     }
 
     @Override
     public void enableLiveBetting(Long matchId) {
-        matchService.enableBetting(matchId);
+        MatchService matchSvc = getMatchService();
+        matchSvc.enableBetting(matchId);
     }
 
     @Override
     public void disableLiveBetting(Long matchId) {
-        matchService.disableBetting(matchId);
+        MatchService matchSvc = getMatchService();
+        matchSvc.disableBetting(matchId);
     }
 
     @Override
     public void updateLiveOdds(Long matchId, Map<Long, BigDecimal> newOdds) {
         try {
-            Match match = matchService.findMatchById(matchId);
+            MatchService matchSvc = getMatchService();
+            Match match = matchSvc.findMatchById(matchId);
             if (match != null && newOdds.size() == 2) {
                 BigDecimal team1Odds = newOdds.get(match.getTeam1().getId());
                 BigDecimal team2Odds = newOdds.get(match.getTeam2().getId());
 
                 if (team1Odds != null && team2Odds != null) {
-                    matchService.updateOdds(matchId, team1Odds, team2Odds);
+                    matchSvc.updateOdds(matchId, team1Odds, team2Odds);
                     logger.info("Live odds updated for match: " + matchId);
                 }
             }

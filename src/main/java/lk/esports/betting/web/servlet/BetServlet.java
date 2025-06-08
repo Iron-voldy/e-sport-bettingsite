@@ -6,8 +6,8 @@ import lk.esports.betting.ejb.local.MatchService;
 import lk.esports.betting.entity.Bet;
 import lk.esports.betting.entity.User;
 import lk.esports.betting.entity.Match;
+import lk.esports.betting.utils.EJBServiceLocator;
 
-import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -31,15 +31,6 @@ import java.util.logging.Level;
 public class BetServlet extends HttpServlet {
 
     private static final Logger logger = Logger.getLogger(BetServlet.class.getName());
-
-    @EJB
-    private BettingService bettingService;
-
-    @EJB
-    private UserService userService;
-
-    @EJB
-    private MatchService matchService;
 
     private final Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -74,7 +65,8 @@ public class BetServlet extends HttpServlet {
             }
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error in BetServlet GET", e);
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal server error");
+            request.setAttribute("errorMessage", "Error loading betting data. Please try again.");
+            request.getRequestDispatcher("/error.jsp").forward(request, response);
         }
     }
 
@@ -108,14 +100,29 @@ public class BetServlet extends HttpServlet {
     private void handleGetUserBets(HttpServletRequest request, HttpServletResponse response, Long userId)
             throws ServletException, IOException {
 
-        String format = request.getParameter("format");
-        List<Bet> userBets = bettingService.getUserBets(userId);
+        try {
+            BettingService bettingService = EJBServiceLocator.getBettingService();
+            if (bettingService == null) {
+                request.setAttribute("errorMessage", "Betting service is not available");
+                request.setAttribute("userBets", List.of());
+                request.getRequestDispatcher("/my-bets.jsp").forward(request, response);
+                return;
+            }
 
-        if ("json".equals(format)) {
-            sendJsonResponse(response, userBets);
-        } else {
-            request.setAttribute("userBets", userBets);
-            request.setAttribute("pageTitle", "My Bets");
+            String format = request.getParameter("format");
+            List<Bet> userBets = bettingService.getUserBets(userId);
+
+            if ("json".equals(format)) {
+                sendJsonResponse(response, userBets);
+            } else {
+                request.setAttribute("userBets", userBets != null ? userBets : List.of());
+                request.setAttribute("pageTitle", "My Bets");
+                request.getRequestDispatcher("/my-bets.jsp").forward(request, response);
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error getting user bets", e);
+            request.setAttribute("errorMessage", "Error loading your bets. Please try again.");
+            request.setAttribute("userBets", List.of());
             request.getRequestDispatcher("/my-bets.jsp").forward(request, response);
         }
     }
@@ -123,30 +130,45 @@ public class BetServlet extends HttpServlet {
     private void handleGetBettingHistory(HttpServletRequest request, HttpServletResponse response, Long userId)
             throws ServletException, IOException {
 
-        String format = request.getParameter("format");
-        String status = request.getParameter("status");
+        try {
+            BettingService bettingService = EJBServiceLocator.getBettingService();
+            if (bettingService == null) {
+                request.setAttribute("errorMessage", "Betting service is not available");
+                request.setAttribute("bets", List.of());
+                request.getRequestDispatcher("/betting-history.jsp").forward(request, response);
+                return;
+            }
 
-        List<Bet> bets;
-        if ("won".equals(status)) {
-            bets = bettingService.getUserWinningBets(userId);
-        } else if ("lost".equals(status)) {
-            bets = bettingService.getUserLosingBets(userId);
-        } else if ("pending".equals(status)) {
-            bets = bettingService.getUserPendingBets(userId);
-        } else {
-            bets = bettingService.getUserBets(userId);
-        }
+            String format = request.getParameter("format");
+            String status = request.getParameter("status");
 
-        if ("json".equals(format)) {
-            Map<String, Object> response_data = new HashMap<>();
-            response_data.put("bets", bets);
-            response_data.put("totalBets", bets.size());
-            response_data.put("status", status != null ? status : "all");
-            sendJsonResponse(response, response_data);
-        } else {
-            request.setAttribute("bets", bets);
-            request.setAttribute("pageTitle", "Betting History");
-            request.setAttribute("filterStatus", status);
+            List<Bet> bets;
+            if ("won".equals(status)) {
+                bets = bettingService.getUserWinningBets(userId);
+            } else if ("lost".equals(status)) {
+                bets = bettingService.getUserLosingBets(userId);
+            } else if ("pending".equals(status)) {
+                bets = bettingService.getUserPendingBets(userId);
+            } else {
+                bets = bettingService.getUserBets(userId);
+            }
+
+            if ("json".equals(format)) {
+                Map<String, Object> response_data = new HashMap<>();
+                response_data.put("bets", bets != null ? bets : List.of());
+                response_data.put("totalBets", bets != null ? bets.size() : 0);
+                response_data.put("status", status != null ? status : "all");
+                sendJsonResponse(response, response_data);
+            } else {
+                request.setAttribute("bets", bets != null ? bets : List.of());
+                request.setAttribute("pageTitle", "Betting History");
+                request.setAttribute("filterStatus", status);
+                request.getRequestDispatcher("/betting-history.jsp").forward(request, response);
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error getting betting history", e);
+            request.setAttribute("errorMessage", "Error loading betting history. Please try again.");
+            request.setAttribute("bets", List.of());
             request.getRequestDispatcher("/betting-history.jsp").forward(request, response);
         }
     }
@@ -154,14 +176,29 @@ public class BetServlet extends HttpServlet {
     private void handleGetPendingBets(HttpServletRequest request, HttpServletResponse response, Long userId)
             throws ServletException, IOException {
 
-        List<Bet> pendingBets = bettingService.getUserPendingBets(userId);
+        try {
+            BettingService bettingService = EJBServiceLocator.getBettingService();
+            if (bettingService == null) {
+                request.setAttribute("errorMessage", "Betting service is not available");
+                request.setAttribute("pendingBets", List.of());
+                request.getRequestDispatcher("/pending-bets.jsp").forward(request, response);
+                return;
+            }
 
-        String format = request.getParameter("format");
-        if ("json".equals(format)) {
-            sendJsonResponse(response, pendingBets);
-        } else {
-            request.setAttribute("pendingBets", pendingBets);
-            request.setAttribute("pageTitle", "Pending Bets");
+            List<Bet> pendingBets = bettingService.getUserPendingBets(userId);
+
+            String format = request.getParameter("format");
+            if ("json".equals(format)) {
+                sendJsonResponse(response, pendingBets != null ? pendingBets : List.of());
+            } else {
+                request.setAttribute("pendingBets", pendingBets != null ? pendingBets : List.of());
+                request.setAttribute("pageTitle", "Pending Bets");
+                request.getRequestDispatcher("/pending-bets.jsp").forward(request, response);
+            }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error getting pending bets", e);
+            request.setAttribute("errorMessage", "Error loading pending bets. Please try again.");
+            request.setAttribute("pendingBets", List.of());
             request.getRequestDispatcher("/pending-bets.jsp").forward(request, response);
         }
     }
@@ -182,6 +219,12 @@ public class BetServlet extends HttpServlet {
             Long matchId = Long.parseLong(matchIdStr);
             Long teamId = Long.parseLong(teamIdStr);
             BigDecimal amount = new BigDecimal(amountStr);
+
+            BettingService bettingService = EJBServiceLocator.getBettingService();
+            if (bettingService == null) {
+                sendJsonError(response, HttpServletResponse.SC_SERVICE_UNAVAILABLE, "Betting service unavailable");
+                return;
+            }
 
             BigDecimal potentialWinnings = bettingService.calculatePotentialWinnings(matchId, teamId, amount);
 
@@ -207,6 +250,12 @@ public class BetServlet extends HttpServlet {
             String betIdStr = pathInfo.substring("/details/".length());
             Long betId = Long.parseLong(betIdStr);
 
+            BettingService bettingService = EJBServiceLocator.getBettingService();
+            if (bettingService == null) {
+                response.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE, "Betting service unavailable");
+                return;
+            }
+
             Bet bet = bettingService.findBetById(betId);
             if (bet == null) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Bet not found");
@@ -230,6 +279,9 @@ public class BetServlet extends HttpServlet {
 
         } catch (NumberFormatException e) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid bet ID");
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error getting bet details", e);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error loading bet details");
         }
     }
 
@@ -254,6 +306,12 @@ public class BetServlet extends HttpServlet {
             // Validate bet amount
             if (amount.compareTo(BigDecimal.ZERO) <= 0) {
                 sendJsonError(response, HttpServletResponse.SC_BAD_REQUEST, "Bet amount must be positive");
+                return;
+            }
+
+            BettingService bettingService = EJBServiceLocator.getBettingService();
+            if (bettingService == null) {
+                sendJsonError(response, HttpServletResponse.SC_SERVICE_UNAVAILABLE, "Betting service unavailable");
                 return;
             }
 
@@ -290,10 +348,13 @@ public class BetServlet extends HttpServlet {
                 result.put("odds", bet.getOddsAtBet());
 
                 // Update user balance in session
-                User user = userService.findUserById(userId);
-                if (user != null) {
-                    HttpSession session = request.getSession();
-                    session.setAttribute("userBalance", user.getWalletBalance());
+                UserService userService = EJBServiceLocator.getUserService();
+                if (userService != null) {
+                    User user = userService.findUserById(userId);
+                    if (user != null) {
+                        HttpSession session = request.getSession();
+                        session.setAttribute("userBalance", user.getWalletBalance());
+                    }
                 }
 
                 sendJsonResponse(response, result);
@@ -323,6 +384,12 @@ public class BetServlet extends HttpServlet {
             String betIdStr = pathInfo.substring("/cancel/".length());
             Long betId = Long.parseLong(betIdStr);
 
+            BettingService bettingService = EJBServiceLocator.getBettingService();
+            if (bettingService == null) {
+                sendJsonError(response, HttpServletResponse.SC_SERVICE_UNAVAILABLE, "Betting service unavailable");
+                return;
+            }
+
             Bet bet = bettingService.findBetById(betId);
             if (bet == null) {
                 sendJsonError(response, HttpServletResponse.SC_NOT_FOUND, "Bet not found");
@@ -350,10 +417,13 @@ public class BetServlet extends HttpServlet {
             result.put("refundAmount", bet.getBetAmount());
 
             // Update user balance in session
-            User user = userService.findUserById(userId);
-            if (user != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("userBalance", user.getWalletBalance());
+            UserService userService = EJBServiceLocator.getUserService();
+            if (userService != null) {
+                User user = userService.findUserById(userId);
+                if (user != null) {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("userBalance", user.getWalletBalance());
+                }
             }
 
             sendJsonResponse(response, result);

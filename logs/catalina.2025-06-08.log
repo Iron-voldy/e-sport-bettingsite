@@ -4885,3 +4885,137 @@
 		at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:658)
 		at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
 		at java.base/java.lang.Thread.run(Thread.java:1575)
+08-Jun-2025 22:22:04.638 INFO [Thread-5] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["http-nio-8080"]
+08-Jun-2025 22:22:04.790 INFO [Thread-5] org.apache.catalina.core.StandardService.stopInternal Stopping service [Catalina]
+08-Jun-2025 22:22:05.007 INFO [Thread-5] lk.esports.betting.web.filter.AuthFilter.destroy AuthFilter destroyed
+08-Jun-2025 22:22:05.229 INFO [Thread-5] lk.esports.betting.web.listener.EJBContainerListener.contextDestroyed EJB Container Listener - Application shutting down...
+08-Jun-2025 22:22:05.353 INFO [Thread-5] lk.esports.betting.utils.DatabaseUtil.closeEntityManagerFactory EntityManagerFactory closed successfully
+08-Jun-2025 22:22:05.355 INFO [Thread-5] lk.esports.betting.web.listener.EJBContainerListener.contextDestroyed Application shutdown completed
+08-Jun-2025 22:22:05.356 INFO [Thread-5] lk.esports.betting.web.listener.ApplicationContextListener.contextDestroyed Application context being destroyed - cleaning up resources...
+08-Jun-2025 22:22:05.360 INFO [Thread-5] lk.esports.betting.web.listener.ApplicationContextListener.contextDestroyed MySQL AbandonedConnectionCleanupThread shutdown completed
+08-Jun-2025 22:22:05.376 INFO [Thread-5] lk.esports.betting.web.listener.ApplicationContextListener.contextDestroyed Deregistered JDBC driver: com.mysql.cj.jdbc.Driver
+08-Jun-2025 22:22:05.376 INFO [Thread-5] lk.esports.betting.web.listener.ApplicationContextListener.contextDestroyed Application cleanup completed
+08-Jun-2025 22:22:05.827 INFO [Thread-5] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["http-nio-8080"]
+08-Jun-2025 22:22:05.874 INFO [Thread-5] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["http-nio-8080"]
+08-Jun-2025 22:22:30.922 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/10.1.41
+08-Jun-2025 22:22:30.926 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          May 8 2025 12:44:02 UTC
+08-Jun-2025 22:22:30.926 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 10.1.41.0
+08-Jun-2025 22:22:30.926 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 11
+08-Jun-2025 22:22:30.926 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+08-Jun-2025 22:22:30.926 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+08-Jun-2025 22:22:30.926 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jdk-23
+08-Jun-2025 22:22:30.926 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           23+37-2369
+08-Jun-2025 22:22:30.926 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+08-Jun-2025 22:22:30.926 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting
+08-Jun-2025 22:22:30.927 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         C:\apache-tomcat-10.1.41-windows-x64\apache-tomcat-10.1.41
+08-Jun-2025 22:22:30.934 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang=ALL-UNNAMED
+08-Jun-2025 22:22:30.934 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.io=ALL-UNNAMED
+08-Jun-2025 22:22:30.934 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util=ALL-UNNAMED
+08-Jun-2025 22:22:30.934 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+08-Jun-2025 22:22:30.934 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+08-Jun-2025 22:22:30.935 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=C:\apache-tomcat-10.1.41-windows-x64\apache-tomcat-10.1.41
+08-Jun-2025 22:22:30.935 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting
+08-Jun-2025 22:22:30.935 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting\temp
+08-Jun-2025 22:22:30.935 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting\conf\logging.properties
+08-Jun-2025 22:22:30.935 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+08-Jun-2025 22:22:30.935 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -javaagent:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\lib\idea_rt.jar=58794:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\bin
+08-Jun-2025 22:22:30.935 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dfile.encoding=UTF-8
+08-Jun-2025 22:22:30.935 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dsun.stdout.encoding=UTF-8
+08-Jun-2025 22:22:30.935 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dsun.stderr.encoding=UTF-8
+08-Jun-2025 22:22:31.306 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent Loaded Apache Tomcat Native library [2.0.8] using APR version [1.7.4].
+08-Jun-2025 22:22:31.327 INFO [main] org.apache.catalina.core.AprLifecycleListener.initializeSSL OpenSSL successfully initialized [OpenSSL 3.0.14 4 Jun 2024]
+08-Jun-2025 22:22:31.607 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+08-Jun-2025 22:22:31.621 INFO [main] org.apache.catalina.startup.Catalina.load Server initialization in [4134] milliseconds
+08-Jun-2025 22:22:31.669 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+08-Jun-2025 22:22:31.669 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/10.1.41]
+08-Jun-2025 22:22:31.679 INFO [main] org.apache.catalina.startup.HostConfig.deployDescriptor Deploying deployment descriptor [C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting\conf\Catalina\localhost\ESportsBetting.xml]
+08-Jun-2025 22:22:47.094 INFO [main] java.util.ArrayList.forEach Name = esports_betting Ignoring unknown property: value of "MySQL DataSource for E-Sports Betting" for "description" property
+08-Jun-2025 22:22:47.289 INFO [main] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+08-Jun-2025 22:22:47.342 INFO [main] lk.esports.betting.web.listener.ApplicationContextListener.contextInitialized Application context initialized
+08-Jun-2025 22:22:47.537 INFO [main] org.hibernate.jpa.internal.util.LogHelper.logPersistenceUnitInformation HHH000204: Processing PersistenceUnitInfo [name: esportsPU]
+08-Jun-2025 22:22:47.715 INFO [main] org.hibernate.Version.logVersion HHH000412: Hibernate ORM core version 6.2.6.Final
+08-Jun-2025 22:22:47.719 INFO [main] org.hibernate.cfg.Environment.<clinit> HHH000406: Using bytecode reflection optimizer
+08-Jun-2025 22:22:48.312 INFO [main] org.hibernate.c3p0.internal.C3P0ConnectionProvider.configure HHH010002: C3P0 using driver: com.mysql.cj.jdbc.Driver at URL: jdbc:mysql://localhost:3306/esports_betting?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true&useUnicode=true&characterEncoding=UTF-8
+08-Jun-2025 22:22:48.312 INFO [main] org.hibernate.c3p0.internal.C3P0ConnectionProvider.configure HHH10001001: Connection properties: {password=****, autocommit=false, user=root}
+08-Jun-2025 22:22:48.312 INFO [main] org.hibernate.c3p0.internal.C3P0ConnectionProvider.configure HHH10001003: Autocommit mode: false
+08-Jun-2025 22:22:48.382 INFO [MLog-Init-Reporter] com.mchange.v2.log.MLog. MLog clients using java 1.4+ standard logging.
+08-Jun-2025 22:22:48.519 INFO [main] com.mchange.v2.c3p0.C3P0Registry. Initializing c3p0-0.9.5.5 [built 11-December-2019 22:18:33 -0800; debug? true; trace: 10]
+08-Jun-2025 22:22:48.578 INFO [main] org.hibernate.c3p0.internal.C3P0ConnectionProvider.configure HHH10001007: JDBC isolation level: READ_COMMITTED
+08-Jun-2025 22:22:48.612 INFO [main] com.mchange.v2.c3p0.impl.AbstractPoolBackedDataSource. Initializing c3p0 pool... com.mchange.v2.c3p0.PoolBackedDataSource@6a20cd3f [ connectionPoolDataSource -> com.mchange.v2.c3p0.WrapperConnectionPoolDataSource@d6304c82 [ acquireIncrement -> 1, acquireRetryAttempts -> 30, acquireRetryDelay -> 1000, autoCommitOnClose -> false, automaticTestTable -> null, breakAfterAcquireFailure -> false, checkoutTimeout -> 0, connectionCustomizerClassName -> null, connectionTesterClassName -> com.mchange.v2.c3p0.impl.DefaultConnectionTester, contextClassLoaderSource -> caller, debugUnreturnedConnectionStackTraces -> false, factoryClassLocation -> null, forceIgnoreUnresolvedTransactions -> false, forceSynchronousCheckins -> false, identityToken -> 1hge2kibbmbolas1fj3s9z|445c693, idleConnectionTestPeriod -> 3000, initialPoolSize -> 5, maxAdministrativeTaskTime -> 0, maxConnectionAge -> 0, maxIdleTime -> 300, maxIdleTimeExcessConnections -> 0, maxPoolSize -> 20, maxStatements -> 50, maxStatementsPerConnection -> 0, minPoolSize -> 5, nestedDataSource -> com.mchange.v2.c3p0.DriverManagerDataSource@f45f9195 [ description -> null, driverClass -> null, factoryClassLocation -> null, forceUseNamedDriverClass -> false, identityToken -> 1hge2kibbmbolas1fj3s9z|235dacd7, jdbcUrl -> jdbc:mysql://localhost:3306/esports_betting?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true&useUnicode=true&characterEncoding=UTF-8, properties -> {password=******, autocommit=false, user=******} ], preferredTestQuery -> null, privilegeSpawnedThreads -> false, propertyCycle -> 0, statementCacheNumDeferredCloseThreads -> 0, testConnectionOnCheckin -> false, testConnectionOnCheckout -> false, unreturnedConnectionTimeout -> 0, usesTraditionalReflectiveProxies -> false; userOverrides: {} ], dataSourceName -> null, extensions -> {}, factoryClassLocation -> null, identityToken -> 1hge2kibbmbolas1fj3s9z|7f1b2f07, numHelperThreads -> 3 ]
+08-Jun-2025 22:22:49.773 INFO [main] org.hibernate.bytecode.internal.BytecodeProviderInitiator.buildBytecodeProvider HHH000021: Bytecode provider name : bytebuddy
+08-Jun-2025 22:22:52.147 INFO [main] org.hibernate.resource.transaction.backend.jdbc.internal.DdlTransactionIsolatorNonJtaImpl.getIsolatedConnection HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@2236756e] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+08-Jun-2025 22:22:52.901 INFO [main] lk.esports.betting.utils.DatabaseUtil.initializeEntityManagerFactory EntityManagerFactory created successfully
+08-Jun-2025 22:22:52.901 INFO [main] lk.esports.betting.utils.DatabaseUtil.<clinit> EntityManagerFactory initialized successfully
+08-Jun-2025 22:22:53.089 INFO [main] lk.esports.betting.web.listener.ApplicationContextListener.contextInitialized Database health: HEALTHY
+08-Jun-2025 22:22:53.089 INFO [main] lk.esports.betting.web.listener.ApplicationContextListener.contextInitialized Database initialized successfully
+08-Jun-2025 22:22:53.089 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.contextInitialized EJB Container Listener - Initializing application...
+08-Jun-2025 22:22:53.092 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.initializeJNDIContext JNDI Context initialized successfully
+08-Jun-2025 22:22:53.093 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.initializeJNDIContext Available JNDI resources:
+08-Jun-2025 22:22:53.093 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.initializeJNDIContext   - jdbc : org.apache.naming.NamingContext
+08-Jun-2025 22:22:53.099 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.testDatabaseConnection Database connectivity test: SUCCESS
+08-Jun-2025 22:22:53.100 SEVERE [main] lk.esports.betting.web.listener.EJBContainerListener.lookupUserService UserService not found at any lookup path!
+08-Jun-2025 22:22:53.101 SEVERE [main] lk.esports.betting.web.listener.EJBContainerListener.lookupMatchService MatchService not found at any lookup path!
+08-Jun-2025 22:22:53.101 SEVERE [main] lk.esports.betting.web.listener.EJBContainerListener.lookupBettingService BettingService not found at any lookup path!
+08-Jun-2025 22:22:53.101 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.initializeEJBServices EJB services initialized and stored in servlet context
+08-Jun-2025 22:22:53.101 INFO [main] lk.esports.betting.web.listener.EJBContainerListener.contextInitialized Application initialization completed successfully
+08-Jun-2025 22:22:53.110 INFO [main] lk.esports.betting.web.filter.AuthFilter.init AuthFilter initialized
+08-Jun-2025 22:22:53.113 INFO [main] lk.esports.betting.web.servlet.StartupServlet.init Starting application initialization...
+08-Jun-2025 22:22:53.120 INFO [main] lk.esports.betting.web.servlet.StartupServlet.init Database health: HEALTHY
+08-Jun-2025 22:22:53.120 WARNING [main] lk.esports.betting.web.servlet.StartupServlet.init EJB services not available during startup. Will be initialized on first request.
+08-Jun-2025 22:22:53.138 INFO [main] org.apache.catalina.startup.HostConfig.deployDescriptor Deployment of deployment descriptor [C:\Users\yasir\Downloads\IMS-185 (2) (1)\ESportsBetting\conf\Catalina\localhost\ESportsBetting.xml] has finished in [21,457] ms
+08-Jun-2025 22:22:53.142 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+08-Jun-2025 22:22:53.169 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [21546] milliseconds
+08-Jun-2025 22:22:59.149 INFO [http-nio-8080-exec-3] lk.esports.betting.web.servlet.HomeServlet.init HomeServlet initializing...
+08-Jun-2025 22:22:59.162 INFO [http-nio-8080-exec-3] lk.esports.betting.web.servlet.HomeServlet.init Database health check: HEALTHY
+08-Jun-2025 22:22:59.168 WARNING [http-nio-8080-exec-3] lk.esports.betting.utils.EJBServiceLocator.lookupMatchService JNDI lookup failed for MatchService, creating direct instance
+08-Jun-2025 22:22:59.170 INFO [http-nio-8080-exec-3] lk.esports.betting.utils.EJBServiceLocator.lookupMatchService Created direct MatchService instance
+08-Jun-2025 22:22:59.171 WARNING [http-nio-8080-exec-3] lk.esports.betting.ejb.MatchServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:22:59.286 WARNING [http-nio-8080-exec-3] lk.esports.betting.ejb.MatchServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:22:59.291 INFO [http-nio-8080-exec-3] lk.esports.betting.web.servlet.HomeServlet.doGet Successfully loaded matches: 0 featured, 0 live
+08-Jun-2025 22:23:04.596 INFO [http-nio-8080-exec-5] lk.esports.betting.web.servlet.LoginServlet.init LoginServlet initializing...
+08-Jun-2025 22:23:08.616 WARNING [http-nio-8080-exec-4] lk.esports.betting.utils.EJBServiceLocator.lookupUserService JNDI lookup failed for UserService, creating direct instance
+08-Jun-2025 22:23:08.619 INFO [http-nio-8080-exec-4] lk.esports.betting.ejb.UserServiceBean.init UserServiceBean initialized
+08-Jun-2025 22:23:08.620 INFO [http-nio-8080-exec-4] lk.esports.betting.utils.EJBServiceLocator.lookupUserService Created direct UserService instance
+08-Jun-2025 22:23:08.620 WARNING [http-nio-8080-exec-4] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:23:08.761 INFO [http-nio-8080-exec-4] lk.esports.betting.ejb.UserServiceBean.authenticateUser User authenticated successfully: hasindutwm@gmail.com
+08-Jun-2025 22:23:08.762 INFO [http-nio-8080-exec-4] lk.esports.betting.web.servlet.LoginServlet.doPost User logged in successfully: hasindutwm@gmail.com
+08-Jun-2025 22:23:08.769 WARNING [http-nio-8080-exec-7] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:23:08.792 WARNING [http-nio-8080-exec-7] lk.esports.betting.utils.EJBServiceLocator.lookupBettingService JNDI lookup failed for BettingService, creating direct instance
+08-Jun-2025 22:23:08.797 INFO [http-nio-8080-exec-7] lk.esports.betting.utils.EJBServiceLocator.lookupBettingService Created direct BettingService instance
+08-Jun-2025 22:23:08.797 WARNING [http-nio-8080-exec-7] lk.esports.betting.ejb.MatchServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:23:08.802 WARNING [http-nio-8080-exec-7] lk.esports.betting.ejb.MatchServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:23:08.804 WARNING [http-nio-8080-exec-7] lk.esports.betting.ejb.BettingServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:23:08.810 WARNING [http-nio-8080-exec-7] lk.esports.betting.ejb.BettingServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:23:08.815 WARNING [http-nio-8080-exec-7] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:23:08.842 WARNING [http-nio-8080-exec-7] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:23:08.882 WARNING [http-nio-8080-exec-7] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:23:08.906 WARNING [http-nio-8080-exec-7] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:23:08.915 WARNING [http-nio-8080-exec-7] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:23:08.920 WARNING [http-nio-8080-exec-7] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:23:08.923 WARNING [http-nio-8080-exec-7] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:23:33.943 WARNING [http-nio-8080-exec-10] lk.esports.betting.ejb.MatchServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:25:19.136 WARNING [http-nio-8080-exec-6] lk.esports.betting.ejb.MatchServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:25:21.511 WARNING [http-nio-8080-exec-1] lk.esports.betting.ejb.MatchServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:25:48.927 WARNING [http-nio-8080-exec-7] lk.esports.betting.ejb.MatchServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:25:52.091 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:25:52.096 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.MatchServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:25:52.100 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.MatchServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:25:52.103 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.BettingServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:25:52.106 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.BettingServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:25:52.109 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:25:52.113 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:25:52.116 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:25:52.118 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:25:52.121 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:25:52.123 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:25:52.127 WARNING [http-nio-8080-exec-8] lk.esports.betting.ejb.UserServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:25:59.807 WARNING [http-nio-8080-exec-9] lk.esports.betting.ejb.BettingServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:26:04.165 WARNING [http-nio-8080-exec-10] lk.esports.betting.ejb.MatchServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:26:50.338 WARNING [http-nio-8080-exec-6] lk.esports.betting.ejb.MatchServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:26:50.342 WARNING [http-nio-8080-exec-6] lk.esports.betting.ejb.MatchServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:26:50.345 INFO [http-nio-8080-exec-6] lk.esports.betting.web.servlet.HomeServlet.doGet Successfully loaded matches: 0 featured, 0 live
+08-Jun-2025 22:27:55.605 WARNING [http-nio-8080-exec-4] lk.esports.betting.ejb.MatchServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:27:56.843 WARNING [http-nio-8080-exec-7] lk.esports.betting.ejb.MatchServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:28:02.955 WARNING [http-nio-8080-exec-10] lk.esports.betting.ejb.MatchServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:28:05.018 WARNING [http-nio-8080-exec-3] lk.esports.betting.ejb.MatchServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
+08-Jun-2025 22:28:06.807 WARNING [http-nio-8080-exec-2] lk.esports.betting.ejb.MatchServiceBean.getEntityManager EntityManager is null, creating new one using DatabaseUtil
