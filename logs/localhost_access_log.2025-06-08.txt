@@ -280,3 +280,16 @@
 0:0:0:0:0:0:0:1 - - [08/Jun/2025:12:04:36 +0530] "GET /ESportsBetting/css/style.css HTTP/1.1" 200 10124
 0:0:0:0:0:0:0:1 - - [08/Jun/2025:12:04:40 +0530] "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 683
 0:0:0:0:0:0:0:1 - - [08/Jun/2025:12:04:40 +0530] "GET /ESportsBetting/css/style.css HTTP/1.1" 200 10124
+0:0:0:0:0:0:0:1 - - [08/Jun/2025:12:19:46 +0530] "GET /ESportsBetting HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [08/Jun/2025:12:19:47 +0530] "GET /ESportsBetting/ HTTP/1.1" 200 10124
+0:0:0:0:0:0:0:1 - - [08/Jun/2025:12:19:48 +0530] "GET /ESportsBetting/css/style.css HTTP/1.1" 200 4644
+0:0:0:0:0:0:0:1 - - [08/Jun/2025:12:19:48 +0530] "GET /ESportsBetting/js/script.js HTTP/1.1" 200 23566
+0:0:0:0:0:0:0:1 - - [08/Jun/2025:12:19:57 +0530] "GET /ESportsBetting/api/health HTTP/1.1" 200 179
+0:0:0:0:0:0:0:1 - - [08/Jun/2025:12:20:05 +0530] "GET /ESportsBetting/register HTTP/1.1" 200 18934
+0:0:0:0:0:0:0:1 - - [08/Jun/2025:12:20:05 +0530] "GET /ESportsBetting/css/style.css HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [08/Jun/2025:12:20:36 +0530] "POST /ESportsBetting/register HTTP/1.1" 200 19163
+0:0:0:0:0:0:0:1 - - [08/Jun/2025:12:20:36 +0530] "GET /ESportsBetting/css/style.css HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [08/Jun/2025:12:21:58 +0530] "GET /ESportsBetting/login HTTP/1.1" 200 11235
+0:0:0:0:0:0:0:1 - - [08/Jun/2025:12:21:58 +0530] "GET /ESportsBetting/css/style.css HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [08/Jun/2025:12:22:40 +0530] "POST /ESportsBetting/login HTTP/1.1" 200 11423
+0:0:0:0:0:0:0:1 - - [08/Jun/2025:12:22:40 +0530] "GET /ESportsBetting/css/style.css HTTP/1.1" 304 -

@@ -2,6 +2,7 @@ package lk.esports.betting.web.servlet;
 
 import lk.esports.betting.ejb.local.MatchService;
 import lk.esports.betting.entity.Match;
+import lk.esports.betting.utils.DatabaseUtil;
 
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.logging.Level;
@@ -24,14 +26,35 @@ public class HomeServlet extends HttpServlet {
     private MatchService matchService;
 
     @Override
+    public void init() throws ServletException {
+        super.init();
+        logger.info("HomeServlet initialized");
+
+        // Check if EJB injection worked
+        if (matchService == null) {
+            logger.severe("MatchService EJB injection failed!");
+        } else {
+            logger.info("MatchService EJB injection successful");
+        }
+
+        // Test database connection
+        try {
+            boolean dbHealthy = DatabaseUtil.isDatabaseHealthy();
+            logger.info("Database health check: " + (dbHealthy ? "HEALTHY" : "UNHEALTHY"));
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Database health check failed", e);
+        }
+    }
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         try {
-            // Get featured matches for home page
-            List<Match> featuredMatches = null;
-            List<Match> liveMatches = null;
+            List<Match> featuredMatches = new ArrayList<>();
+            List<Match> liveMatches = new ArrayList<>();
 
+            // Try to get matches from service
             if (matchService != null) {
                 try {
                     featuredMatches = matchService.getUpcomingMatches();
@@ -45,24 +68,47 @@ public class HomeServlet extends HttpServlet {
                     if (liveMatches != null && liveMatches.size() > 3) {
                         liveMatches = liveMatches.subList(0, 3);
                     }
+
+                    logger.info("Successfully loaded matches: " +
+                            (featuredMatches != null ? featuredMatches.size() : 0) + " featured, " +
+                            (liveMatches != null ? liveMatches.size() : 0) + " live");
+
                 } catch (Exception e) {
-                    logger.log(Level.WARNING, "Error loading matches for home page", e);
-                    // Continue with empty lists
+                    logger.log(Level.WARNING, "Error loading matches from service", e);
+                    // Set empty lists but don't fail
+                    featuredMatches = new ArrayList<>();
+                    liveMatches = new ArrayList<>();
                 }
             } else {
                 logger.warning("MatchService is null - EJB injection may have failed");
+                // Create empty lists to avoid JSP errors
+                featuredMatches = new ArrayList<>();
+                liveMatches = new ArrayList<>();
             }
 
-            // Set attributes for JSP
-            request.setAttribute("featuredMatches", featuredMatches != null ? featuredMatches : List.of());
-            request.setAttribute("liveMatches", liveMatches != null ? liveMatches : List.of());
+            // Set attributes for JSP (always set, even if empty)
+            request.setAttribute("featuredMatches", featuredMatches);
+            request.setAttribute("liveMatches", liveMatches);
+
+            // Add some debug info for the JSP
+            request.setAttribute("serviceStatus", matchService != null ? "available" : "unavailable");
+            request.setAttribute("dbStatus", DatabaseUtil.isDatabaseHealthy() ? "healthy" : "unhealthy");
 
             // Forward to home page
             request.getRequestDispatcher("/index.jsp").forward(request, response);
 
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error in HomeServlet", e);
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal server error");
+
+            // Set minimal attributes to prevent JSP errors
+            request.setAttribute("featuredMatches", new ArrayList<>());
+            request.setAttribute("liveMatches", new ArrayList<>());
+            request.setAttribute("serviceStatus", "error");
+            request.setAttribute("dbStatus", "error");
+            request.setAttribute("errorMessage", "System is starting up. Please refresh in a moment.");
+
+            // Still forward to JSP, don't send error
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
     }
 

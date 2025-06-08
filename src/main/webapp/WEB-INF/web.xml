@@ -30,6 +30,45 @@
     <tracking-mode>COOKIE</tracking-mode>
   </session-config>
 
+  <!-- Static Resource Servlet -->
+  <servlet>
+    <servlet-name>StaticResourceServlet</servlet-name>
+    <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
+    <init-param>
+      <param-name>debug</param-name>
+      <param-value>0</param-value>
+    </init-param>
+    <init-param>
+      <param-name>listings</param-name>
+      <param-value>false</param-value>
+    </init-param>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>StaticResourceServlet</servlet-name>
+    <url-pattern>/css/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>StaticResourceServlet</servlet-name>
+    <url-pattern>/js/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>StaticResourceServlet</servlet-name>
+    <url-pattern>/images/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>StaticResourceServlet</servlet-name>
+    <url-pattern>*.css</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>StaticResourceServlet</servlet-name>
+    <url-pattern>*.js</url-pattern>
+  </servlet-mapping>
+
   <!-- Filters -->
   <filter>
     <filter-name>CharacterEncodingFilter</filter-name>
@@ -62,7 +101,7 @@
 
   <error-page>
     <exception-type>java.lang.Exception</exception-type>
-    <location>/WEB-INF/error/general.jsp</location>
+    <location>/WEB-INF/error/500.jsp</location>
   </error-page>
 
   <!-- MIME Type Mappings -->
@@ -89,6 +128,31 @@
   <mime-mapping>
     <extension>woff2</extension>
     <mime-type>application/font-woff2</mime-type>
+  </mime-mapping>
+
+  <mime-mapping>
+    <extension>png</extension>
+    <mime-type>image/png</mime-type>
+  </mime-mapping>
+
+  <mime-mapping>
+    <extension>jpg</extension>
+    <mime-type>image/jpeg</mime-type>
+  </mime-mapping>
+
+  <mime-mapping>
+    <extension>jpeg</extension>
+    <mime-type>image/jpeg</mime-type>
+  </mime-mapping>
+
+  <mime-mapping>
+    <extension>gif</extension>
+    <mime-type>image/gif</mime-type>
+  </mime-mapping>
+
+  <mime-mapping>
+    <extension>svg</extension>
+    <mime-type>image/svg+xml</mime-type>
   </mime-mapping>
 
 </web-app>

@@ -5,6 +5,7 @@ import lk.esports.betting.ejb.local.MatchService;
 import lk.esports.betting.ejb.local.BettingService;
 import lk.esports.betting.entity.User;
 import lk.esports.betting.entity.Match;
+import lk.esports.betting.utils.DatabaseUtil;
 
 import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
@@ -41,6 +42,7 @@ public class APIServlet extends HttpServlet {
 
     private final Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd HH:mm:ss")
+            .excludeFieldsWithoutExposeAnnotation()
             .create();
 
     @Override
@@ -91,6 +93,11 @@ public class APIServlet extends HttpServlet {
         }
 
         try {
+            if (userService == null) {
+                sendJsonError(response, HttpServletResponse.SC_SERVICE_UNAVAILABLE, "User service unavailable");
+                return;
+            }
+
             Long userId = (Long) session.getAttribute("userId");
             User user = userService.findUserById(userId);
 
@@ -111,12 +118,17 @@ public class APIServlet extends HttpServlet {
 
     private void handleGetLiveMatches(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
+            if (matchService == null) {
+                sendJsonError(response, HttpServletResponse.SC_SERVICE_UNAVAILABLE, "Match service unavailable");
+                return;
+            }
+
             List<Match> liveMatches = matchService.getLiveMatches();
 
             Map<String, Object> result = new HashMap<>();
             result.put("success", true);
-            result.put("matches", liveMatches);
-            result.put("count", liveMatches.size());
+            result.put("matches", liveMatches != null ? liveMatches : List.of());
+            result.put("count", liveMatches != null ? liveMatches.size() : 0);
 
             sendJsonResponse(response, result);
         } catch (Exception e) {
@@ -127,12 +139,17 @@ public class APIServlet extends HttpServlet {
 
     private void handleGetUpcomingMatches(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
+            if (matchService == null) {
+                sendJsonError(response, HttpServletResponse.SC_SERVICE_UNAVAILABLE, "Match service unavailable");
+                return;
+            }
+
             List<Match> upcomingMatches = matchService.getUpcomingMatches();
 
             Map<String, Object> result = new HashMap<>();
             result.put("success", true);
-            result.put("matches", upcomingMatches);
-            result.put("count", upcomingMatches.size());
+            result.put("matches", upcomingMatches != null ? upcomingMatches : List.of());
+            result.put("count", upcomingMatches != null ? upcomingMatches.size() : 0);
 
             sendJsonResponse(response, result);
         } catch (Exception e) {
@@ -145,11 +162,21 @@ public class APIServlet extends HttpServlet {
         Map<String, Object> health = new HashMap<>();
         health.put("status", "healthy");
         health.put("timestamp", System.currentTimeMillis());
-        health.put("services", Map.of(
-                "userService", userService != null ? "available" : "unavailable",
-                "matchService", matchService != null ? "available" : "unavailable",
-                "bettingService", bettingService != null ? "available" : "unavailable"
-        ));
+
+        Map<String, String> services = new HashMap<>();
+        services.put("userService", userService != null ? "available" : "unavailable");
+        services.put("matchService", matchService != null ? "available" : "unavailable");
+        services.put("bettingService", bettingService != null ? "available" : "unavailable");
+
+        // Test database connection
+        try {
+            boolean dbHealthy = DatabaseUtil.isDatabaseHealthy();
+            services.put("database", dbHealthy ? "healthy" : "unhealthy");
+        } catch (Exception e) {
+            services.put("database", "error");
+        }
+
+        health.put("services", services);
         sendJsonResponse(response, health);
     }
 
@@ -157,6 +184,9 @@ public class APIServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
         try (PrintWriter out = response.getWriter()) {
             out.print(gson.toJson(data));
@@ -168,6 +198,7 @@ public class APIServlet extends HttpServlet {
         response.setStatus(statusCode);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+        response.setHeader("Access-Control-Allow-Origin", "*");
 
         Map<String, Object> error = new HashMap<>();
         error.put("success", false);
