@@ -195,7 +195,7 @@ public class Bet {
     }
 
     public boolean canBeCancelled() {
-        return status == BetStatus.PENDING && match.canPlaceBet();
+        return status == BetStatus.PENDING && match != null && match.canPlaceBet();
     }
 
     public BigDecimal getActualWinnings() {
@@ -214,7 +214,8 @@ public class Bet {
                 oddsAtBet != null &&
                 oddsAtBet.compareTo(BigDecimal.ZERO) > 0 &&
                 match.canPlaceBet() &&
-                (selectedTeam.equals(match.getTeam1()) || selectedTeam.equals(match.getTeam2()));
+                (selectedTeam.getId().equals(match.getTeam1().getId()) ||
+                        selectedTeam.getId().equals(match.getTeam2().getId()));
     }
 
     // Getters and Setters

@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${pageTitle} - ML Betting</title>
+    <title>${pageTitle != null ? pageTitle : 'Matches'} - ML Betting</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,12 +46,12 @@
     <section class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h1>${pageTitle}</h1>
+                <h1>${pageTitle != null ? pageTitle : 'Matches'}</h1>
                 <p class="text-secondary">Mobile Legends Professional League Championship</p>
             </div>
 
             <!-- Search Bar -->
-            <div style="max-width: 300px; width: 100%;">
+            <div style="max-width: 300px; width: 100%; position: relative;">
                 <input type="text" id="searchInput" class="form-control" placeholder="Search teams or tournaments..." style="padding-left: 40px;">
                 <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted);">🔍</span>
             </div>
@@ -72,6 +72,13 @@
                 ✅ Completed
             </a>
         </div>
+
+        <!-- Display Error Messages -->
+        <c:if test="${not empty errorMessage}">
+            <div class="alert alert-danger">
+                <span>${errorMessage}</span>
+            </div>
+        </c:if>
     </section>
 
     <!-- Live Matches Banner -->
@@ -127,7 +134,7 @@
 
                                     <c:choose>
                                         <c:when test="${match.status == 'COMPLETED'}">
-                                            <div class="team-score ${match.winnerTeam.id == match.team1.id ? 'text-success' : 'text-secondary'}">
+                                            <div class="team-score ${match.winnerTeam != null && match.winnerTeam.id == match.team1.id ? 'text-success' : 'text-secondary'}">
                                                 ${match.team1Score}
                                             </div>
                                         </c:when>
@@ -166,7 +173,7 @@
 
                                     <c:choose>
                                         <c:when test="${match.status == 'COMPLETED'}">
-                                            <div class="team-score ${match.winnerTeam.id == match.team2.id ? 'text-success' : 'text-secondary'}">
+                                            <div class="team-score ${match.winnerTeam != null && match.winnerTeam.id == match.team2.id ? 'text-success' : 'text-secondary'}">
                                                 ${match.team2Score}
                                             </div>
                                         </c:when>
@@ -189,7 +196,7 @@
                             <!-- Match Info -->
                             <div class="match-info">
                                 <div>
-                                    <span class="tournament-name">${match.tournament.tournamentName}</span>
+                                    <span class="tournament-name">${match.tournamentName}</span>
                                     <div style="font-size: 0.875rem; color: var(--text-secondary);">
                                         ${match.matchType} • Pool: $<fmt:formatNumber value="${match.totalPool}" pattern="#,##0"/>
                                     </div>
@@ -314,94 +321,9 @@
         </div>
     </section>
 
-    <!-- Match Schedule Section -->
-    <section class="container mt-5">
-        <div class="card">
-            <div class="card-header">
-                <h3 style="margin: 0;">This Week's Schedule</h3>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <th>Match</th>
-                                <th>Tournament</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${matches}" var="match" begin="0" end="4">
-                                <tr>
-                                    <td><fmt:formatDate value="${match.matchDate}" pattern="MMM dd" /></td>
-                                    <td><fmt:formatDate value="${match.matchDate}" pattern="HH:mm" /></td>
-                                    <td>
-                                        <div class="d-flex align-items-center" style="gap: 0.5rem;">
-                                            <img src="https://via.placeholder.com/20x20/FF6B6B/FFFFFF?text=${match.team1.teamCode}"
-                                                 alt="${match.team1.teamName}" style="width: 20px; height: 20px; border-radius: 50%;">
-                                            <span>${match.team1.teamName}</span>
-                                            <span>vs</span>
-                                            <img src="https://via.placeholder.com/20x20/00D2D3/FFFFFF?text=${match.team2.teamCode}"
-                                                 alt="${match.team2.teamName}" style="width: 20px; height: 20px; border-radius: 50%;">
-                                            <span>${match.team2.teamName}</span>
-                                        </div>
-                                    </td>
-                                    <td>${match.tournament.tournamentName}</td>
-                                    <td>
-                                        <span class="badge badge-${match.status == 'LIVE' ? 'danger' : match.status == 'COMPLETED' ? 'success' : 'warning'}">
-                                            ${match.status}
-                                        </span>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h5>Mobile Legends Betting</h5>
-                    <p>Experience the excitement of Mobile Legends Professional League with real-time betting, competitive odds, and instant payouts.</p>
-                </div>
-
-                <div class="footer-section">
-                    <h5>Match Types</h5>
-                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                        <a href="${pageContext.request.contextPath}/matches/upcoming">Upcoming Matches</a>
-                        <a href="${pageContext.request.contextPath}/matches/live">Live Matches</a>
-                        <a href="${pageContext.request.contextPath}/matches/completed">Results</a>
-                    </div>
-                </div>
-
-                <div class="footer-section">
-                    <h5>Tournaments</h5>
-                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                        <span>MPL Season 12</span>
-                        <span>MPL Playoffs</span>
-                        <span>World Championship</span>
-                        <span>Regional Qualifiers</span>
-                    </div>
-                </div>
-
-                <div class="footer-section">
-                    <h5>Betting Info</h5>
-                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-                        <span>Min Bet: $1</span>
-                        <span>Max Bet: $10,000</span>
-                        <span>Live Betting Available</span>
-                        <span>Instant Payouts</span>
-                    </div>
-                </div>
-            </div>
-
             <div class="footer-bottom">
                 <p>&copy; 2024 ML Betting Platform. All rights reserved. |
                    <span class="text-warning">Please bet responsibly. 18+ only.</span>
@@ -450,6 +372,11 @@
                 }
             }, 30000);
         </c:if>
+
+        function refreshAllMatches() {
+            // Refresh match data
+            console.log('Refreshing live matches...');
+        }
     </script>
 </body>
 </html>

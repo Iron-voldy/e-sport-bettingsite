@@ -85,9 +85,9 @@ public class Match {
     @OneToMany(mappedBy = "match", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Bet> bets;
 
-    // Enums
+    // FIXED: Added BO7 to the enum
     public enum MatchType {
-        BO1, BO3, BO5
+        BO1, BO3, BO5, BO7
     }
 
     public enum MatchStatus {
